@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CMR Reference</title>
 <meta name="description" content="CMR normal values (SCMR 2025), outcome-based severity grading and calculators. Works offline.">
-<meta name="theme-color" content="#0c3a44">
+<meta name="theme-color" content="#1c2559">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,23 +28,23 @@
 
 /* Layout: phone-first app column — hero band with search, quick calculator chips, chamber sections, detail view per tool, fixed bottom bar */
 :root{
-  --bg:#eef2f3; --surface:#ffffff; --surface-2:#f3f7f8; --fg:#122229; --muted:#5b6d75; --line:#dbe4e7;
-  --accent:#0c6a74; --accent-ink:#ffffff; --accent-soft:#d9eef0; --band:#0c3a44; --band-2:#125863; --band-ink:#e8f4f5;
-  --ok:#187a4b; --ok-soft:#dff3e8; --caution:#8a5a00; --caution-soft:#fbefcf; --warn:#b3261e; --warn-soft:#fbe3e0;
+  --bg:#f1f1f6; --surface:#ffffff; --surface-2:#f6f6fa; --fg:#14172b; --muted:#585c75; --line:#dcdce8;
+  --accent:#2d3a8c; --accent-ink:#ffffff; --accent-soft:#e3e6f7; --band:#1c2559; --band-2:#2d3a8c; --band-ink:#eef0fb;
+  --ok:#00588a; --ok-soft:#dcebf7; --caution:#7a4d00; --caution-soft:#fdf0c4; --warn:#9b1f63; --warn-soft:#f7e0ee; --warn-solid:#9b1f63; --warn-ink:#ffffff;
   --info-soft:#e8eef9; --info:#2c4c8c; --shadow:0 1px 2px rgba(16,40,48,.06),0 4px 14px rgba(16,40,48,.06);
   --display:"Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0b1417; --surface:#132026; --surface-2:#19292f; --fg:#e4eff1; --muted:#94a9af; --line:#25393f;
-  --accent:#55bcc6; --accent-ink:#05191c; --accent-soft:#153a40; --band:#0a2a31; --band-2:#0e3d46; --band-ink:#d9f0f2;
-  --ok:#62cc95; --ok-soft:#12332a; --caution:#f0c060; --caution-soft:#3a2f12; --warn:#ff9d92; --warn-soft:#42201c;
+  --bg:#0d0f1d; --surface:#161a2e; --surface-2:#1d2238; --fg:#e8eaf6; --muted:#a0a5c4; --line:#2a3050;
+  --accent:#9db0ff; --accent-ink:#0c1030; --accent-soft:#232a5a; --band:#121744; --band-2:#222b74; --band-ink:#e3e7ff;
+  --ok:#6cc3f5; --ok-soft:#10304a; --caution:#f0d95c; --caution-soft:#3a3410; --warn:#f2a4cf; --warn-soft:#431a33; --warn-solid:#f2a4cf; --warn-ink:#3b0f28;
   --info-soft:#18243b; --info:#a3bbee; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0b1417; --surface:#132026; --surface-2:#19292f; --fg:#e4eff1; --muted:#94a9af; --line:#25393f;
-  --accent:#55bcc6; --accent-ink:#05191c; --accent-soft:#153a40; --band:#0a2a31; --band-2:#0e3d46; --band-ink:#d9f0f2;
-  --ok:#62cc95; --ok-soft:#12332a; --caution:#f0c060; --caution-soft:#3a2f12; --warn:#ff9d92; --warn-soft:#42201c;
+  --bg:#0d0f1d; --surface:#161a2e; --surface-2:#1d2238; --fg:#e8eaf6; --muted:#a0a5c4; --line:#2a3050;
+  --accent:#9db0ff; --accent-ink:#0c1030; --accent-soft:#232a5a; --band:#121744; --band-2:#222b74; --band-ink:#e3e7ff;
+  --ok:#6cc3f5; --ok-soft:#10304a; --caution:#f0d95c; --caution-soft:#3a3410; --warn:#f2a4cf; --warn-soft:#431a33; --warn-solid:#f2a4cf; --warn-ink:#3b0f28;
   --info-soft:#18243b; --info:#a3bbee; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -141,7 +141,7 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .rb::before{content:"";position:absolute;left:0;right:0;top:5px;height:6px;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
 .rb-n{position:absolute;top:5px;height:6px;border-radius:3px;background:var(--ok);opacity:.45}
 .rb-m{position:absolute;top:0;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--muted);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
-.rb-m.ok{background:var(--ok)}.rb-m.lo{background:var(--caution)}.rb-m.hi{background:var(--warn)}
+.rb-m.ok{background:var(--ok)}.rb-m.lo{background:var(--caution);border-radius:2px;transform:rotate(45deg) scale(.85);outline:1px solid var(--fg)}.rb-m.hi{background:var(--warn);border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%);border:0;width:18px;height:16px}
 .rb-t{position:absolute;top:14px;transform:translateX(-50%);font:500 10.5px var(--mono);color:var(--muted)}
 
 .res{width:100%;border-collapse:collapse;font-size:14px}
@@ -151,10 +151,15 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .res td.num.v{font-weight:600;white-space:nowrap}
 .pill{display:inline-flex;align-items:baseline;gap:6px;padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:600;line-height:1.35;max-width:100%}
-.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;transform:translateY(-1px)}
+.pill::before{content:"";width:8px;height:8px;background:currentColor;flex:none;transform:translateY(-1px)}
+.pill.ok::before{border-radius:50%}
+.pill.lo::before{transform:translateY(-1px) rotate(45deg);width:7px;height:7px}
+.pill.hi::before{width:0;height:0;background:none;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid currentColor}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
 .pill.lo{background:var(--caution-soft);color:var(--caution)}
-.pill.hi{background:var(--warn-soft);color:var(--warn)}
+.pill.hi{background:var(--warn-solid);color:var(--warn-ink)}
+.pill.ok{border:1px solid currentColor}
+.pill.lo{border:1px dashed currentColor}
 .pill.na{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
 .pill.tag::before{display:none}
 .empty{color:var(--muted);font-size:13.5px;margin:0}
@@ -162,7 +167,8 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .ref{font-size:13px;color:var(--muted);line-height:1.5}
 .ref b{color:var(--fg);font-weight:600}
 .legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted);align-items:center}
-.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:baseline}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:baseline}
+.legend .lg-ok{background:var(--ok);border-radius:50%}.legend .lg-lo{background:var(--caution);transform:rotate(45deg) scale(.85);outline:1px solid var(--fg);outline-offset:-1px}.legend .lg-hi{background:var(--warn);clip-path:polygon(50% 0,100% 100%,0 100%)}
 .howto{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;font-size:14px}
 .howto li::marker{color:var(--accent)}
 .pending{border:1px dashed var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--muted);background:var(--surface-2)}
@@ -420,7 +426,7 @@ function resultsHTML(it){const s=getState(it);const r=derive(it,s);const keys=Ob
    else{c=x<v[2]?'lo':x>v[3]?'hi':'ok';pill=`<span class="pill ${c}">${c==='lo'?'Below reference':c==='hi'?'Above reference':'Normal'}</span>${zt}`}
    bar=rangeBar(x,v,c==='na'?'':c)}
   h+=`<div class="rrow"><div class="rl"><b>${esc(lab)}</b><small>${u}${range?`${u?' · ':''}normal ${range}`:''}</small></div><div class="rv">${fmt(x,k)}</div>${bar}<div class="rs">${pill}</div></div>`}
- return h+`</div><div class="legend"><span><i style="background:var(--ok)"></i>Normal</span><span><i style="background:var(--caution)"></i>Mild / borderline / low</span><span><i style="background:var(--warn)"></i>Moderate–severe / high risk</span><span>Green band = normal range · z = SDs from the mean</span></div>`}
+ return h+`</div><div class="legend"><span><i class="lg-ok"></i>Normal (blue circle)</span><span><i class="lg-lo"></i>Mild / borderline / low (amber diamond)</span><span><i class="lg-hi"></i>Moderate–severe / high risk (magenta triangle)</span><span>Blue band = normal range · z = SDs from the mean</span></div>`}
 function fullTable(it,s){const M=it.methods[s.method];
  let h=`<div class="card"><h3>Reference table · ${esc(M.label)}</h3><div class="scroll"><table class="tbl nums"><thead><tr><th>Parameter</th><th>Men mean ± SD</th><th>Men LL–UL</th><th>Women mean ± SD</th><th>Women LL–UL</th></tr></thead><tbody>`;
  for(const k of Object.keys(it.labels)){const p=M.params[k];if(!p)continue;const [l,u]=it.labels[k];
