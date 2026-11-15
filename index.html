@@ -355,7 +355,8 @@ function home(){
  for(const [k,name] of SECTIONS){const its=ITEMS.filter(i=>i.sec===k);const op=openSecs.includes(k);const nc=its.filter(i=>i.kind!=='table'&&i.kind!=='evidence').length;
   h+=`<div class="group ${op?'open':''}"><button data-sec="${k}" aria-expanded="${op}"><span class="sicon">${SICON[k]}</span><span class="gt"><b>${name}</b><small>${nc} calculator${nc===1?'':'s'} ${its.length-nc?` · ${its.length-nc} reference page${its.length-nc===1?'':'s'}`:''}</small></span>${CHEV}</button><div class="items">${its.map(itemRow).join('')}</div></div>`}
  h+=`<div class="note">Normal ranges: SCMR 2025 reference values (adults, bSSFP). Severity grades are drafts built from CMR outcome studies, and every cutoff shows what it is based on. A decision aid for trained readers, not a substitute for clinical judgment.</div>
- <p class="foot">Numbers re-checked against the SCMR 2025 paper and PubMed records, November 2026.</p>`;
+ <p class="foot">Numbers re-checked against the SCMR 2025 paper and PubMed records, November 2026.</p>
+ <p class="foot">Found an error or have a suggestion? <a href="mailto:aamerubaid@gmail.com?subject=CMR%20Reference%20feedback">aamerubaid@gmail.com</a></p>`;
  return h+'</div>'}
 function favView(){const its=ITEMS.filter(i=>isFav(i.id));
  let h=header()+'<div class="wrap">';
