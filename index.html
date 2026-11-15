@@ -519,7 +519,7 @@ const AO={
   abs:{m:[[32,27,37],[33,28,41],[34,29,41],[35,29,41]],f:[[29,25,34],[30,26,36],[31,26,36],[31,27,37]]},
   idx:{m:[[16,13,20],[17,14,21],[18,14,22],[19,15,23]],f:[[17,14,21],[18,15,22],[18,15,22],[20,15,28]]}}
 };
-const aoState={lvl:'sinus',sex:'m',age:'55',d:'38',bsa:'1.95',example:true};
+const aoState={lvl:'sinus',sex:'m',age:'',d:'',bsa:''};
 function groupIdx(L,age,n){const lo=L.pct?45:20,step=L.pct?10:10;let i=Math.floor((age-lo)/step);let note='';
  if(i<0){i=0;note=`Age is below the youngest group, so the ${L.groups[0]} group is used.`}
  if(i>n-1){note=`No ${L.groups[Math.min(i,L.groups.length-1)]||'older'} data for this measure, so the ${L.groups[n-1]} group is used.`;i=n-1}
@@ -1220,8 +1220,6 @@ document.getElementById('nav-home').onclick=()=>{current=null;tab='home';goBack(
 document.getElementById('nav-fav').onclick=()=>{current=null;tab='fav';goBack()};
 document.getElementById('nav-search').onclick=()=>{current=null;tab='search';goBack()};
 
-// sample working state for LV calculator
-const lv=ITEMS[0];state[lv.id]={sex:'m',method:'mass',age:'',bsa:'1.95',h:'',w:'',showBsa:false,a:'210',b:'105',c:'150',example:true};
 const hid=(location.hash||'').slice(1);if(ITEMS.some(i=>i.id===hid))current=hid;
 render();
 })();
