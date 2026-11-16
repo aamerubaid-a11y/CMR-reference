@@ -156,6 +156,7 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .rb::before{content:"";position:absolute;left:0;right:0;top:5px;height:6px;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
 .rb-n{position:absolute;top:5px;height:6px;border-radius:3px;background:var(--ok);opacity:.45}
 .rb-m{position:absolute;top:0;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--muted);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.rb-m[data-d]{border-radius:0;outline:0;transform:none;clip-path:polygon(50% 0,100% 100%,0 100%);border:0;width:18px;height:16px;margin-left:-9px}.rb-m[data-d="down"]{clip-path:polygon(0 0,100% 0,50% 100%)}.rb-m.lo[data-d]{background:var(--caution)}
 .rb-m.ok{background:var(--ok)}.rb-m.lo{background:var(--caution);border-radius:2px;transform:rotate(45deg) scale(.85);outline:1px solid var(--fg)}.rb-m.hi{background:var(--warn);border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%);border:0;width:18px;height:16px}
 .rb-t{position:absolute;top:14px;transform:translateX(-50%);font:500 10.5px var(--mono);color:var(--muted)}
 
@@ -170,6 +171,10 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .pill.ok::before{border-radius:50%}
 .pill.lo::before{transform:translateY(-1px) rotate(45deg);width:7px;height:7px}
 .pill.hi::before{width:0;height:0;background:none;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid currentColor}
+.pill.hi:not([data-d="up"]):not([data-d="down"])::before{width:8px;height:8px;background:currentColor;border:0;border-radius:1px;transform:translateY(-1px)}
+.pill[data-d="up"]::before,.pill[data-d="down"]::before{width:0;height:0;background:none;border-radius:0;transform:translateY(-1px);border-left:5px solid transparent;border-right:5px solid transparent}
+.pill[data-d="up"]::before{border-bottom:9px solid currentColor;border-top:0}
+.pill[data-d="down"]::before{border-top:9px solid currentColor;border-bottom:0}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
 .pill.lo{background:var(--caution-soft);color:var(--caution)}
 .pill.hi{background:var(--warn-solid);color:var(--warn-ink)}
@@ -183,7 +188,7 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .ref b{color:var(--fg);font-weight:600}
 .legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted);align-items:center}
 .legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:baseline}
-.legend .lg-ok{background:var(--ok);border-radius:50%}.legend .lg-lo{background:var(--caution);transform:rotate(45deg) scale(.85);outline:1px solid var(--fg);outline-offset:-1px}.legend .lg-hi{background:var(--warn);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.legend .lg-ok{background:var(--ok);border-radius:50%}.legend .lg-lo{background:var(--caution);transform:rotate(45deg) scale(.85);outline:1px solid var(--fg);outline-offset:-1px}.legend .lg-hi{background:var(--warn);border-radius:1px}.legend .lg-up,.legend .lg-dn{background:var(--fg);margin-left:6px}.legend .lg-up{clip-path:polygon(50% 0,100% 100%,0 100%)}.legend .lg-dn{clip-path:polygon(0 0,100% 0,50% 100%)}
 .howto{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;font-size:14px}
 .howto li::marker{color:var(--accent)}
 .pending{border:1px dashed var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--muted);background:var(--surface-2)}
@@ -373,8 +378,12 @@ const MARK='<svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy
 const CHEV='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
 
 
+function dirOf(t){t=String(t).replace(/under-?read|prognostic weight lower/gi,'');if(/\b(below|reduc|low|lower|small|decreas|under|thin|shrunk|poor|impair|hypo)/i.test(t)||/^\s*[<≤]/.test(t))return 'down';
+ if(/\b(above|dilat|high|elevat|increas|enlarg|large|thick|overload|hyper|raised)/i.test(t)||/[>≥+]/.test(t))return 'up';return 'n'}
+function dirPills(root){root.querySelectorAll('.pill.lo:not([data-d]),.pill.hi:not([data-d])').forEach(p=>p.setAttribute('data-d',dirOf(p.textContent)))}
+new MutationObserver(()=>dirPills(document)).observe(document.getElementById('app'),{childList:true,subtree:true});
 function rangeBar(x,v,c){const [mn,sd,ll,ul]=v;if(ll==null||!(sd>0))return '';const lo=mn-4*sd,hi=mn+4*sd;const P=t=>Math.max(0,Math.min(100,(t-lo)/(hi-lo)*100));
- return `<div class="rb" role="img" aria-label="Value ${x.toFixed(1)} against normal range ${ll} to ${ul}"><i class="rb-n" style="left:${P(ll).toFixed(1)}%;width:${(P(ul)-P(ll)).toFixed(1)}%"></i><span class="rb-t" style="left:${P(ll).toFixed(1)}%">${ll}</span><span class="rb-t" style="left:${P(ul).toFixed(1)}%">${ul}</span><i class="rb-m ${c}" style="left:${P(x).toFixed(1)}%"></i></div>`}
+ return `<div class="rb" role="img" aria-label="Value ${x.toFixed(1)} against normal range ${ll} to ${ul}"><i class="rb-n" style="left:${P(ll).toFixed(1)}%;width:${(P(ul)-P(ll)).toFixed(1)}%"></i><span class="rb-t" style="left:${P(ll).toFixed(1)}%">${ll}</span><span class="rb-t" style="left:${P(ul).toFixed(1)}%">${ul}</span><i class="rb-m ${c}"${c!=='ok'&&x<ll?' data-d="down"':c!=='ok'&&x>ul?' data-d="up"':''} style="left:${P(x).toFixed(1)}%"></i></div>`}
 const HEART4=(k)=>{const f=q=>q===k?'fill="currentColor"':'fill="none"';return `<svg viewBox="0 0 36 36" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="5" width="12" height="10" rx="4" ${f('ra')}/><rect x="19" y="5" width="12" height="10" rx="4" ${f('la')}/><path d="M5 18h12v13C10 30 5 25 5 18z" ${f('rv')}/><path d="M19 18h12c0 7-5 12-12 13z" ${f('lv')}/></svg>`};
 const SICON={lv:HEART4('lv'),rv:HEART4('rv'),la:HEART4('la'),ra:HEART4('ra'),
  ao:'<svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 31V16a8 8 0 0 1 16 0v15"/><path d="M15 31V16a3 3 0 0 1 6 0v15" opacity=".55"/><path d="M14 8V4M18 8V3M22 8V4"/></svg>',
@@ -461,7 +470,7 @@ function resultsHTML(it){const s=getState(it);const r=derive(it,s);const keys=Ob
    else{c=x<v[2]?'lo':x>v[3]?'hi':'ok';pill=`<span class="pill ${c}">${c==='lo'?'Below reference':c==='hi'?'Above reference':'Normal'}</span>${zt}`}
    bar=rangeBar(x,v,c==='na'?'':c)}
   h+=`<div class="rrow"><div class="rl"><b>${esc(lab)}</b><small>${u}${range?`${u?' · ':''}normal ${range}`:''}</small></div><div class="rv">${fmt(x,k)}</div>${bar}<div class="rs">${pill}</div></div>`}
- return h+`</div><div class="legend"><span><i class="lg-ok"></i>Normal (blue circle)</span><span><i class="lg-lo"></i>Mild / borderline / low (amber diamond)</span><span><i class="lg-hi"></i>Moderate–severe / high risk (magenta triangle)</span><span>Blue band = normal range · z = SDs from the mean</span></div>`}
+ return h+`</div><div class="legend"><span><i class="lg-ok"></i>Normal (blue circle)</span><span><i class="lg-lo"></i>Mild / borderline (amber, dashed)</span><span><i class="lg-hi"></i>Moderate–severe / high risk (magenta, solid)</span><span><i class="lg-up"></i>above reference <i class="lg-dn"></i>below reference</span><span>Blue band = normal range · z = SDs from the mean</span></div>`}
 function fullTable(it,s){const M=it.methods[s.method];
  let h=`<div class="card"><h3>Reference table · ${esc(M.label)}</h3><div class="scroll"><table class="tbl nums"><thead><tr><th>Parameter</th><th>Men mean ± SD</th><th>Men LL–UL</th><th>Women mean ± SD</th><th>Women LL–UL</th></tr></thead><tbody>`;
  for(const k of Object.keys(it.labels)){const p=M.params[k];if(!p)continue;const [l,u]=it.labels[k];
@@ -1222,15 +1231,16 @@ function setCase(k,v){CASE[k]=v;ITEMS.forEach(i=>{if(i.methods)getState(i)[k]=v}
 function clearAll(){for(const k in state)delete state[k];const o=JSON.parse(INIT);
  for(const [src,dst] of [[o.av,avState],[o.ao,aoState],[o.ecv,ecvState],[o.iron,ironState]]){if(src===o.av){for(const id in dst)Object.assign(dst[id],src[id])}else Object.assign(dst,src)}
  CASE.sex='m';CASE.bsa=''}
+function pOut(x){if(!x.classList.contains('ok'))x.setAttribute('data-d',dirOf(x.textContent));return x.outerHTML}
 function rowsOf(html){const d=document.createElement('div');d.innerHTML=html;
  const trs=[...d.querySelectorAll('table.res tbody tr')].map(r=>{const td=[...r.children];const pills=[...(td[td.length-1]||r).querySelectorAll('.pill')];
-  return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>2?td[td.length-2].textContent.trim():'',pills:pills.map(x=>x.outerHTML),grades:pills.map(x=>x.textContent.trim()),
+  return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>2?td[td.length-2].textContent.trim():'',pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),
    refs:td.length>2?[td[1].textContent.trim()]:[],cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}});
  return trs.concat([...d.querySelectorAll('.rrow')].map(r=>{const q=x=>r.querySelector(x);const pills=[...r.querySelectorAll('.pill')];
   const small=q('.rl small')?q('.rl small').textContent.trim():'';const parts=small.split(' · ').filter(Boolean);
   const normal=(parts.find(x=>/^normal /.test(x))||'').replace(/^normal /,'');const unit=parts.filter(x=>!/^normal /.test(x)).join(' · ');
   return {lab:q('.rl b')?q('.rl b').textContent.trim():'',unit,normal,val:q('.rv')?q('.rv').textContent.trim():'',
-   pills:pills.map(x=>x.outerHTML),grades:pills.map(x=>x.textContent.trim()),refs:[...r.querySelectorAll('.rs .ref')].map(x=>x.textContent.trim()).filter(Boolean),
+   pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),refs:[...r.querySelectorAll('.rs .ref')].map(x=>x.textContent.trim()).filter(Boolean),
    cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}}))}
 function buildReport(){const out=[];
  const add=(name,open,ctx,html,keep,map)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(map)rows=rows.map(map);if(rows.length)out.push({name,open,ctx,rows})};
