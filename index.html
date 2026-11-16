@@ -1413,16 +1413,22 @@ async function runScan(file){
    logger:m=>{if(m.status)prog((m.status==='recognizing text'?'Reading text… ':m.status.charAt(0).toUpperCase()+m.status.slice(1)+'… ')+(m.progress!=null&&m.status==='recognizing text'?Math.round(m.progress*100)+'%':''))}});
   await worker.setParameters({tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'});
   const r=await worker.recognize(c);const P=parseReport(r.data.text);
-  if(!scan)return;scan.items=P.items;scan.sex=P.sex;scan.phi=P.phi;scan.stage='review'}
+  if(!scan)return;scan.items=P.items;scan.sex=P.sex;scan.phi=P.phi;scan.stage='review';if(!P.phi)scanFill()}
  catch(e){if(scan){scan.stage='err';scan.msg=(e&&e.message)||'Could not read the image.'}}
  finally{if(worker)try{await worker.terminate()}catch(x){}if(c){c.width=c.height=0}}
  render()}
 function scanClose(){if(scan&&scan.url)URL.revokeObjectURL(scan.url);scan=null}
-function scanApply(){const done=[];
+function scanFill(){
+ if(scan.phi)return;
+ const set=(k,id,key,v)=>{if(k==='st')getState(ITEMS.find(i=>i.id===id))[key]=v;else avState[id][key]=v};
+ for(const [k,id,key] of (scan.wrote||[]))set(k,id,key,'');
+ scan.wrote=[];scan.opens=[];
  for(const it of scan.items){if(!it.inc)continue;const v=parseFloat(it.v);if(!(v>=0))continue;const s=String(v);
   if(it.k==='bsa'){setCase('bsa',s);continue}
-  for(const [k,id,key] of CANON[it.k].to){if(k==='st')getState(ITEMS.find(i=>i.id===id))[key]=s;else avState[id][key]=s}done.push(it.k)}
- if(scan.sex)setCase('sex',scan.sex);scanClose();return done.length}
+  for(const t of CANON[it.k].to){set(t[0],t[1],t[2],s);scan.wrote.push(t);if(!scan.opens.includes(t[1]))scan.opens.push(t[1])}}
+ if(scan.sex)setCase('sex',scan.sex);
+ for(const id of scan.opens){const st=id==='ar-calc'||id==='as-calc'||id==='mr-calc'||id==='tr-calc'||id==='sten-calc'?avState[id]:null;if(st)st.example=false;else{const it=ITEMS.find(i=>i.id===id);if(it)getState(it).example=false}}}
+const SN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ar-calc':'Aortic regurgitation','as-calc':'Aortic stenosis','mr-calc':'Mitral regurgitation','tr-calc':'Tricuspid regurgitation','sten-calc':'Mitral / pulmonic stenosis'};
 function scanHTML(){
  if(!scan)return `<div class="card"><h3>Scan a report image</h3><p class="ref" style="margin:0 0 8px">Read measurements from a screenshot or photo of a report and fill the calculators. Everything is read on this device.</p>${SCAN_OK?'<div class="rbtns"><button class="primary" data-scan="start">Scan report image</button></div>':'<p class="ref">Scanning needs the website version of the app (it is not available in the offline single file).</p>'}</div>`;
  let h='<div class="card scan">';
@@ -1434,11 +1440,11 @@ function scanHTML(){
  else if(scan.stage==='err')h+=`<h3>Could not read the image</h3><p class="ref">${esc(scan.msg)}</p><div class="rbtns"><button class="primary" data-scan="start">Try again</button><button data-scan="cancel">Close</button></div>`;
  else{h+=`<h3>Check the values</h3>`;
   if(scan.phi)h+=`<div class="phi"><b>This image may contain patient identifiers.</b> Possible identifiers were detected in the text. Discard it, crop or cover them, and scan again. Nothing has been stored or sent.</div>`;
-  h+=`${scan.url?`<img class="scanimg" src="${scan.url}" alt="Your image, shown only on this device for checking">`:''}<p class="ref">Software read these numbers and can be wrong. Compare each with the image, fix anything off, and untick what you don't want.</p>`;
+  h+=`${scan.url?`<img class="scanimg" src="${scan.url}" alt="Your image, shown only on this device for checking">`:''}<p class="ref">Values were filled into the calculators automatically. Software can misread numbers, so compare each with the image and fix anything off; the calculators update as you edit.</p>`;
   if(!scan.items.length)h+=`<p class="empty">No measurements were recognized. Try a sharper, straight-on image of only the measurement table.</p>`;
   else h+=scan.items.map((it,i)=>`<div class="srow"><input type="checkbox" data-si="${i}" ${it.inc?'checked':''} aria-label="Use ${esc(it.l)}"><label for="sv${i}"><b>${esc(it.l)}</b><small>fills ${esc(it.w)}${it.note?' · '+esc(it.note):''}</small></label><input id="sv${i}" type="number" inputmode="decimal" step="any" data-sv="${i}" value="${esc(it.v)}"><span class="u">${esc(it.u)}</span></div>`).join('');
   if(scan.sex)h+=`<p class="ref">Sex detected: ${scan.sex==='f'?'female':'male'}. It will be applied.</p>`;
-  h+=`<div class="rbtns">${scan.items.length?'<button class="primary" data-scan="apply">Apply to calculators</button>':''}<button data-scan="cancel">Discard image</button></div>`}
+  h+=`<div class="rbtns">${scan.items.length?(scan.phi?'<p class="ref">Values were not filled because possible identifiers were found.</p>':(scan.opens||[]).map(id=>`<button data-open="${id}">Open ${SN[id]||id}</button>`).join(''))+'<button class="primary" data-scan="apply">Done, discard image</button>':''}<button data-scan="cancel">Discard image</button></div>`}
  return h+'</div>'}
 function render(){
  if(current){const it=ITEMS.find(i=>i.id===current);app.innerHTML=it.kind==='table'?tableView(it):it.kind==='iron'?ironView(it):it.kind==='aocalc'?aoView(it):it.kind==='evidence'?evidenceView(it):it.kind==='avcalc'?avView(it):it.kind==='ecvcalc'?ecvView(it):calcView(it)}
@@ -1461,7 +1467,7 @@ app.addEventListener('click',e=>{
  const o=e.target.closest('[data-open]');if(o){openItem(o.dataset.open);return}
  if(e.target.closest('[data-back]')){goBack();return}
  const sc=e.target.closest('[data-scan]');if(sc){const a=sc.dataset.scan;
-  if(a==='start'){scanClose();scan={stage:'warn',ack:false}}else if(a==='cancel')scanClose();else if(a==='apply'){const n=scanApply();render();const m=document.getElementById('rmsg');if(m)m.textContent='Applied '+n+' values. The image was discarded.';return}
+  if(a==='start'){scanClose();scan={stage:'warn',ack:false}}else if(a==='cancel')scanClose();else if(a==='apply'){scanClose()}
   else if(a==='ack'){scan.ack=sc.checked}
   render();return}
  const cs=e.target.closest('[data-csex]');if(cs){setCase('sex',cs.dataset.csex);render();return}
@@ -1479,11 +1485,11 @@ app.addEventListener('click',e=>{
 });
 app.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-open]')){e.preventDefault();openItem(e.target.dataset.open)}});
 app.addEventListener('change',e=>{
- if(e.target.dataset.si!=null&&scan){scan.items[+e.target.dataset.si].inc=e.target.checked;return}
+ if(e.target.dataset.si!=null&&scan){scan.items[+e.target.dataset.si].inc=e.target.checked;scanFill();render();return}
  if(e.target.id==='scanfile'&&scan&&scan.ack){const f=e.target.files&&e.target.files[0];if(f)runScan(f)}
 });
 app.addEventListener('input',e=>{
- if(e.target.dataset.sv!=null&&scan){scan.items[+e.target.dataset.sv].v=e.target.value;return}
+ if(e.target.dataset.sv!=null&&scan){scan.items[+e.target.dataset.sv].v=e.target.value;scanFill();return}
  if(e.target.id==='hq'){query=e.target.value;tab='search';render();return}
  if(e.target.id==='q'){query=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById('q');q.setSelectionRange(pos,pos);return}
  if(e.target.matches('[data-cbsa]')){setCase('bsa',e.target.value);document.getElementById('rbody').innerHTML=reportBody();return}
