@@ -327,14 +327,19 @@ const SECTIONS=[['lv','Left Ventricle'],['rv','Right Ventricle'],['la','Left Atr
 const VG={aortic:{id:'aortic-valve',title:'Aortic valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','ar-calc'],['Stenosis','as-calc'],['Evidence','av-ev']]},
  mitral:{id:'mitral-valve',title:'Mitral valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','mr-calc'],['Stenosis','sten-calc','ms'],['Evidence','mr-ev']]},
  tricuspid:{id:'tricuspid-valve',title:'Tricuspid valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','tr-calc'],['Stenosis','sten-calc','ts'],['Evidence','tr-ev']]},
- pulmonic:{id:'pulmonic-valve',title:'Pulmonic valve',sub:'Stenosis · RVOT and conduit',tabs:[['Stenosis','sten-calc','ps']]}};
-(function(){const subs=new Set();for(const g of Object.values(VG)){let keys='';for(const t of g.tabs){subs.add(t[1]);const it=ITEMS.find(i=>i.id===t[1]);keys+=' '+it.keys}
+ pulmonic:{id:'pulmonic-valve',title:'Pulmonic valve',sub:'Stenosis · RVOT and conduit',tabs:[['Stenosis','sten-calc','ps']]},
+ lv:{own:1,tabs:[['Calculator','lv-vol'],['Evidence','lv-ev']]},
+ rv:{own:1,tabs:[['Calculator','rv-vol'],['Evidence','rv-ev']]},
+ la:{own:1,tabs:[['Calculator','la-vol'],['Evidence','la-ev']]},
+ ecvg:{own:1,tabs:[['Calculator','ecv'],['Reference values','t1']]},
+ ironq:{own:1,tabs:[['Calculator','iron'],['Reference values','t2s']]}};
+(function(){const subs=new Set();for(const g of Object.values(VG)){if(g.own){const f=ITEMS.find(i=>i.id===g.tabs[0][1]);for(const t of g.tabs.slice(1)){subs.add(t[1]);f.keys=(f.keys||'')+' '+(ITEMS.find(i=>i.id===t[1]).keys||'')+' '+ITEMS.find(i=>i.id===t[1]).title.toLowerCase()}continue}let keys='';for(const t of g.tabs){subs.add(t[1]);const it=ITEMS.find(i=>i.id===t[1]);keys+=' '+it.keys}
  if(g.id==='pulmonic-valve')keys+=' pulmonic pulmonary valve stenosis rvot conduit tetralogy';
  ITEMS.push({id:g.id,sec:'valves',kind:'valvegroup',title:g.title,sub:g.sub,keys:g.title.toLowerCase()+' '+keys})}
  ITEMS.forEach(i=>{if(subs.has(i.id))i.hide=true})})();
 function vgOf(id){if(id==='sten-calc'){const v=avState['sten-calc'].v;return Object.values(VG).find(g=>g.tabs.some(t=>t[1]==='sten-calc'&&t[2]===v))}return Object.values(VG).find(g=>g.tabs.some(t=>t[1]===id))}
 function resolveId(id){const g=Object.values(VG).find(g=>g.id===id);if(g){const t=g.tabs[0];if(t[2])avState['sten-calc'].v=t[2];return t[1]}return id}
-function vgWrap(h,id){const g=vgOf(id);if(!g)return h;h=h.replace(/<h2>.*?<\/h2>/,'<h2>'+g.title+'</h2>');
+function vgWrap(h,id){const g=vgOf(id);if(!g)return h;if(!g.own)h=h.replace(/<h2>.*?<\/h2>/,'<h2>'+g.title+'</h2>');
  if(g.tabs.length>1){const sv=avState['sten-calc'].v;const bar='<div class="seg vtabs" role="tablist">'+g.tabs.map(([l,sid,v])=>`<button role="tab" data-vtab="${sid}" ${v?`data-vv="${v}"`:''} class="${sid===id&&(!v||sv===v)?'on':''}">${l}</button>`).join('')+'</div>';h=h.replace('<div class="wrap">','<div class="wrap">'+bar)}return h}
 
 // favorites
