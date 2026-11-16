@@ -457,6 +457,21 @@ function refFor(it,s,key){const M=it.methods[s.method];if(!M.params[key])return 
  if(s.age!==''&&M.age&&M.age[key]){const v=M.age[key][s.sex][+s.age];return {v,src:M.ageTable+', age '+AGES[+s.age]}}
  return {v:M.params[key][s.sex],src:M.table}}
 function fmt(x,k){if(k==='ratio'||k==='raci')return x.toFixed(2);if(k==='area'||k==='str')return x.toFixed(1);if(k==='laci')return x.toFixed(0);return (k==='ef'?x.toFixed(0):x>=100?x.toFixed(0):x.toFixed(x<10?1:0))}
+function atrVol(a4,a2,l4,l2){a4=parseFloat(a4);a2=parseFloat(a2);l4=parseFloat(l4);l2=parseFloat(l2);
+ const Ls=[l4,l2].filter(x=>x>0);if(a4>0&&a2>0&&Ls.length)return 0.85*a4*a2/Math.min(...Ls);
+ if(a4>0&&l4>0)return 8*a4*a4/(3*Math.PI*l4);if(a2>0&&l2>0)return 8*a2*a2/(3*Math.PI*l2);return null}
+function atrCalcUpd(it,s){const mx=atrVol(s.v_a4x,s.v_a2x,s.v_l4x,s.v_l2x),mn=atrVol(s.v_a4n,s.v_a2n,s.v_l4n,s.v_l2n);
+ if(mx!=null)s.a=mx.toFixed(1);if(mn!=null)s.b=mn.toFixed(1);
+ const A=document.getElementById('a-'+it.id),B=document.getElementById('b-'+it.id);if(A&&mx!=null)A.value=s.a;if(B&&mn!=null)B.value=s.b;
+ const o=document.getElementById('atrout');if(o)o.innerHTML=atrOut(s)}
+function atrOut(s){const f=(a,b,c,d)=>{const v=atrVol(a,b,c,d);if(v==null)return '—';const bi=parseFloat(a)>0&&parseFloat(b)>0&&(parseFloat(c)>0||parseFloat(d)>0);return v.toFixed(1)+' mL <small>('+(bi?'biplane':'single-plane')+')</small>'};
+ return `Max ${f(s.v_a4x,s.v_a2x,s.v_l4x,s.v_l2x)} · Min ${f(s.v_a4n,s.v_a2n,s.v_l4n,s.v_l2n)}`}
+function atrCalcHTML(it,s){const nm=it.id==='la-vol'?'LA':'RA';
+ let h=`<button class="link" data-atrtoggle>${s.vOpen?'Hide':'Calculate volume from area and length (2ch + 4ch)'}</button>`;if(!s.vOpen)return h;
+ const row=(k,l,u)=>`<div class="row"><label for="${k}-${it.id}">${l}</label><input id="${k}-${it.id}" type="number" inputmode="decimal" step="any" data-in="${k}" value="${esc(s[k]||'')}"><span class="u">${u}</span></div>`;
+ h+=`<div class="bsa-calc"><b>${nm} maximum (end-systole)</b>${row('v_a4x','4ch area','cm²')}${row('v_a2x','2ch area','cm²')}${row('v_l4x','4ch length','cm')}${row('v_l2x','2ch length','cm')}
+ <b>${nm} minimum (end-diastole)</b>${row('v_a4n','4ch area','cm²')}${row('v_a2n','2ch area','cm²')}${row('v_l4n','4ch length','cm')}${row('v_l2n','2ch length','cm')}
+ <p class="ref" style="margin:6px 0 0">Biplane area-length: 0.85 × A(4ch) × A(2ch) ÷ L, with L the shorter of the two long-axis lengths. With one view only, single-plane 8A² ÷ 3πL is used. Length is measured from the mid mitral${nm==='RA'?' (tricuspid)':''} annulus plane to the atrial roof; trace excluding appendage and veins. Results fill Max vol and Min vol above.${nm==='RA'?' Biplane RA area-length is less validated than for the LA.':''}</p><p class="ref num" id="atrout" style="margin:4px 0 0">${atrOut(s)}</p></div>`;return h}
 function calcView(it){const s=getState(it);const M=it.methods[s.method];
  const inLabels=it.kind==='ventricle'?[['a',it.labels.edv[0],'mL'],['b',it.labels.esv[0],'mL'],['c','Mass','g']].concat(it.id==='rv-vol'?[['lv','LVEDV (for RV/LV)','mL']]:[]):[['a','Max vol','mL'],['b','Min vol','mL']].concat(it.id==='la-vol'?[['lv','LVEDV (for LACI)','mL']]:it.id==='ra-vol'?[['area','RA area (4ch, max)','cm²'],['rv','RVEDV (for RACI)','mL'],['str','RA reservoir strain','%']]:[]);
  let h=`<div class="dhead"><button class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><h2>${esc(it.title)}</h2><button class="fav ${isFav(it.id)?'on':''}" data-fav="${it.id}" aria-label="Favorite">${isFav(it.id)?HEART_ON:HEART}</button></div><div class="wrap">`;
@@ -468,6 +483,7 @@ function calcView(it){const s=getState(it);const M=it.methods[s.method];
  <button class="link" data-togglebsa>${s.showBsa?'Hide':'Calculate BSA from height and weight'}</button>`;
  if(s.showBsa) h+=`<div class="bsa-calc"><div class="field"><label class="lbl" for="h-${it.id}">Height (cm)</label><input id="h-${it.id}" type="number" inputmode="decimal" data-in="h" value="${esc(s.h)}"></div><div class="field"><label class="lbl" for="w-${it.id}">Weight (kg)</label><input id="w-${it.id}" type="number" inputmode="decimal" data-in="w" value="${esc(s.w)}"></div></div>`;
  for(const [k,l,u] of inLabels) h+=`<div class="row"><label for="${k}-${it.id}">${esc(l)}</label><input id="${k}-${it.id}" type="number" inputmode="decimal" data-in="${k}" value="${esc(s[k])}"><span class="u">${u}</span></div>`;
+ if(it.kind==='atrium') h+=atrCalcHTML(it,s);
  if(s.example) h+=`<span class="ref">Example case loaded. Replace with your own measurements.</span>`;
  h+=`</div><div class="card" id="results">${resultsHTML(it)}</div>`;
  if(it.grade) h+=gradeTable(it,s); else h+=`<div class="card"><h3>Severity grading</h3><div class="pending"><b>Outcome-based cutoffs not added yet.</b> The SCMR paper gives normal ranges only. Mild, moderate and severe thresholds will come from outcome studies, each shown with its source, cohort and the outcome it predicted.</div></div>`;
@@ -1482,6 +1498,7 @@ app.addEventListener('click',e=>{
  const sx=e.target.closest('[data-sex]');if(sx){setCase('sex',sx.dataset.sex);render();return}
  const cx=e.target.closest('[data-ctx]');if(cx){s.ctx=cx.dataset.ctx;render();return}
  if(e.target.closest('[data-togglebsa]')){s.showBsa=!s.showBsa;render();return}
+ if(e.target.closest('[data-atrtoggle]')){s.vOpen=!s.vOpen;render();return}
 });
 app.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-open]')){e.preventDefault();openItem(e.target.dataset.open)}});
 app.addEventListener('change',e=>{
@@ -1501,6 +1518,7 @@ app.addEventListener('input',e=>{
  if(k==='h'||k==='w'){const h=parseFloat(s.h),w=parseFloat(s.w);if(h>0&&w>0){s.bsa=Math.sqrt(h*w/3600).toFixed(2);const b=document.getElementById('bsa-'+it.id);if(b)b.value=s.bsa}}
  if(k==='bsa'||k==='h'||k==='w')setCase('bsa',s.bsa);
  if(k==='age'){render();return}
+ if(k.startsWith('v_')){atrCalcUpd(it,s)}
  document.getElementById('results').innerHTML=resultsHTML(it);
 });
 document.getElementById('nav-home').onclick=()=>{current=null;tab='home';goBack()};
