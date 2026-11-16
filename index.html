@@ -117,6 +117,14 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .seg{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px;flex-wrap:wrap}
 .seg button{flex:1 1 auto;border:0;background:none;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;font-weight:550;color:var(--muted)}
 .vtabs{margin:2px 0 12px}
+.rsec h3{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.rsec h3 button{font-size:12px;font-weight:600;color:var(--accent);background:none;border:0;cursor:pointer;padding:0}
+.rctx{font-size:12px;color:var(--muted);margin:-4px 0 6px}
+.frow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 10px;padding:6px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.frow:last-child{border-bottom:0}.frow b{font-weight:600}.frow small{display:block;color:var(--muted);font-size:12px}
+.frow .fv{font-family:var(--mono);font-weight:600;white-space:nowrap}.frow .fg{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:3px 6px;align-items:center}.frow .pill{font-size:12px;padding:2px 8px}
+.frow .fg .ref{font-size:11.5px;color:var(--muted)}
+.rtext{white-space:pre-wrap;font:12px/1.5 var(--mono);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;max-height:320px;overflow:auto;user-select:all}
+.rbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.rbtns button{flex:1 1 auto;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:600;cursor:pointer;color:var(--fg)}.rbtns button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .seg button.on{background:var(--accent);color:var(--accent-ink);box-shadow:0 1px 3px rgba(0,0,0,.18)}
 .lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -216,6 +224,7 @@ details.notes .ref{display:block;padding:0 12px 10px}
 <div class="bar"><nav>
   <button id="nav-home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
   <button id="nav-fav" aria-label="Favorites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Favorites</button>
+  <button id="nav-report" aria-label="Report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/></svg>Report</button>
   <button id="nav-search" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>Search</button>
 </nav></div>
 
@@ -1198,13 +1207,73 @@ ${EV_PAGES[it.id].bottom}</ul></div>`;
  return h+'</div>'}
 
 let current=null;
+// ---------- Report: findings built from the values entered on each page ----------
+const CASE={sex:'m',bsa:''};
+const INIT=JSON.stringify({av:avState,ao:aoState,ecv:ecvState,iron:ironState});
+function setCase(k,v){CASE[k]=v;ITEMS.forEach(i=>{if(i.methods)getState(i)[k]=v});
+ for(const id in avState){if(k==='bsa'&&'bsa' in avState[id])avState[id].bsa=v}
+ if(k in aoState)aoState[k]=v}
+function clearAll(){for(const k in state)delete state[k];const o=JSON.parse(INIT);
+ for(const [src,dst] of [[o.av,avState],[o.ao,aoState],[o.ecv,ecvState],[o.iron,ironState]]){if(src===o.av){for(const id in dst)Object.assign(dst[id],src[id])}else Object.assign(dst,src)}
+ CASE.sex='m';CASE.bsa=''}
+function rowsOf(html){const d=document.createElement('div');d.innerHTML=html;
+ return [...d.querySelectorAll('.rrow')].map(r=>{const q=x=>r.querySelector(x);const pills=[...r.querySelectorAll('.pill')];
+  const small=q('.rl small')?q('.rl small').textContent.trim():'';const parts=small.split(' · ').filter(Boolean);
+  const normal=(parts.find(x=>/^normal /.test(x))||'').replace(/^normal /,'');const unit=parts.filter(x=>!/^normal /.test(x)).join(' · ');
+  return {lab:q('.rl b')?q('.rl b').textContent.trim():'',unit,normal,val:q('.rv')?q('.rv').textContent.trim():'',
+   pills:pills.map(x=>x.outerHTML),grades:pills.map(x=>x.textContent.trim()),refs:[...r.querySelectorAll('.rs .ref')].map(x=>x.textContent.trim()).filter(Boolean),
+   cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}})}
+function buildReport(){const out=[];
+ const add=(name,open,ctx,html,keep)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(rows.length)out.push({name,open,ctx,rows})};
+ const it=id=>ITEMS.find(i=>i.id===id);
+ for(const [id,name] of [['lv-vol','Left ventricle'],['rv-vol','Right ventricle'],['la-vol','Left atrium'],['ra-vol','Right atrium']]){const x=it(id),s=getState(x);
+  const M=x.methods[s.method];const cx=(s.ctx&&s.ctx!=='gen')?'; context: '+s.ctx:'';
+  add(name,id,(M&&M.label?M.label:s.method)+' · '+(s.sex==='f'?'female':'male')+cx,resultsHTML(x))}
+ add('Aorta','ao-calc',(aoState.lvl||'')+' · '+(aoState.sex==='f'?'female':'male'),aoResults());
+ add('Aortic valve: regurgitation','ar-calc','',avResults('ar-calc'));
+ add('Aortic valve: stenosis','as-calc','',avResults('as-calc'));
+ add('Mitral valve: regurgitation','mr-calc','',avResults('mr-calc'));
+ const v0=avState['sten-calc'].v;
+ for(const [v,name] of [['ms','Mitral valve: stenosis'],['ts','Tricuspid valve: stenosis'],['ps','Pulmonic valve: stenosis']]){avState['sten-calc'].v=v;add(name,'sten-calc','',avResults('sten-calc'))}
+ avState['sten-calc'].v=v0;
+ add('Tricuspid valve: regurgitation','tr-calc','',avResults('tr-calc'));
+ add('ECV and native T1','ecv','Field strength '+ecvState.f+' T',ecvResults(),r=>!/^(Partition|ΔR1)/.test(r.lab));
+ add('Iron (T2*)','iron','',ironResults());
+ return out}
+function reportText(secs){const L=[];L.push('CMR FINDINGS (draft, generated from the values entered; verify before use)');
+ L.push('Case: '+(CASE.sex==='f'?'Female':'Male')+(parseFloat(CASE.bsa)>0?'; BSA '+CASE.bsa+' m²':''));
+ for(const g of secs){L.push('');L.push(g.name.toUpperCase()+(g.ctx?' ('+g.ctx+')':''));
+  for(const r of g.rows){L.push('- '+r.lab+': '+r.val+(r.unit?' '+r.unit:'')+(r.normal?' (normal '+r.normal+')':'')+(r.grades.length?': '+r.grades.join('; '):''))}}
+ const fl=[];for(const g of secs)for(const r of g.rows)if(r.cls==='hi'||r.cls==='lo')fl.push('- '+g.name+', '+r.lab+' '+r.val+(r.unit?' '+r.unit:'')+': '+r.grades.join('; '));
+ L.push('');L.push('FLAGGED VALUES');L.push(...(fl.length?fl:['- None flagged by the entered values']));
+ L.push('');L.push('Grades follow the cutoffs and sources shown in the app; some are provisional or borrowed from echo. No impression or diagnosis is generated.');
+ return L.join('\n')}
+function reportBody(){const secs=buildReport();
+ if(!secs.length)return `<div class="card"><p class="empty">No findings yet. Enter measurements on any chamber, valve or mapping page. They appear here with their normal range and grade.</p></div>`;
+ let h='';
+ for(const g of secs){h+=`<div class="card rsec"><h3><span style="flex:1">${esc(g.name)}</span><button data-open="${g.open}">Edit</button></h3>${g.ctx?`<div class="rctx">${esc(g.ctx)}</div>`:''}`;
+  for(const r of g.rows){h+=`<div class="frow"><div><b>${esc(r.lab)}</b>${r.normal?`<small>normal ${esc(r.normal)}</small>`:''}</div><div class="fv">${esc(r.val)}${r.unit?' '+esc(r.unit):''}</div>${r.pills.length||r.refs.length?`<div class="fg">${r.pills.join('')}${r.refs.map(t=>`<span class="ref">${esc(t)}</span>`).join(' ')}</div>`:''}</div>`}
+  h+='</div>'}
+ const fl=[];for(const g of secs)for(const r of g.rows)if(r.cls==='hi'||r.cls==='lo')fl.push([g.name,r]);
+ h+=`<div class="card"><h3>Flagged values</h3>${fl.length?fl.map(([n,r])=>`<div class="frow"><div><b>${esc(r.lab)}</b><small>${esc(n)}</small></div><div class="fv">${esc(r.val)}${r.unit?' '+esc(r.unit):''}</div><div class="fg">${r.pills.join('')}</div></div>`).join(''):'<p class="empty">None flagged by the entered values.</p>'}</div>`;
+ h+=`<div class="card"><h3>Text for your report</h3><div class="rtext" id="rtext">${esc(reportText(secs))}</div><div class="rbtns"><button class="primary" data-rcopy>Copy text</button></div><span class="ref" id="rmsg"></span></div>`;
+ return h}
+function reportView(){
+ let h=header()+'<div class="wrap">';
+ h+=`<div class="note">Findings only: values, normal ranges and grades from what you entered. No impression or diagnosis is generated. Nothing is saved or sent anywhere; do not enter patient identifiers.</div>`;
+ h+=`<div class="card"><h3>Case</h3><div class="field"><span class="lbl">Sex</span><div class="seg" role="group"><button data-csex="m" class="${CASE.sex==='m'?'on':''}">Male</button><button data-csex="f" class="${CASE.sex==='f'?'on':''}">Female</button></div></div>
+ <div class="row"><label for="cbsa">BSA</label><input id="cbsa" type="number" inputmode="decimal" step="any" data-cbsa value="${esc(CASE.bsa)}" placeholder="1.90"><span class="u">m²</span></div>
+ <span class="ref">Sex and BSA are shared with every calculator.</span>
+ <div class="rbtns"><button data-rclear>Clear all entries</button></div></div>`;
+ h+=`<div id="rbody">${reportBody()}</div>`;
+ return h+'</div>'}
 function render(){
  if(current){const it=ITEMS.find(i=>i.id===current);app.innerHTML=it.kind==='table'?tableView(it):it.kind==='iron'?ironView(it):it.kind==='aocalc'?aoView(it):it.kind==='evidence'?evidenceView(it):it.kind==='avcalc'?avView(it):it.kind==='ecvcalc'?ecvView(it):calcView(it)}
- else app.innerHTML=tab==='home'?home():tab==='fav'?favView():searchView();
+ else app.innerHTML=tab==='home'?home():tab==='fav'?favView():tab==='report'?reportView():searchView();
  if(current)app.innerHTML=vgWrap(app.innerHTML,current);
  enhance();
  if(!app.querySelector('.disc')){const d=document.createElement('p');d.className='foot disc';d.textContent='Educational reference only. Not medical advice. Independent project, not endorsed by OSU or SCMR.';app.appendChild(d)}
- ['home','fav','search'].forEach(t=>document.getElementById('nav-'+t).classList.toggle('on',!current&&tab===t));
+ ['home','fav','report','search'].forEach(t=>document.getElementById('nav-'+t).classList.toggle('on',!current&&tab===t));
  if(!current&&tab==='search'){const q=document.getElementById('q');q.focus();q.setSelectionRange(q.value.length,q.value.length)}
 }
 function openItem(id){current=resolveId(id);try{history.replaceState(null,'','#'+current)}catch(e){location.hash=current}render();window.scrollTo(0,0)}
@@ -1216,11 +1285,16 @@ app.addEventListener('click',e=>{
  const sec=e.target.closest('[data-sec]');if(sec){const k=sec.dataset.sec;openSecs=openSecs.includes(k)?openSecs.filter(x=>x!==k):[...openSecs,k];try{localStorage.setItem('cmr-open',JSON.stringify(openSecs))}catch(_){}render();return}
  const o=e.target.closest('[data-open]');if(o){openItem(o.dataset.open);return}
  if(e.target.closest('[data-back]')){goBack();return}
+ const cs=e.target.closest('[data-csex]');if(cs){setCase('sex',cs.dataset.csex);render();return}
+ if(e.target.closest('[data-rclear]')){clearAll();render();return}
+ if(e.target.closest('[data-rcopy]')){const t=document.getElementById('rtext'),m=document.getElementById('rmsg');const txt=t.textContent;
+  const fb=()=>{const r=document.createRange();r.selectNodeContents(t);const sl=getSelection();sl.removeAllRanges();sl.addRange(r);m.textContent='Text selected. Press copy.'};
+  try{navigator.clipboard.writeText(txt).then(()=>{m.textContent='Copied.'},fb)}catch(x){fb()}return}
  const it=current&&ITEMS.find(i=>i.id===current);if(!it)return;
- const ax=e.target.closest('[data-aosex]');if(ax){aoState.sex=ax.dataset.aosex;aoState.example=false;render();return}
+ const ax=e.target.closest('[data-aosex]');if(ax){setCase('sex',ax.dataset.aosex);render();return}
  if(!it.methods)return;const s=getState(it);
  const m=e.target.closest('[data-method]');if(m){s.method=m.dataset.method;if(!it.methods[s.method].age)s.age='';render();return}
- const sx=e.target.closest('[data-sex]');if(sx){s.sex=sx.dataset.sex;render();return}
+ const sx=e.target.closest('[data-sex]');if(sx){setCase('sex',sx.dataset.sex);render();return}
  const cx=e.target.closest('[data-ctx]');if(cx){s.ctx=cx.dataset.ctx;render();return}
  if(e.target.closest('[data-togglebsa]')){s.showBsa=!s.showBsa;render();return}
 });
@@ -1228,17 +1302,20 @@ app.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.m
 app.addEventListener('input',e=>{
  if(e.target.id==='hq'){query=e.target.value;tab='search';render();return}
  if(e.target.id==='q'){query=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById('q');q.setSelectionRange(pos,pos);return}
- if(e.target.dataset.ao){aoState[e.target.dataset.ao]=e.target.value;aoState.example=false;if(e.target.dataset.ao==='lvl'){render();return}document.getElementById('results').innerHTML=aoResults();return}
+ if(e.target.matches('[data-cbsa]')){setCase('bsa',e.target.value);document.getElementById('rbody').innerHTML=reportBody();return}
+ if(e.target.dataset.ao){aoState[e.target.dataset.ao]=e.target.value;if(e.target.dataset.ao==='bsa')setCase('bsa',e.target.value);aoState.example=false;if(e.target.dataset.ao==='lvl'){render();return}document.getElementById('results').innerHTML=aoResults();return}
  if(e.target.dataset.ecv){ecvState[e.target.dataset.ecv]=e.target.value;if(e.target.dataset.ecv==='f')ecvState.seq='';if(e.target.tagName==='SELECT'){render();return}document.getElementById('results').innerHTML=ecvResults();return}
- if(e.target.dataset.av){avState[current][e.target.dataset.av]=e.target.value;if(e.target.tagName==='SELECT'){render();return}document.getElementById('results').innerHTML=avResults(current);return}
+ if(e.target.dataset.av){avState[current][e.target.dataset.av]=e.target.value;if(e.target.dataset.av==='bsa')setCase('bsa',e.target.value);if(e.target.tagName==='SELECT'){render();return}document.getElementById('results').innerHTML=avResults(current);return}
  if(e.target.dataset.iron){ironState[e.target.dataset.iron]=e.target.value;document.getElementById('results').innerHTML=ironResults();return}
  const k=e.target.dataset.in;if(!k||!current)return;const it=ITEMS.find(i=>i.id===current);const s=getState(it);s[k]=e.target.value;s.example=false;
  if(k==='h'||k==='w'){const h=parseFloat(s.h),w=parseFloat(s.w);if(h>0&&w>0){s.bsa=Math.sqrt(h*w/3600).toFixed(2);const b=document.getElementById('bsa-'+it.id);if(b)b.value=s.bsa}}
+ if(k==='bsa'||k==='h'||k==='w')setCase('bsa',s.bsa);
  if(k==='age'){render();return}
  document.getElementById('results').innerHTML=resultsHTML(it);
 });
 document.getElementById('nav-home').onclick=()=>{current=null;tab='home';goBack()};
 document.getElementById('nav-fav').onclick=()=>{current=null;tab='fav';goBack()};
+document.getElementById('nav-report').onclick=()=>{current=null;tab='report';goBack()};
 document.getElementById('nav-search').onclick=()=>{current=null;tab='search';goBack()};
 
 const hid=(location.hash||'').slice(1);if(ITEMS.some(i=>i.id===hid))current=resolveId(hid);
