@@ -119,6 +119,10 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .vtabs{margin:2px 0 12px}
 .rstrip{position:sticky;top:calc(var(--dh,56px) + env(safe-area-inset-top,0px));z-index:4;display:flex;gap:6px 14px;align-items:center;overflow-x:auto;white-space:nowrap;padding:6px max(16px,env(safe-area-inset-right,0px)) 6px max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);font-size:13px;scrollbar-width:none}
 .rstrip::-webkit-scrollbar{display:none}.rstrip .si{display:inline-flex;gap:6px;align-items:center;flex:none}.rstrip .si b{font-weight:600}.rstrip .si .v{font-family:var(--mono);font-weight:600}.rstrip .pill{font-size:12px;padding:2px 8px}
+.rcase{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}.rcase .seg{flex:none}.rcase label{font-size:12px;color:var(--muted);font-weight:600}.rcase input{width:70px;min-width:0;padding:8px}.rcase .u{font-size:12px;color:var(--muted)}.rclr{margin-left:auto;border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;font-size:13px}
+.rcompact{padding:4px 12px}.rline{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}.rline:last-child{border-bottom:0}
+.rn{flex:0 0 52px;text-align:left;border:0;background:none;padding:0;font:600 14px var(--display);color:var(--accent);cursor:pointer}
+.rchips{display:flex;flex-wrap:wrap;gap:4px 12px;min-width:0}.rchips .si{display:inline-flex;gap:5px;align-items:center;font-size:13px}.rchips .si .v{font-family:var(--mono);font-weight:600}.rchips .pill{font-size:12px;padding:1px 7px}
 .rsec h3{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.rsec h3 button{font-size:12px;font-weight:600;color:var(--accent);background:none;border:0;cursor:pointer;padding:0}
 .rctx{font-size:12px;color:var(--muted);margin:-4px 0 6px}
 .frow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 10px;padding:6px 0;border-bottom:1px solid var(--line);align-items:baseline}
@@ -1245,32 +1249,35 @@ function buildReport(){const out=[];
  add('ECV and native T1','ecv','Field strength '+ecvState.f+' T',ecvResults(),r=>!/^(Partition|ΔR1)/.test(r.lab));
  add('Iron (T2*)','iron','',ironResults());
  return out}
-function reportText(secs){const L=[];L.push('CMR FINDINGS (draft, generated from the values entered; verify before use)');
- L.push('Case: '+(CASE.sex==='f'?'Female':'Male')+(parseFloat(CASE.bsa)>0?'; BSA '+CASE.bsa+' m²':''));
- for(const g of secs){L.push('');L.push(g.name.toUpperCase()+(g.ctx?' ('+g.ctx+')':''));
-  for(const r of g.rows){L.push('- '+r.lab+': '+r.val+(r.unit?' '+r.unit:'')+(r.normal?' (normal '+r.normal+')':'')+(r.grades.length?': '+r.grades.join('; '):''))}}
- const fl=[];for(const g of secs)for(const r of g.rows)if(r.cls==='hi'||r.cls==='lo')fl.push('- '+g.name+', '+r.lab+' '+r.val+(r.unit?' '+r.unit:'')+': '+r.grades.join('; '));
- L.push('');L.push('FLAGGED VALUES');L.push(...(fl.length?fl:['- None flagged by the entered values']));
- L.push('');L.push('Grades follow the cutoffs and sources shown in the app; some are provisional or borrowed from echo. No impression or diagnosis is generated.');
- return L.join('\n')}
+function gShort(t){return t.replace(/\s*\([^)]*\)/g,'').replace(/^within typical normal range$/i,'normal').replace(/consistent with /i,'').replace(/\s+/g,' ').trim().toLowerCase().replace(/ sd\b/g,' SD').replace(/\bml\b/g,'mL').replace(/\blge\b/g,'LGE').replace(/\becv\b/g,'ECV')}
+function lShort(l){return l.replace(/\s*\([^)]*\)/g,'').replace(/^(LV|RV|LA|RA)(?=[A-Z])/,'').replace(/\b(LV|RV|LA|RA)\b ?/g,'').replace(/^Regurgitant fraction/i,'RF').replace(/^Regurgitant vol(ume)?/i,'RVol').replace(/^Peak velocity/i,'Vmax').replace(/^Planimetric /,'').replace(/^Native myocardial T1/i,'native T1').replace(/volume/i,'vol').replace(/\/BSA/,' idx').replace(/z-score, absolute/,'z abs').replace(/z-score, indexed/,'z idx').replace(/\s+/g,' ').trim()}
+function pillShort(r){if(!r.pills[0])return '';const d=document.createElement('div');d.innerHTML=r.pills[0];const el=d.firstChild;const t=gShort(el.textContent);el.textContent=t.charAt(0).toUpperCase()+t.slice(1);return el.outerHTML}
+function vShort(r){const u=r.unit&&!/\/m²/.test(r.unit)&&r.unit.length<7?r.unit:'';return r.val+(u?(u==='%'?'':' ')+u:'')}
+const KEYG={'lv-vol':[[/EF$/],[/EDV\/BSA$/,/EDV$/],[/ESV\/BSA$/,/ESV$/],[/mass\/BSA$/,/mass$/]],'rv-vol':[[/EF$/],[/EDV\/BSA$/,/EDV$/],[/ESV\/BSA$/,/ESV$/],[/mass\/BSA$/,/mass$/]],
+ 'la-vol':[[/EF$/],[/max.*BSA/i,/max/i],[/LACI/]],'ra-vol':[[/EF$/],[/max.*BSA/i,/max/i],[/RACI/],[/area/i],[/strain/i]]};
+const SHORTN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ao-calc':'Ao','ar-calc':'AR','as-calc':'AS','mr-calc':'MR','tr-calc':'TR','ecv':'ECV','iron':'Iron'};
+function keyRows(g){const G=KEYG[g.open];if(!G)return g.rows.slice(0,6);const out=[];
+ for(const grp of G){let hit=null;for(const re of grp){hit=g.rows.find(r=>re.test(r.lab));if(hit)break}if(hit&&!out.includes(hit))out.push(hit)}return out.length?out:g.rows.slice(0,4)}
+function sname(g){let n=SHORTN[g.open]||g.name;if(g.open==='sten-calc')n=g.name.startsWith('Mitral')?'MS':g.name.startsWith('Tricuspid')?'TS':'PS';
+ if(g.open==='ao-calc'&&parseFloat(aoState.d)>0)n+=' ('+(aoState.lvl||'')+' '+aoState.d+' mm)';return n}
+function lineOf(g,only){let rs=keyRows(g);if(only)rs=rs.filter(r=>r.cls==='hi'||r.cls==='lo');if(!rs.length)return '';
+ return sname(g)+': '+rs.map(r=>lShort(r.lab)+' '+vShort(r)+(r.grades.length?' ('+gShort(r.grades[0])+')':'')).join('; ')}
+function reportText(secs,only){const L=secs.map(g=>lineOf(g,only)).filter(Boolean);return L.length?L.join('\n'):(only?'No abnormal values among the entered findings.':'')}
 function reportBody(){const secs=buildReport();
- if(!secs.length)return `<div class="card"><p class="empty">No findings yet. Enter measurements on any chamber, valve or mapping page. They appear here with their normal range and grade.</p></div>`;
- let h='';
- for(const g of secs){h+=`<div class="card rsec"><h3><span style="flex:1">${esc(g.name)}</span><button data-open="${g.open}">Edit</button></h3>${g.ctx?`<div class="rctx">${esc(g.ctx)}</div>`:''}`;
-  for(const r of g.rows){h+=`<div class="frow"><div><b>${esc(r.lab)}</b>${r.normal?`<small>normal ${esc(r.normal)}</small>`:''}</div><div class="fv">${esc(r.val)}${r.unit?' '+esc(r.unit):''}</div>${r.pills.length||r.refs.length?`<div class="fg">${r.pills.join('')}${r.refs.map(t=>`<span class="ref">${esc(t)}</span>`).join(' ')}</div>`:''}</div>`}
-  h+='</div>'}
- const fl=[];for(const g of secs)for(const r of g.rows)if(r.cls==='hi'||r.cls==='lo')fl.push([g.name,r]);
- h+=`<div class="card"><h3>Flagged values</h3>${fl.length?fl.map(([n,r])=>`<div class="frow"><div><b>${esc(r.lab)}</b><small>${esc(n)}</small></div><div class="fv">${esc(r.val)}${r.unit?' '+esc(r.unit):''}</div><div class="fg">${r.pills.join('')}</div></div>`).join(''):'<p class="empty">None flagged by the entered values.</p>'}</div>`;
- h+=`<div class="card"><h3>Text for your report</h3><div class="rtext" id="rtext">${esc(reportText(secs))}</div><div class="rbtns"><button class="primary" data-rcopy>Copy text</button></div><span class="ref" id="rmsg"></span></div>`;
+ if(!secs.length)return `<div class="card"><p class="empty">No findings yet. Enter measurements on any chamber, valve or mapping page.</p></div>`;
+ let h='<div class="card rcompact">';
+ for(const g of secs){const rs=keyRows(g);
+  h+=`<div class="rline"><button class="rn" data-open="${g.open}" aria-label="Edit ${esc(g.name)}">${esc(sname(g))}</button><div class="rchips">${rs.map(r=>`<span class="si"><b>${esc(lShort(r.lab))}</b><span class="v">${esc(vShort(r))}</span>${pillShort(r)}</span>`).join('')}</div></div>`}
+ h+='</div>';
+ const all=reportText(secs,false),ab=reportText(secs,true);
+ h+=`<div class="card"><div class="rtext" id="rtext" data-all="${esc(all)}" data-ab="${esc(ab)}">${esc(all)}</div>
+ <div class="rbtns"><button class="primary" data-rcopy="all">Copy all (${all.length} chars)</button><button data-rcopy="ab">Abnormal only (${ab.length})</button></div><span class="ref" id="rmsg"></span></div>`;
  return h}
 function reportView(){
  let h=header()+'<div class="wrap">';
- h+=`<div class="note">Findings only: values, normal ranges and grades from what you entered. No impression or diagnosis is generated. Nothing is saved or sent anywhere; do not enter patient identifiers.</div>`;
- h+=`<div class="card"><h3>Case</h3><div class="field"><span class="lbl">Sex</span><div class="seg" role="group"><button data-csex="m" class="${CASE.sex==='m'?'on':''}">Male</button><button data-csex="f" class="${CASE.sex==='f'?'on':''}">Female</button></div></div>
- <div class="row"><label for="cbsa">BSA</label><input id="cbsa" type="number" inputmode="decimal" step="any" data-cbsa value="${esc(CASE.bsa)}" placeholder="1.90"><span class="u">m²</span></div>
- <span class="ref">Sex and BSA are shared with every calculator.</span>
- <div class="rbtns"><button data-rclear>Clear all entries</button></div></div>`;
+ h+=`<div class="card" style="padding:10px 12px"><div class="rcase"><div class="seg" role="group"><button data-csex="m" class="${CASE.sex==='m'?'on':''}">Male</button><button data-csex="f" class="${CASE.sex==='f'?'on':''}">Female</button></div><label for="cbsa">BSA</label><input id="cbsa" type="number" inputmode="decimal" step="any" data-cbsa value="${esc(CASE.bsa)}" placeholder="1.90" aria-label="BSA in square metres"><span class="u">m²</span><button class="rclr" data-rclear>Clear</button></div></div>`;
  h+=`<div id="rbody">${reportBody()}</div>`;
+ h+=`<span class="ref">Findings only, no impression. Verify before use. Nothing is saved or sent; no patient identifiers.</span>`;
  return h+'</div>'}
 
 // ---------- sticky result strip ----------
@@ -1309,7 +1316,7 @@ app.addEventListener('click',e=>{
  if(e.target.closest('[data-back]')){goBack();return}
  const cs=e.target.closest('[data-csex]');if(cs){setCase('sex',cs.dataset.csex);render();return}
  if(e.target.closest('[data-rclear]')){clearAll();render();return}
- if(e.target.closest('[data-rcopy]')){const t=document.getElementById('rtext'),m=document.getElementById('rmsg');const txt=t.textContent;
+ const rc=e.target.closest('[data-rcopy]');if(rc){const t=document.getElementById('rtext'),m=document.getElementById('rmsg');const txt=rc.dataset.rcopy==='ab'?t.dataset.ab:t.dataset.all;t.textContent=txt;
   const fb=()=>{const r=document.createRange();r.selectNodeContents(t);const sl=getSelection();sl.removeAllRanges();sl.addRange(r);m.textContent='Text selected. Press copy.'};
   try{navigator.clipboard.writeText(txt).then(()=>{m.textContent='Copied.'},fb)}catch(x){fb()}return}
  const it=current&&ITEMS.find(i=>i.id===current);if(!it)return;
