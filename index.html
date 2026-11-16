@@ -117,6 +117,8 @@ input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2
 .seg{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px;flex-wrap:wrap}
 .seg button{flex:1 1 auto;border:0;background:none;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;font-weight:550;color:var(--muted)}
 .vtabs{margin:2px 0 12px}
+.rstrip{position:sticky;top:calc(var(--dh,56px) + env(safe-area-inset-top,0px));z-index:4;display:flex;gap:6px 14px;align-items:center;overflow-x:auto;white-space:nowrap;padding:6px max(16px,env(safe-area-inset-right,0px)) 6px max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);font-size:13px;scrollbar-width:none}
+.rstrip::-webkit-scrollbar{display:none}.rstrip .si{display:inline-flex;gap:6px;align-items:center;flex:none}.rstrip .si b{font-weight:600}.rstrip .si .v{font-family:var(--mono);font-weight:600}.rstrip .pill{font-size:12px;padding:2px 8px}
 .rsec h3{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.rsec h3 button{font-size:12px;font-weight:600;color:var(--accent);background:none;border:0;cursor:pointer;padding:0}
 .rctx{font-size:12px;color:var(--muted);margin:-4px 0 6px}
 .frow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 10px;padding:6px 0;border-bottom:1px solid var(--line);align-items:baseline}
@@ -1217,19 +1219,22 @@ function clearAll(){for(const k in state)delete state[k];const o=JSON.parse(INIT
  for(const [src,dst] of [[o.av,avState],[o.ao,aoState],[o.ecv,ecvState],[o.iron,ironState]]){if(src===o.av){for(const id in dst)Object.assign(dst[id],src[id])}else Object.assign(dst,src)}
  CASE.sex='m';CASE.bsa=''}
 function rowsOf(html){const d=document.createElement('div');d.innerHTML=html;
- return [...d.querySelectorAll('.rrow')].map(r=>{const q=x=>r.querySelector(x);const pills=[...r.querySelectorAll('.pill')];
+ const trs=[...d.querySelectorAll('table.res tbody tr')].map(r=>{const td=[...r.children];const pills=[...(td[td.length-1]||r).querySelectorAll('.pill')];
+  return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>2?td[td.length-2].textContent.trim():'',pills:pills.map(x=>x.outerHTML),grades:pills.map(x=>x.textContent.trim()),
+   refs:td.length>2?[td[1].textContent.trim()]:[],cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}});
+ return trs.concat([...d.querySelectorAll('.rrow')].map(r=>{const q=x=>r.querySelector(x);const pills=[...r.querySelectorAll('.pill')];
   const small=q('.rl small')?q('.rl small').textContent.trim():'';const parts=small.split(' · ').filter(Boolean);
   const normal=(parts.find(x=>/^normal /.test(x))||'').replace(/^normal /,'');const unit=parts.filter(x=>!/^normal /.test(x)).join(' · ');
   return {lab:q('.rl b')?q('.rl b').textContent.trim():'',unit,normal,val:q('.rv')?q('.rv').textContent.trim():'',
    pills:pills.map(x=>x.outerHTML),grades:pills.map(x=>x.textContent.trim()),refs:[...r.querySelectorAll('.rs .ref')].map(x=>x.textContent.trim()).filter(Boolean),
-   cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}})}
+   cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}}))}
 function buildReport(){const out=[];
- const add=(name,open,ctx,html,keep)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(rows.length)out.push({name,open,ctx,rows})};
+ const add=(name,open,ctx,html,keep,map)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(map)rows=rows.map(map);if(rows.length)out.push({name,open,ctx,rows})};
  const it=id=>ITEMS.find(i=>i.id===id);
  for(const [id,name] of [['lv-vol','Left ventricle'],['rv-vol','Right ventricle'],['la-vol','Left atrium'],['ra-vol','Right atrium']]){const x=it(id),s=getState(x);
   const M=x.methods[s.method];const cx=(s.ctx&&s.ctx!=='gen')?'; context: '+s.ctx:'';
   add(name,id,(M&&M.label?M.label:s.method)+' · '+(s.sex==='f'?'female':'male')+cx,resultsHTML(x))}
- add('Aorta','ao-calc',(aoState.lvl||'')+' · '+(aoState.sex==='f'?'female':'male'),aoResults());
+ add('Aorta','ao-calc',(aoState.lvl||'')+(parseFloat(aoState.d)>0?', diameter '+aoState.d+' mm':'')+(parseFloat(aoState.age)>0?', age '+aoState.age:'')+' · '+(aoState.sex==='f'?'female':'male'),aoResults(),null,r=>Object.assign(r,{lab:'z-score, '+r.lab.toLowerCase()}));
  add('Aortic valve: regurgitation','ar-calc','',avResults('ar-calc'));
  add('Aortic valve: stenosis','as-calc','',avResults('as-calc'));
  add('Mitral valve: regurgitation','mr-calc','',avResults('mr-calc'));
@@ -1267,11 +1272,28 @@ function reportView(){
  <div class="rbtns"><button data-rclear>Clear all entries</button></div></div>`;
  h+=`<div id="rbody">${reportBody()}</div>`;
  return h+'</div>'}
+
+// ---------- sticky result strip ----------
+const STRIP_PREF={'lv-vol':[/^LVEF$/,/^LVEDV\/BSA$/,/^LVESV\/BSA$/],'rv-vol':[/^RVEF$/,/^RVEDV\/BSA$/,/^RVESV\/BSA$/],'la-vol':[/EF$/,/max.*BSA/i,/LACI/],'ra-vol':[/EF$/,/max.*BSA/i,/RACI/]};
+let stripObs=null;
+function stripHTML(){const res=document.getElementById('results');if(!res)return '';let rows=rowsOf(res.innerHTML);if(!rows.length)return '';
+ const pref=STRIP_PREF[current]||[];let pick=[];
+ for(const re of pref){const r=rows.find(x=>re.test(x.lab)&&x.pills.length);if(r&&!pick.includes(r))pick.push(r)}
+ if(!pick.length)pick=rows.filter(x=>x.pills.length).slice(0,3);
+ return pick.slice(0,3).map(r=>`<span class="si"><b>${esc(r.lab)}</b><span class="v">${esc(r.val)}${r.unit&&r.unit.length<8?' '+esc(r.unit):''}</span>${(r.pills[0]||'').replace(/\s*\([^)]*\)(?=<\/span>$)/,'')}</span>`).join('')}
+function setupStrip(){if(stripObs){stripObs.disconnect();stripObs=null}
+ const res=document.getElementById('results'),hd=app.querySelector('.dhead');if(!res||!hd)return;
+ document.documentElement.style.setProperty('--dh',hd.getBoundingClientRect().height+'px');
+ const st=document.createElement('div');st.className='rstrip';st.setAttribute('aria-live','polite');hd.insertAdjacentElement('afterend',st);
+ const upd=()=>{const h=stripHTML();st.innerHTML=h;st.hidden=!h};upd();
+ stripObs=new MutationObserver(upd);stripObs.observe(res,{childList:true,subtree:true})}
+addEventListener('resize',()=>{const hd=app.querySelector('.dhead');if(hd)document.documentElement.style.setProperty('--dh',hd.getBoundingClientRect().height+'px')});
 function render(){
  if(current){const it=ITEMS.find(i=>i.id===current);app.innerHTML=it.kind==='table'?tableView(it):it.kind==='iron'?ironView(it):it.kind==='aocalc'?aoView(it):it.kind==='evidence'?evidenceView(it):it.kind==='avcalc'?avView(it):it.kind==='ecvcalc'?ecvView(it):calcView(it)}
  else app.innerHTML=tab==='home'?home():tab==='fav'?favView():tab==='report'?reportView():searchView();
  if(current)app.innerHTML=vgWrap(app.innerHTML,current);
  enhance();
+ setupStrip();
  if(!app.querySelector('.disc')){const d=document.createElement('p');d.className='foot disc';d.textContent='Educational reference only. Not medical advice. Independent project, not endorsed by OSU or SCMR.';app.appendChild(d)}
  ['home','fav','report','search'].forEach(t=>document.getElementById('nav-'+t).classList.toggle('on',!current&&tab===t));
  if(!current&&tab==='search'){const q=document.getElementById('q');q.focus();q.setSelectionRange(q.value.length,q.value.length)}
