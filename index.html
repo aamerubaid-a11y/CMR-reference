@@ -70,6 +70,17 @@ a{color:var(--accent)}
 .eyebrow{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:6px 2px -4px}
 .chips{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
+@media (min-width:700px){.chips{flex-wrap:wrap;overflow:visible;margin:0;padding:2px 0 6px}}
+#side{display:none}
+@media (min-width:1100px){
+ #side{display:block;position:fixed;top:0;bottom:0;right:calc(50% + 326px);width:min(240px,calc(50vw - 340px));overflow-y:auto;padding:18px 4px 24px 12px;font-size:13px}
+ #side h4{margin:14px 0 4px;font:600 11px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+ #side h4:first-child{margin-top:0}
+ #side button{display:block;width:100%;text-align:left;border:0;background:none;padding:6px 8px;border-radius:8px;color:var(--fg);font:inherit;cursor:pointer;line-height:1.3}
+ #side button:hover{background:var(--accent-soft)}
+ #side button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+ #side button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+}
 .chip{flex:none;display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px 8px 10px;font-size:13.5px;font-weight:500;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap}
 .chip i{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font:600 10.5px var(--mono);font-style:normal}
 .chip:hover{border-color:var(--accent)}
@@ -231,6 +242,7 @@ details.notes .ref{display:block;padding:0 12px 10px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
+<aside id="side" aria-label="All calculators and references"></aside>
 <div class="app" id="app"></div>
 <div class="bar"><nav>
   <button id="nav-home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
@@ -1305,12 +1317,19 @@ function setupStrip(){if(stripObs){stripObs.disconnect();stripObs=null}
  const upd=()=>{const h=stripHTML();st.innerHTML=h;st.hidden=!h};upd();
  stripObs=new MutationObserver(upd);stripObs.observe(res,{childList:true,subtree:true})}
 addEventListener('resize',()=>{const hd=app.querySelector('.dhead');if(hd)document.documentElement.style.setProperty('--dh',hd.getBoundingClientRect().height+'px')});
+
+// ---------- desktop sidebar: every calculator and reference, always visible ----------
+const side=document.getElementById('side');
+side.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){e.preventDefault();openItem(b.dataset.open)}});
+function renderSide(){let on=null;if(current){const g=vgOf(current);on=g?(g.id||g.tabs[0][1]):current}
+ side.innerHTML=SECTIONS.map(([k,n])=>{const its=ITEMS.filter(i=>i.sec===k&&!i.hide);return its.length?`<h4>${esc(n)}</h4>`+its.map(i=>`<button data-open="${i.id}" class="${i.id===on?'on':''}"${i.id===on?' aria-current="page"':''}>${esc(i.title)}</button>`).join(''):''}).join('')}
 function render(){
  if(current){const it=ITEMS.find(i=>i.id===current);app.innerHTML=it.kind==='table'?tableView(it):it.kind==='iron'?ironView(it):it.kind==='aocalc'?aoView(it):it.kind==='evidence'?evidenceView(it):it.kind==='avcalc'?avView(it):it.kind==='ecvcalc'?ecvView(it):calcView(it)}
  else app.innerHTML=tab==='home'?home():tab==='fav'?favView():tab==='report'?reportView():searchView();
  if(current)app.innerHTML=vgWrap(app.innerHTML,current);
  enhance();
  setupStrip();
+ renderSide();
  if(!app.querySelector('.disc')){const d=document.createElement('p');d.className='foot disc';d.textContent='Educational reference only. Not medical advice. Independent project, not endorsed by OSU or SCMR.';app.appendChild(d)}
  ['home','fav','report','search'].forEach(t=>document.getElementById('nav-'+t).classList.toggle('on',!current&&tab===t));
  if(!current&&tab==='search'){const q=document.getElementById('q');q.focus();q.setSelectionRange(q.value.length,q.value.length)}
