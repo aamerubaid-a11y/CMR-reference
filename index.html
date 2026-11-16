@@ -116,6 +116,7 @@ select{font-family:var(--body);font-weight:500;font-size:15px}
 input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .seg{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px;flex-wrap:wrap}
 .seg button{flex:1 1 auto;border:0;background:none;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;font-weight:550;color:var(--muted)}
+.vtabs{margin:2px 0 12px}
 .seg button.on{background:var(--accent);color:var(--accent-ink);box-shadow:0 1px 3px rgba(0,0,0,.18)}
 .lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -323,6 +324,19 @@ const ITEMS=[
 ];
 const SECTIONS=[['lv','Left Ventricle'],['rv','Right Ventricle'],['la','Left Atrium'],['ra','Right Atrium'],['ao','Aorta'],['valves','Valves'],['tissue','Tissue Mapping']];
 
+const VG={aortic:{id:'aortic-valve',title:'Aortic valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','ar-calc'],['Stenosis','as-calc'],['Evidence','av-ev']]},
+ mitral:{id:'mitral-valve',title:'Mitral valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','mr-calc'],['Stenosis','sten-calc','ms'],['Evidence','mr-ev']]},
+ tricuspid:{id:'tricuspid-valve',title:'Tricuspid valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','tr-calc'],['Stenosis','sten-calc','ts'],['Evidence','tr-ev']]},
+ pulmonic:{id:'pulmonic-valve',title:'Pulmonic valve',sub:'Stenosis · RVOT and conduit',tabs:[['Stenosis','sten-calc','ps']]}};
+(function(){const subs=new Set();for(const g of Object.values(VG)){let keys='';for(const t of g.tabs){subs.add(t[1]);const it=ITEMS.find(i=>i.id===t[1]);keys+=' '+it.keys}
+ if(g.id==='pulmonic-valve')keys+=' pulmonic pulmonary valve stenosis rvot conduit tetralogy';
+ ITEMS.push({id:g.id,sec:'valves',kind:'valvegroup',title:g.title,sub:g.sub,keys:g.title.toLowerCase()+' '+keys})}
+ ITEMS.forEach(i=>{if(subs.has(i.id))i.hide=true})})();
+function vgOf(id){if(id==='sten-calc'){const v=avState['sten-calc'].v;return Object.values(VG).find(g=>g.tabs.some(t=>t[1]==='sten-calc'&&t[2]===v))}return Object.values(VG).find(g=>g.tabs.some(t=>t[1]===id))}
+function resolveId(id){const g=Object.values(VG).find(g=>g.id===id);if(g){const t=g.tabs[0];if(t[2])avState['sten-calc'].v=t[2];return t[1]}return id}
+function vgWrap(h,id){const g=vgOf(id);if(!g)return h;h=h.replace(/<h2>.*?<\/h2>/,'<h2>'+g.title+'</h2>');
+ if(g.tabs.length>1){const sv=avState['sten-calc'].v;const bar='<div class="seg vtabs" role="tablist">'+g.tabs.map(([l,sid,v])=>`<button role="tab" data-vtab="${sid}" ${v?`data-vv="${v}"`:''} class="${sid===id&&(!v||sv===v)?'on':''}">${l}</button>`).join('')+'</div>';h=h.replace('<div class="wrap">','<div class="wrap">'+bar)}return h}
+
 // favorites
 let favs=[];try{favs=JSON.parse(localStorage.getItem('cmr-favs')||'[]')}catch(e){favs=[]}
 const saveFavs=()=>{try{localStorage.setItem('cmr-favs',JSON.stringify(favs))}catch(e){}};
@@ -346,8 +360,8 @@ const SICON={lv:HEART4('lv'),rv:HEART4('rv'),la:HEART4('la'),ra:HEART4('ra'),
  ao:'<svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M10 31V16a8 8 0 0 1 16 0v15"/><path d="M15 31V16a3 3 0 0 1 6 0v15" opacity=".55"/><path d="M14 8V4M18 8V3M22 8V4"/></svg>',
  valves:'<svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="13"/><path d="M18 18V5M18 18l-11 7M18 18l11 7"/></svg>',
  tissue:'<svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="18" r="13"/><circle cx="18" cy="18" r="6.5" fill="currentColor" fill-opacity=".35"/><path d="M18 5v6.5M18 24.5V31M5 18h6.5M24.5 18H31" stroke-linecap="round"/></svg>'};
-const QUICK=[['lv-vol','LV'],['rv-vol','RV'],['la-vol','LA'],['ra-vol','RA'],['ao-calc','Ao z'],['ar-calc','AR'],['as-calc','AS'],['mr-calc','MR'],['tr-calc','TR'],['sten-calc','MS·PS'],['ecv','ECV'],['iron','T2*']];
-const QNAME={'lv-vol':'LV grading','rv-vol':'RV grading','la-vol':'LA grading','ra-vol':'RA grading','ao-calc':'Aorta z-score','ar-calc':'Aortic regurgitation','as-calc':'Aortic stenosis','mr-calc':'Mitral regurgitation','tr-calc':'Tricuspid regurgitation','sten-calc':'Stenosis','ecv':'ECV','iron':'Iron'};
+const QUICK=[['lv-vol','LV'],['rv-vol','RV'],['la-vol','LA'],['ra-vol','RA'],['ao-calc','Ao z'],['aortic-valve','AV'],['mitral-valve','MV'],['tricuspid-valve','TV'],['pulmonic-valve','PV'],['ecv','ECV'],['iron','T2*']];
+const QNAME={'lv-vol':'LV grading','rv-vol':'RV grading','la-vol':'LA grading','ra-vol':'RA grading','ao-calc':'Aorta z-score','aortic-valve':'Aortic valve','mitral-valve':'Mitral valve','tricuspid-valve':'Tricuspid valve','pulmonic-valve':'Pulmonic valve','ecv':'ECV','iron':'Iron'};
 const SEARCH_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
 function enhance(){app.querySelectorAll('table.tbl').forEach(t=>{const hs=t.querySelectorAll('thead th');if(!hs.length||hs[hs.length-1].textContent.trim()!=='Based on')return;hs[hs.length-1].remove();const n=hs.length-1;t.querySelectorAll('tbody tr').forEach(tr=>{const last=tr.lastElementChild;if(!last||tr.children.length<2)return;const b=document.createElement('tr');b.className='basis';const td=document.createElement('td');td.colSpan=n;td.innerHTML=last.innerHTML;b.appendChild(td);last.remove();tr.classList.add('hasb');tr.after(b)})});app.querySelectorAll('.card').forEach(c=>{if(c.id==='results')return;const refs=[...c.children].filter(e=>e.tagName==='SPAN'&&e.classList.contains('ref'));if(refs.length<2)return;const d=document.createElement('details');d.className='notes';const sm=document.createElement('summary');sm.textContent='Why these cutoffs: sources and caveats';d.appendChild(sm);c.insertBefore(d,refs[0]);refs.forEach(r=>d.appendChild(r))})}
 function header(withSearch){return `<div class="band"><div class="brand">${MARK}<div><h1>CMR Reference</h1><p>Normal values · grading · sources</p></div></div>${withSearch?`<div class="hsearch">${SEARCH_SVG}<input id="hq" type="search" placeholder="Search LVEF, TR fraction, ECV…" aria-label="Search"></div>`:''}</div>`}
@@ -358,7 +372,7 @@ function home(){
  let h=header(true)+'<div class="wrap">';
  h+=`<div class="eyebrow">Calculators</div><div class="chips">${QUICK.map(([id,ab])=>`<button class="chip" data-open="${id}"><i>${ab.length>3?ab.slice(0,2):ab}</i>${QNAME[id]}</button>`).join('')}</div>`;
  h+=`<div class="eyebrow">Browse by structure</div>`;
- for(const [k,name] of SECTIONS){const its=ITEMS.filter(i=>i.sec===k);const op=openSecs.includes(k);const nc=its.filter(i=>i.kind!=='table'&&i.kind!=='evidence').length;
+ for(const [k,name] of SECTIONS){const its=ITEMS.filter(i=>i.sec===k&&!i.hide);const op=openSecs.includes(k);const nc=its.filter(i=>i.kind!=='table'&&i.kind!=='evidence').length;
   h+=`<div class="group ${op?'open':''}"><button data-sec="${k}" aria-expanded="${op}"><span class="sicon">${SICON[k]}</span><span class="gt"><b>${name}</b><small>${nc} calculator${nc===1?'':'s'} ${its.length-nc?` · ${its.length-nc} reference page${its.length-nc===1?'':'s'}`:''}</small></span>${CHEV}</button><div class="items">${its.map(itemRow).join('')}</div></div>`}
  h+=`<details class="notes" style="margin:14px 0"><summary>About and disclaimer</summary><div class="ref" style="padding:0 12px 12px;font-size:12.5px;line-height:1.5"><p><b>For education and reference only.</b> Not medical advice, not a substitute for clinical judgment or a formal report, and not an FDA-cleared device. Verify results against the cited source before using them in a report or a treatment decision.</p><p><b>Independent project.</b> Normal values come from the SCMR 2025 reference-values paper, but this app is not an official SCMR product. It is <b>not endorsed by The Ohio State University (OSU) or SCMR</b>, or by ASE or any other society, and it does not represent the views of any institution. The author’s affiliation is listed for identification only.</p><p><b>Some grades are provisional.</b> Each cutoff is labeled by its basis (outcome study, consensus, echo-borrowed, SD-derived or draft). Labeled drafts are not validated guideline thresholds, so check the cited paper.</p><p><b>Inputs matter.</b> Calculator outputs depend on measurement quality, and the app does not check inputs for plausibility.</p><p><b>Accuracy.</b> Numbers were checked against the sources in November 2026. Errors are still possible. Please report them.</p><p><b>Privacy.</b> Everything runs on your device and nothing is sent anywhere. Do not enter patient identifiers.</p></div></details>`;
  h+=`<div class="note">Normal ranges: SCMR 2025 reference values (adults, bSSFP). Severity grades are drafts built from CMR outcome studies, and every cutoff shows what it is based on. A decision aid for trained readers, not a substitute for clinical judgment.</div>
@@ -371,7 +385,7 @@ function favView(){const its=ITEMS.filter(i=>isFav(i.id));
  h+= its.length?`<div class="group open"><div class="items" style="border-top:0">${its.map(itemRow).join('')}</div></div>`:`<div class="card"><p class="empty">Tap the heart on any measurement to keep it here.</p></div>`;
  return h+'</div>'}
 function searchView(){const q=query.trim().toLowerCase();
- const its=q?ITEMS.filter(i=>(i.title+' '+i.sub+' '+(i.keys||'')).toLowerCase().includes(q)):[];
+ const its=q?ITEMS.filter(i=>!i.hide&&(i.title+' '+i.sub+' '+(i.keys||'')).toLowerCase().includes(q)):[];
  let h=header()+`<div class="wrap"><input class="search" id="q" type="search" placeholder="Search, e.g. LVEF, LA volume, T1" value="${esc(query)}" aria-label="Search measurements">`;
  if(q) h+= its.length?`<div class="group open"><div class="items" style="border-top:0">${its.map(itemRow).join('')}</div></div>`:`<p class="empty">No measurement matches “${esc(query)}”.</p>`;
  return h+'</div>'}
@@ -883,7 +897,7 @@ function avView(it){const st=avState[it.id];
  const yn=[['','Not assessed'],['y','Present'],['n','Absent']];
  let h=`<div class="dhead"><button class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><h2>${esc(it.title)}</h2><button class="fav ${isFav(it.id)?'on':''}" data-fav="${it.id}" aria-label="Favorite">${isFav(it.id)?HEART_ON:HEART}</button></div><div class="wrap">`;
  if(it.id==='sten-calc'){
-  h+=`<div class="card">${sel('v','Valve',[['ms','Mitral stenosis'],['ps','Pulmonic stenosis / RVOT / conduit'],['ts','Tricuspid stenosis']])}
+  h+=`<div class="card">
   ${st.v==='ms'?f('mva','Planimetric MVA (cine, leaf tips)','cm²','1.4')+f('pht','Pressure half-time (PC)','ms','160')+f('mg','Mean gradient (PC)','mmHg','8'):st.v==='ps'?f('pv','Peak velocity (PC)','m/s','3.5')+f('cd','Conduit minimal diameter','mm','16')+f('rvm','RV mass','g')+f('rvedv','RVEDV','mL'):''}</div>`;
   h+=`<div class="card" id="results">${avResults(it.id)}</div>`;
   h+=`<div class="card"><h3>What the evidence supports</h3><ul class="howto">
@@ -1182,15 +1196,17 @@ let current=null;
 function render(){
  if(current){const it=ITEMS.find(i=>i.id===current);app.innerHTML=it.kind==='table'?tableView(it):it.kind==='iron'?ironView(it):it.kind==='aocalc'?aoView(it):it.kind==='evidence'?evidenceView(it):it.kind==='avcalc'?avView(it):it.kind==='ecvcalc'?ecvView(it):calcView(it)}
  else app.innerHTML=tab==='home'?home():tab==='fav'?favView():searchView();
+ if(current)app.innerHTML=vgWrap(app.innerHTML,current);
  enhance();
  if(!app.querySelector('.disc')){const d=document.createElement('p');d.className='foot disc';d.textContent='Educational reference only. Not medical advice. Independent project, not endorsed by OSU or SCMR.';app.appendChild(d)}
  ['home','fav','search'].forEach(t=>document.getElementById('nav-'+t).classList.toggle('on',!current&&tab===t));
  if(!current&&tab==='search'){const q=document.getElementById('q');q.focus();q.setSelectionRange(q.value.length,q.value.length)}
 }
-function openItem(id){current=id;try{history.replaceState(null,'','#'+id)}catch(e){location.hash=id}render();window.scrollTo(0,0)}
+function openItem(id){current=resolveId(id);try{history.replaceState(null,'','#'+current)}catch(e){location.hash=current}render();window.scrollTo(0,0)}
 function goBack(){current=null;try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}render()}
 
 app.addEventListener('click',e=>{
+ const vt=e.target.closest('[data-vtab]');if(vt){if(vt.dataset.vv)avState['sten-calc'].v=vt.dataset.vv;current=vt.dataset.vtab;try{history.replaceState(null,'','#'+current)}catch(x){}render();return}
  const f=e.target.closest('[data-fav]');if(f){e.stopPropagation();toggleFav(f.dataset.fav);return}
  const sec=e.target.closest('[data-sec]');if(sec){const k=sec.dataset.sec;openSecs=openSecs.includes(k)?openSecs.filter(x=>x!==k):[...openSecs,k];try{localStorage.setItem('cmr-open',JSON.stringify(openSecs))}catch(_){}render();return}
  const o=e.target.closest('[data-open]');if(o){openItem(o.dataset.open);return}
@@ -1220,7 +1236,7 @@ document.getElementById('nav-home').onclick=()=>{current=null;tab='home';goBack(
 document.getElementById('nav-fav').onclick=()=>{current=null;tab='fav';goBack()};
 document.getElementById('nav-search').onclick=()=>{current=null;tab='search';goBack()};
 
-const hid=(location.hash||'').slice(1);if(ITEMS.some(i=>i.id===hid))current=hid;
+const hid=(location.hash||'').slice(1);if(ITEMS.some(i=>i.id===hid))current=resolveId(hid);
 render();
 })();
 </script>
