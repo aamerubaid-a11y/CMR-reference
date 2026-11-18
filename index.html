@@ -598,10 +598,10 @@ const AO={
 };
 const aoState={lvl:'sinus',sex:'m',age:'',d:'',bsa:''};
 function groupIdx(L,age,n){const lo=L.pct?45:20,step=L.pct?10:10;let i=Math.floor((age-lo)/step);let note='';
- if(i<0){i=0;note=`Age is below the youngest group, so the ${L.groups[0]} group is used.`}
- if(i>n-1){note=`No ${L.groups[Math.min(i,L.groups.length-1)]||'older'} data for this measure, so the ${L.groups[n-1]} group is used.`;i=n-1}
+ if(i<0){i=0;note=`Age is below the youngest group in the paper (${L.groups[0]} years), so the ${L.groups[0]} group is used.`}
+ if(i>n-1){note=i>=L.groups.length?`Age is above the oldest group in the paper (${L.groups[L.groups.length-1]} years), so the ${L.groups[n-1]} group is used.`:`The paper has no ${L.groups[i]} group for this measure, so the ${L.groups[n-1]} group is used.`;i=n-1}
  return [i,note]}
-function zPill(z){return z>2?`<span class="pill hi">Above +2 SD</span>`:z<-2?`<span class="pill lo">Below −2 SD</span>`:`<span class="pill ok">Within ±2 SD</span>`}
+function zPill(z){return z>2+1e-9?`<span class="pill hi">Above +2 SD</span>`:z<-2-1e-9?`<span class="pill lo">Below −2 SD</span>`:`<span class="pill ok">Within ±2 SD</span>`}
 function aoResults(){const st=aoState,L=AO[st.lvl],d=parseFloat(st.d),bsa=parseFloat(st.bsa),age=parseFloat(st.age);
  let h='<h3>Results</h3>';
  if(!(d>0)||!(age>0))return h+'<p class="empty">Enter age and diameter.</p>';
@@ -610,7 +610,7 @@ function aoResults(){const st=aoState,L=AO[st.lvl],d=parseFloat(st.d),bsa=parseF
   const g=L.groups[i];
   if(L.pct){const [med,p5,p95]=arr[i];const pos=val<p5?'<span class="pill lo">Below 5th</span>':val>p95?'<span class="pill hi">Above 95th</span>':'<span class="pill ok">5th–95th</span>';
    rows.push([kind==='idx'?'Indexed':'Absolute',`${fmtA(val)} ${unit}`,`${g} · median ${med} (${p5}–${p95})`,'—',pos])}
-  else{const [mn,sd]=arr[i];const z=(val-mn)/sd;rows.push([kind==='idx'?'Indexed':'Absolute',`${fmtA(val)} ${unit}`,`${g} · ${mn} ± ${sd}`,(z>=0?'+':'')+z.toFixed(1),zPill(z)])}};
+  else{const [mn,sd]=arr[i];const z=(val-mn)/sd;rows.push([kind==='idx'?'Indexed':'Absolute',`${fmtA(val)} ${unit}`,`${g} · ${mn.toFixed(1)} ± ${sd.toFixed(1)}`,(z>=0?'+':'')+z.toFixed(1),zPill(z)])}};
  one('abs',d,'mm');
  if(bsa>0&&L.idx)one('idx',d/bsa,'mm/m²');
  h+='<div class="scroll"><table class="res"><thead><tr><th></th><th>Value</th><th>Age group reference</th><th>z</th><th>Status</th></tr></thead><tbody>';
