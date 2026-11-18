@@ -73,12 +73,14 @@ a{color:var(--accent)}
 @media (min-width:700px){.chips{flex-wrap:wrap;overflow:visible;margin:0;padding:2px 0 6px}}
 #side{display:none}
 @media (min-width:1100px){
- #side{display:block;position:fixed;top:0;bottom:0;right:calc(50% + 326px);width:min(240px,calc(50vw - 340px));overflow-y:auto;padding:18px 4px 24px 12px;font-size:13px}
- #side h4{margin:14px 0 4px;font:600 11px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
- #side h4:first-child{margin-top:0}
- #side button{display:block;width:100%;text-align:left;border:0;background:none;padding:6px 8px;border-radius:8px;color:var(--fg);font:inherit;cursor:pointer;line-height:1.3}
+ #side{display:block;position:fixed;top:calc(50% - 36px);transform:translateY(-50%);right:calc(50% + 336px);width:min(264px,calc(50vw - 352px));max-height:calc(100vh - 72px - 32px);overflow-y:auto;overscroll-behavior:contain;padding:14px 10px 16px;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(20,23,43,.14),0 2px 6px rgba(20,23,43,.08);scrollbar-width:thin}
+ #side .sidetitle{display:flex;align-items:center;gap:8px;margin:0 4px 8px;padding-bottom:10px;border-bottom:2px solid var(--accent);font:700 15px/1 var(--display);color:var(--fg)}
+ #side .sidetitle svg{width:18px;height:18px;color:var(--accent)}
+ #side h4{margin:16px 4px 5px;padding-left:8px;border-left:3px solid var(--accent);font:700 11.5px/1.2 var(--display);letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+ #side .sidetitle+h4{margin-top:4px}
+ #side button{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 10px;margin:1px 0;border-radius:10px;color:var(--fg);font:500 14px/1.3 var(--body,inherit);font-family:inherit;cursor:pointer;transition:background .12s}
  #side button:hover{background:var(--accent-soft)}
- #side button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+ #side button.on{background:var(--accent);color:var(--accent-ink);font-weight:700;box-shadow:inset 4px 0 0 rgba(255,255,255,.55)}
  #side button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 }
 .chip{flex:none;display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px 8px 10px;font-size:13.5px;font-weight:500;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap}
@@ -1345,7 +1347,7 @@ addEventListener('resize',()=>{const hd=app.querySelector('.dhead');if(hd)docume
 const side=document.getElementById('side');
 side.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){e.preventDefault();openItem(b.dataset.open)}});
 function renderSide(){let on=null;if(current){const g=vgOf(current);on=g?(g.id||g.tabs[0][1]):current}
- side.innerHTML=SECTIONS.map(([k,n])=>{const its=ITEMS.filter(i=>i.sec===k&&!i.hide);return its.length?`<h4>${esc(n)}</h4>`+its.map(i=>`<button data-open="${i.id}" class="${i.id===on?'on':''}"${i.id===on?' aria-current="page"':''}>${esc(i.title)}</button>`).join(''):''}).join('')}
+ side.innerHTML='<div class="sidetitle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Contents</div>'+SECTIONS.map(([k,n])=>{const its=ITEMS.filter(i=>i.sec===k&&!i.hide);return its.length?`<h4>${esc(n)}</h4>`+its.map(i=>`<button data-open="${i.id}" class="${i.id===on?'on':''}"${i.id===on?' aria-current="page"':''}>${esc(i.title)}</button>`).join(''):''}).join('')}
 // ---------- Scan a report image: on-device OCR, review, then apply ----------
 const SCAN_OK=/^https?:$/.test(location.protocol);
 const T=(k,id,key)=>[k,id,key];
