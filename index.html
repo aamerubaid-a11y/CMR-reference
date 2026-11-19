@@ -124,7 +124,8 @@ a{color:var(--accent)}
 .row{display:grid;grid-template-columns:118px 1fr 46px;align-items:center;gap:10px}
 .row label{font-weight:500;font-size:14px;line-height:1.25}
 .row .u{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
-input[type=number],select{width:100%;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);color:var(--fg);font:500 16px var(--mono)}
+input[type=number],input[type=text],select{width:100%;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);color:var(--fg);font:500 16px var(--mono)}
+input[type=text]{font-family:var(--body,inherit)}
 select{font-family:var(--body);font-weight:500;font-size:15px}
 input:focus,select:focus,button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .seg{display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px;flex-wrap:wrap}
@@ -252,6 +253,8 @@ details.notes .ref{display:block;padding:0 12px 10px}
 /* --- v35 interface pass --- */
 .dhead{background:var(--surface);-webkit-backdrop-filter:none;backdrop-filter:none}
 .rstrip{background:var(--surface);flex-wrap:wrap;overflow:visible;white-space:normal;gap:4px 14px}
+.lrr{display:grid;grid-template-columns:104px 1fr 1fr 34px;gap:8px;align-items:center}.lrr input,#lrcard .field input{width:100%;min-width:0}
+.lrcav{display:block;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .setrow{margin:0}
 .setbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:9px 12px;cursor:pointer;min-height:44px}
 .setbtn .sg{font:700 11.5px/1 var(--display);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);flex:none}
@@ -869,36 +872,65 @@ function laGradeTable(it,s){const {v}=refFor(it,s,'maxi');const ul=v[3];const [m
 
 
 // ---------- ECV calculator ----------
-const ecvState={f:'1.5',seq:'',hct:'',mpre:'',mpost:'',bpre:'',bpost:'',min:''};
+const ecvState={f:'1.5',seq:'',hct:'',mpre:'',mpost:'',bpre:'',bpost:'',min:'',t2:''};
+let LOCAL={};try{LOCAL=JSON.parse(localStorage.getItem('cmr-local')||'{}')||{}}catch(e){LOCAL={}}
+const saveLocal=()=>{try{localStorage.setItem('cmr-local',JSON.stringify(LOCAL))}catch(e){}};
+let lrOpen=false;
 // SCMR 2025 Table 90: normal ECV by field strength, vendor and sequence [label, mean, SD, LL, UL]
 const ECV_REF={'1.5':[['Philips · MOLLI 3b(3s)3b(3s)5b',27.7,5.9,15.9,39.5],['Siemens · MOLLI 5s(3s)3s',27.3,2.7,21.9,32.7],['Siemens · MOLLI 3b(3s)3b(3s)5b',25.0,3.0,19.0,31.0],['Siemens · ShMOLLI',28.4,3.0,22.4,34.4],['Siemens · SASHA',24.1,2.9,18.3,29.9]],
  '3':[['Siemens · MOLLI 5s(3s)3s',27.3,2.4,22.5,32.1],['Siemens · ShMOLLI',24.6,2.5,19.6,29.6],['Siemens · SASHA',19.8,1.8,16.2,23.4]]};
 const T1_055=[['Mayr 2026','678.6 ± 13.5','n=10','10.1097/RLI.0000000000001225'],['Liu 2026','671 ± 31','MOLLI, n=18','10.1002/jmri.70239'],['Pedraza 2025','672 ± 40','MOLLI, n=15','10.1002/nbm.70143'],['De la Sotta 2025','681 ± 26','2D MOLLI, n=10','10.1002/mrm.70038'],['Si 2024','630 ± 25','MOLLI, n=10','10.1002/mrm.30139']];
-function ecvResults(){const st=ecvState,n=k=>parseFloat(st[k]);const hct=n('hct'),mp=n('mpre'),mq=n('mpost'),bp=n('bpre'),bq=n('bpost'),mn=n('min');
- let h='<h3>Results</h3>';const warn=[];
- if(!(hct>0&&mp>0&&mq>0&&bp>0&&bq>0))return h+'<p class="empty">Enter measured hematocrit and the four T1 values.</p>';
- const H=hct>1?hct/100:hct;
- if(H<0.15||H>0.7)warn.push('Hematocrit looks implausible; enter it as % (e.g., 42).');
- if(mq>=mp||bq>=bp)warn.push('Post-contrast T1 must be shorter than native T1. Check the values are not swapped.');
- if(mn>0&&(mn<10||mn>30))warn.push('Post-contrast map should be 10–30 min after contrast (SCMR/EACVI 2017).');
- if(H<0.30)warn.push('Anaemia: ECV error increases with low hematocrit (SCMR 2025).');
- const dm=1/mq-1/mp,db=1/bq-1/bp;
- if(!(dm>0&&db>0))return h+`<p class="empty">${warn.join(' ')||'Check inputs.'}</p>`;
- const lam=dm/db,ecv=(1-H)*lam*100;
- let pill,basis,bar='',c;const fld=st.f;const R=(ECV_REF[fld]||[])[parseInt(st.seq)];
- if(R&&st.seq!==''){const [lab,mn,sd,ll,ul]=R;c=ecv>ul?'hi':ecv<ll?'lo':'ok';pill=AVP(c,c==='hi'?`Above reference (&gt;${ul}%)`:c==='lo'?`Below reference (&lt;${ll}%)`:'Within reference range');basis=`SCMR 2025 Table 90 · ${lab}: ${mn} ± ${sd}% (${ll}–${ul}%)`;bar=rangeBar(ecv,[mn,sd,ll,ul],c)}
- else if(ecv>36){pill=AVP('hi','Elevated (above most published upper limits)');basis='Published upper limits of normal vary from about 29% to 36% by site and sequence'}
- else if(ecv>29){pill=AVP('lo','Borderline: compare with your sequence range');basis='Published upper limits of normal vary from about 29% to 36%. Pick a reference set above for the SCMR range'}
- else if(ecv<20){pill=AVP('lo','Low: check timing and inputs');basis='Pooled healthy mean 25.9% (Gottbrecht 2018)'}
- else{pill=AVP('ok','Within typical normal range');basis='Pooled healthy mean 25.9% at 1.5 T and 3 T (Gottbrecht 2018)'}
+function lrRange(f,a,b){const L=LOCAL[f]||{};const lo=parseFloat(L[a]),hi=parseFloat(L[b]);return lo>0&&hi>lo?[lo,hi,L.lab||'']:null}
+function lrCmp(v,r,u){const [lo,hi,lab]=r;const c=v>hi?'hi':v<lo?'lo':'ok';
+ return {pill:AVP(c,c==='hi'?`Above your range (&gt;${hi}${u})`:c==='lo'?`Below your range (&lt;${lo}${u})`:'Within your range'),basis:`Your center's range${lab?' ('+esc(lab)+')':''}: ${lo}–${hi}${u}`,bar:rangeBar(v,[(lo+hi)/2,(hi-lo)/4,lo,hi],c)}}
+function lrSummary(f){const L=LOCAL[f]||{},p=[];if(lrRange(f,'t1lo','t1hi'))p.push('T1 '+L.t1lo+'–'+L.t1hi);if(lrRange(f,'ecvlo','ecvhi'))p.push('ECV '+L.ecvlo+'–'+L.ecvhi);if(lrRange(f,'t2lo','t2hi'))p.push('T2 '+L.t2lo+'–'+L.t2hi);return f+' T · '+(p.length?p.join(' · '):'none entered')}
+function lrNote(f){const n=parseInt((LOCAL[f]||{}).n);if(!(n>0))return '';
+ return n<15?`n = ${n}. The SCMR consensus suggests about 15–20 healthy subjects as a minimum, even for large changes.`:n<50?`n = ${n} can suffice for large changes such as amyloid, iron overload or Fabry disease. Subtle diffuse fibrosis needs 50 or more.`:`n = ${n} reaches the 50-subject level the consensus suggests for subtle changes.`}
+function ecvResults(){const st=ecvState,n=k=>parseFloat(st[k]);const hct=n('hct'),mp=n('mpre'),mq=n('mpost'),bp=n('bpre'),bq=n('bpost'),mn=n('min'),t2=n('t2');
+ const fld=st.f;const lrT1=lrRange(fld,'t1lo','t1hi'),lrE=lrRange(fld,'ecvlo','ecvhi'),lrT2=lrRange(fld,'t2lo','t2hi');
  const rr=(l,u,v,body)=>`<div class="rrow"><div class="rl"><b>${l}</b><small>${u}</small></div><div class="rv">${v}</div>${body}</div>`;
- h+=`<div class="rlist">`+rr('ECV','%',ecv.toFixed(1),`${bar}<div class="rs">${pill}<span class="ref">${basis}${fld==='0.55'?'. No healthy ECV norms published at 0.55 T; the 1.5 T range is applied on the basis that ECV is field-independent (SCMR 2025)':''}</span></div>`)
-  +rr('Partition coefficient λ','ΔR1 myocardium ÷ ΔR1 blood',lam.toFixed(3),'')
-  +rr('ΔR1 myocardium','s⁻¹ · 1/T1 post − 1/T1 pre',(dm*1000).toFixed(3),'')
-  +rr('ΔR1 blood','s⁻¹ · 1/T1 post − 1/T1 pre',(db*1000).toFixed(3),'')
-  +rr('Native myocardial T1','ms',mp.toFixed(0),`<div class="rs"><span class="ref">${fld==='0.55'?'0.55 T volunteer means 630–681 ms (MOLLI, n=10–18); no normal range yet':'Compare with the SCMR table for your vendor and sequence (pooled mean '+(fld==='3'?'1159':'976')+' ms)'}</span></div>`)+`</div>`;
+ const warn=[];let rows='';const full=hct>0&&mp>0&&mq>0&&bp>0&&bq>0;let any=false;
+ if(full){
+  const H=hct>1?hct/100:hct;
+  if(H<0.15||H>0.7)warn.push('Hematocrit looks implausible; enter it as % (e.g., 42).');
+  if(mq>=mp||bq>=bp)warn.push('Post-contrast T1 must be shorter than native T1. Check the values are not swapped.');
+  if(mn>0&&(mn<10||mn>30))warn.push('Post-contrast map should be 10–30 min after contrast (SCMR/EACVI 2017).');
+  if(H<0.30)warn.push('Anaemia: ECV error increases with low hematocrit (SCMR 2025).');
+  const dm=1/mq-1/mp,db=1/bq-1/bp;
+  if(dm>0&&db>0){any=true;
+   const lam=dm/db,ecv=(1-H)*lam*100;
+   let pill,basis,bar='',c;const R=(ECV_REF[fld]||[])[parseInt(st.seq)];
+   if(R&&st.seq!==''){const [lab,m0,sd,ll,ul]=R;c=ecv>ul?'hi':ecv<ll?'lo':'ok';pill=AVP(c,c==='hi'?`Above reference (&gt;${ul}%)`:c==='lo'?`Below reference (&lt;${ll}%)`:'Within reference range');basis=`SCMR 2025 Table 90 · ${lab}: ${m0} ± ${sd}% (${ll}–${ul}%)`;bar=rangeBar(ecv,[m0,sd,ll,ul],c)}
+   else if(ecv>36){pill=AVP('hi','Elevated (above most published upper limits)');basis='Published upper limits of normal vary from about 29% to 36% by site and sequence'}
+   else if(ecv>29){pill=AVP('lo','Borderline: compare with your sequence range');basis='Published upper limits of normal vary from about 29% to 36%. Pick a reference set above for the SCMR range'}
+   else if(ecv<20){pill=AVP('lo','Low: check timing and inputs');basis='Pooled healthy mean 25.9% (Gottbrecht 2018)'}
+   else{pill=AVP('ok','Within typical normal range');basis='Pooled healthy mean 25.9% at 1.5 T and 3 T (Gottbrecht 2018)'}
+   if(lrE){const x=lrCmp(ecv,lrE,'%');basis=x.basis+'. Literature, guidance only: '+basis;pill=x.pill;bar=x.bar}
+   rows+=rr('ECV','%',ecv.toFixed(1),`${bar}<div class="rs">${pill}<span class="ref">${basis}${fld==='0.55'?'. No healthy ECV norms published at 0.55 T; the 1.5 T range is applied on the basis that ECV is field-independent (SCMR 2025)':''}</span></div>`)
+    +rr('Partition coefficient λ','ΔR1 myocardium ÷ ΔR1 blood',lam.toFixed(3),'')
+    +rr('ΔR1 myocardium','s⁻¹ · 1/T1 post − 1/T1 pre',(dm*1000).toFixed(3),'')
+    +rr('ΔR1 blood','s⁻¹ · 1/T1 post − 1/T1 pre',(db*1000).toFixed(3),'')}}
+ if(mp>0){any=true;const lit=fld==='0.55'?'0.55 T volunteer means 630–681 ms (MOLLI, n=10–18); no normal range yet':'SCMR 2025 Table 89 lists ranges by vendor and sequence (pooled mean '+(fld==='3'?'1159':'976')+' ms)';
+  rows+=rr('Native myocardial T1','ms',mp.toFixed(0),lrT1?(()=>{const x=lrCmp(mp,lrT1,' ms');return `${x.bar}<div class="rs">${x.pill}<span class="ref">${x.basis}. Literature, guidance only: ${lit}</span></div>`})():`<div class="rs"><span class="ref">${lit}. No range entered for your center.</span></div>`)}
+ if(t2>0){any=true;const lit='SCMR 2025 Table 95: adult means 39.5–52.1 ms, varying by field strength, vendor and sequence';
+  rows+=rr('Myocardial T2','ms',t2.toFixed(1),lrT2?(()=>{const x=lrCmp(t2,lrT2,' ms');return `${x.bar}<div class="rs">${x.pill}<span class="ref">${x.basis}. Literature, guidance only: ${lit}</span></div>`})():`<div class="rs"><span class="ref">${lit}. No range entered for your center.</span></div>`)}
+ let h='<h3>Results</h3>';
+ if(!any)return h+`<p class="empty">${warn.join(' ')||'Enter native myocardial T1 or T2, or hematocrit with the four T1 values for ECV.'}</p>`;
+ h+=`<div class="rlist">${rows}</div>`;
+ const have=(lrT1&&mp>0)||(lrE&&full)||(lrT2&&t2>0);
+ h+=`<span class="ref lrcav">${have?`Compared with your center's saved ranges for ${fld} T where entered. `:'<b>No center range entered for these values.</b> '}Native T1, T2 and ECV ranges depend on scanner, sequence and software. Literature ranges are guidance only; each center should establish its own (SCMR consensus, Messroghli 2017). <button class="link" data-lropen>Set my center's ranges</button></span>`;
  if(warn.length)h+=`<span class="ref" style="color:var(--warn)"><b>Check:</b> ${warn.join(' ')}</span>`;
  return h}
+function lrCard(){const f=ecvState.f,L=LOCAL[f]||{};
+ let h=`<div class="card" id="lrcard"><button class="setbtn" data-lrtoggle aria-expanded="${lrOpen?'true':'false'}"><span class="sg">My center's ranges</span><span class="ss" id="lrsum">${esc(lrSummary(f))}</span><span class="sc">${lrOpen?'Done':'Edit'}</span></button>`;
+ if(lrOpen){const inp=(k,ph,t)=>`<input id="lr-${k}" type="${t||'number'}" ${t?'':'inputmode="decimal" step="any"'} data-lr="${k}" value="${esc(L[k]||'')}" placeholder="${ph}" aria-label="${k}">`;
+  const pair=(l,a,b,u)=>`<div class="lrr"><label for="lr-${a}">${l}</label>${inp(a,'min')}${inp(b,'max')}<span class="u">${u}</span></div>`;
+  h+=`<p class="ref" style="margin:0">Each center should set its own normal ranges for native T1, T2 and ECV from healthy volunteers scanned and analyzed exactly like patients: mean ± 2 SD, same scanner, sequence and software. Ranges are saved for <b>${f} T</b> in this browser only and are never uploaded. When entered, they are used first and the literature range is shown as guidance.</p>
+  <div class="field"><label class="lbl" for="lr-lab">Scanner and sequence (your note)</label>${inp('lab','e.g. Siemens Skyra · MOLLI 5s(3s)3s','text')}</div>
+  ${pair('Native T1','t1lo','t1hi','ms')}${pair('ECV','ecvlo','ecvhi','%')}${pair('T2','t2lo','t2hi','ms')}
+  <div class="lrr"><label for="lr-n">Healthy subjects</label>${inp('n','n')}<span></span><span class="u">n</span></div><span class="ref" id="lrnote">${esc(lrNote(f))}</span>
+  <div class="ibtns"><button class="link" data-lrclear>Clear ranges for ${f} T</button></div>`}
+ return h+'</div>'}
 function ecvView(it){const st=ecvState;
  const f=(k,l,u,ph)=>`<div class="row"><label for="ecv-${k}">${l}</label><input id="ecv-${k}" type="number" inputmode="decimal" step="any" data-ecv="${k}" value="${esc(st[k])}" placeholder="${ph||''}"><span class="u">${u}</span></div>`;
  const pre=st.f==='0.55'?'680':st.f==='3'?'1200':'1000',bpre=st.f==='0.55'?'1100':st.f==='3'?'1900':'1550';
@@ -906,10 +938,10 @@ function ecvView(it){const st=ecvState;
  h+=`<div class="card"><div class="field"><label class="lbl" for="ecv-f">Field strength</label><select id="ecv-f" data-ecv="f">${[['0.55','0.55 T'],['1.5','1.5 T'],['3','3 T']].map(([v,t])=>`<option value="${v}" ${st.f===v?'selected':''}>${t}</option>`).join('')}</select></div>
   ${ECV_REF[st.f]?`<div class="field"><label class="lbl" for="ecv-seq">Reference set (SCMR 2025, optional)</label><select id="ecv-seq" data-ecv="seq"><option value="">Generic range</option>${ECV_REF[st.f].map((r,i)=>`<option value="${i}" ${st.seq===String(i)?'selected':''}>${r[0]} · ${r[3]}–${r[4]}%</option>`).join('')}</select></div>`:''}
   ${f('hct','Measured hematocrit','%','42')}<span class="ref">Measured, not synthetic. Draw immediately before the scan if possible, otherwise within 24 h.</span>
-  <h3>Myocardium (septum)</h3>${f('mpre','Native T1','ms',pre)}${f('mpost','Post-contrast T1','ms','450')}
+  <h3>Myocardium (septum)</h3>${f('mpre','Native T1','ms',pre)}${f('mpost','Post-contrast T1','ms','450')}${f('t2','T2 (optional)','ms','')}
   <h3>Blood pool (LV cavity)</h3>${f('bpre','Native T1','ms',bpre)}${f('bpost','Post-contrast T1','ms','300')}
   ${f('min','Time after contrast','min','15')}</div>`;
- h+=`<div class="card" id="results">${ecvResults()}</div>`;
+ h+=`<div class="card" id="results">${ecvResults()}</div>`+lrCard();
  h+=`<div class="card"><h3>Formula</h3><ul class="howto">
   <li>λ = (1/T1<sub>myo,post</sub> − 1/T1<sub>myo,pre</sub>) ÷ (1/T1<sub>blood,post</sub> − 1/T1<sub>blood,pre</sub>)</li>
   <li>ECV = (1 − hematocrit) × λ, reported as % (Messroghli 2017, SCMR/EACVI consensus).</li></ul>
@@ -1586,6 +1618,9 @@ app.addEventListener('click',e=>{
  const rc=e.target.closest('[data-rcopy]');if(rc){const t=document.getElementById('rtext'),m=document.getElementById('rmsg');const txt=rc.dataset.rcopy==='ab'?t.dataset.ab:t.dataset.all;t.textContent=txt;
   const fb=()=>{const r=document.createRange();r.selectNodeContents(t);const sl=getSelection();sl.removeAllRanges();sl.addRange(r);m.textContent='Text selected. Press copy.'};
   try{navigator.clipboard.writeText(txt).then(()=>{m.textContent='Copied.';const o=rc.textContent;rc.textContent='Copied ✓';setTimeout(()=>{rc.textContent=o},1600)},fb)}catch(x){fb()}return}
+ if(e.target.closest('[data-lrtoggle]')){lrOpen=!lrOpen;render();return}
+ if(e.target.closest('[data-lropen]')){lrOpen=true;render();const c=document.getElementById('lrcard');if(c)c.scrollIntoView({behavior:'smooth',block:'center'});return}
+ if(e.target.closest('[data-lrclear]')){delete LOCAL[ecvState.f];saveLocal();render();return}
  if(e.target.closest('[data-tipx]')){try{localStorage.setItem('cmr-tip','1')}catch(x){}render();return}
  if(e.target.closest('[data-install]')&&deferredInstall){deferredInstall.prompt();deferredInstall=null;return}
  if(e.target.closest('[data-reset]')){resetCurrent();return}
@@ -1607,6 +1642,7 @@ app.addEventListener('change',e=>{
  if(e.target.id==='scanfile'&&scan&&scan.ack){const f=e.target.files&&e.target.files[0];if(f)runScan(f)}
 });
 app.addEventListener('input',e=>{
+ if(e.target.dataset.lr!=null){const f=ecvState.f;(LOCAL[f]=LOCAL[f]||{})[e.target.dataset.lr]=e.target.value;saveLocal();const r=document.getElementById('results');if(r)r.innerHTML=ecvResults();const sm=document.getElementById('lrsum');if(sm)sm.textContent=lrSummary(f);const nt=document.getElementById('lrnote');if(nt)nt.textContent=lrNote(f);return}
  if(e.target.dataset.sv!=null&&scan){scan.items[+e.target.dataset.sv].v=e.target.value;scanFill();return}
  if(e.target.id==='hq'){query=e.target.value;tab='search';render();return}
  if(e.target.id==='q'){query=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById('q');q.setSelectionRange(pos,pos);return}
