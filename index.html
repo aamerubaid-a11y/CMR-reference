@@ -383,6 +383,7 @@ const ITEMS=[
  {id:'as-calc',sec:'valves',kind:'avcalc',title:'Aortic stenosis calculator',sub:'Planimetry, flow, myocardium',keys:'aortic stenosis as valve area planimetry velocity gradient stroke volume low flow lge ecv severity'},
  {id:'mr-calc',sec:'valves',kind:'avcalc',title:'Mitral regurgitation calculator',sub:'Primary and secondary MR · MVP',keys:'mitral regurgitation mr primary secondary functional regurgitant fraction volume myerson penicka wang mvp prolapse annular disjunction lge'},
  {id:'mr-ev',sec:'valves',kind:'evidence',title:'Mitral valve: evidence',sub:'Outcome studies, thresholds, critiques',keys:'mitral regurgitation evidence outcome myerson penicka wang mvp'},
+ {id:'pr-calc',sec:'valves',kind:'avcalc',title:'Pulmonic regurgitation calculator',sub:'PR fraction, RV volumes · repaired TOF',keys:'pulmonic pulmonary regurgitation pr regurgitant fraction volume tetralogy fallot tof rvot valve replacement pvr rvedvi rvesvi geva phase contrast'},
  {id:'tr-calc',sec:'valves',kind:'avcalc',title:'Tricuspid regurgitation calculator',sub:'TRF, RV coupling, RA, liver ECV',keys:'tricuspid regurgitation tr regurgitant fraction volume margonato zhan hinojar effective rvef forward stroke volume liver ecv'},
  {id:'tr-ev',sec:'valves',kind:'evidence',title:'Tricuspid valve: evidence',sub:'Outcome studies, thresholds, critiques',keys:'tricuspid regurgitation evidence outcome margonato zhan wang hinojar teer'},
  {id:'sten-calc',sec:'valves',kind:'avcalc',title:'Mitral, pulmonic and tricuspid stenosis',sub:'Planimetry, phase contrast, RV load',keys:'mitral stenosis pulmonic pulmonary stenosis rvot conduit tricuspid stenosis planimetry pressure half time djavidani indicator'},
@@ -399,7 +400,7 @@ const SECTIONS=[['lv','Left Ventricle'],['rv','Right Ventricle'],['la','Left Atr
 const VG={aortic:{id:'aortic-valve',title:'Aortic valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','ar-calc'],['Stenosis','as-calc'],['Evidence','av-ev']]},
  mitral:{id:'mitral-valve',title:'Mitral valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','mr-calc'],['Stenosis','sten-calc','ms'],['Evidence','mr-ev']]},
  tricuspid:{id:'tricuspid-valve',title:'Tricuspid valve',sub:'Regurgitation · stenosis · evidence',tabs:[['Regurgitation','tr-calc'],['Stenosis','sten-calc','ts'],['Evidence','tr-ev']]},
- pulmonic:{id:'pulmonic-valve',title:'Pulmonic valve',sub:'Stenosis · RVOT and conduit',tabs:[['Stenosis','sten-calc','ps']]},
+ pulmonic:{id:'pulmonic-valve',title:'Pulmonic valve',sub:'Regurgitation · stenosis · RVOT and conduit',tabs:[['Regurgitation','pr-calc'],['Stenosis','sten-calc','ps']]},
  lv:{own:1,tabs:[['Calculator','lv-vol'],['Evidence','lv-ev']]},
  rv:{own:1,tabs:[['Calculator','rv-vol'],['Evidence','rv-ev']]},
  la:{own:1,tabs:[['Calculator','la-vol'],['Evidence','la-ev']]},
@@ -963,7 +964,7 @@ function ecvView(it){const st=ecvState;
  return h+'</div>'}
 
 // ---------- aortic valve calculators ----------
-const avState={'sten-calc':{v:'ms',mva:'',pht:'',mg:'',pv:'',cd:'',rvm:'',rvedv:''},'tr-calc':{m:'ind',rvsv:'',pf:'',bsa:'',rvedv:'',rvesv:'',lvedv:'',ra:'',lecv:'',lge:'',teer:''},'mr-calc':{t:'p',m:'std',lvsv:'',mi:'',fwd:'',bsa:'',edv:'',laef:'',lge:'',mvp:'',mad:''},'ar-calc':{m:'direct',fwd:'',rev:'',lvsv:'',rvsv:'',bsa:'',edv:'',esv:'',ef:'',hdr:'',lge:''},'as-calc':{ava:'',bsa:'',vmax:'',mg:'',sv:'',lge:'',ecv:'',post:''}};
+const avState={'pr-calc':{m:'direct',fwd:'',rev:'',rvsv:'',lvsv:'',bsa:'',rvedv:'',rvesv:'',lvedv:''},'sten-calc':{v:'ms',mva:'',pht:'',mg:'',pv:'',cd:'',rvm:'',rvedv:''},'tr-calc':{m:'ind',rvsv:'',pf:'',bsa:'',rvedv:'',rvesv:'',lvedv:'',ra:'',lecv:'',lge:'',teer:''},'mr-calc':{t:'p',m:'std',lvsv:'',mi:'',fwd:'',bsa:'',edv:'',laef:'',lge:'',mvp:'',mad:''},'ar-calc':{m:'direct',fwd:'',rev:'',lvsv:'',rvsv:'',bsa:'',edv:'',esv:'',ef:'',hdr:'',lge:''},'as-calc':{ava:'',bsa:'',vmax:'',mg:'',sv:'',lge:'',ecv:'',post:''}};
 const AVP=(c,l)=>`<span class="pill ${c}">${l}</span>`;
 function avResults(id){const st=avState[id];const n=k=>parseFloat(st[k]);const bsa=n('bsa');const rows=[];
  const add=(l,u,v,pill,b)=>rows.push(`<div class="rrow"><div class="rl"><b>${l}</b><small>${u}</small></div><div class="rv${/^[\d.\-−]+$/.test(String(v))?'':' txt'}">${v}</div><div class="rs">${pill}<span class="ref">${b}</span></div></div>`);
@@ -975,6 +976,18 @@ function avResults(id){const st=avState[id];const n=k=>parseFloat(st[k]);const b
    const c=n('cd');if(c>0)add('Conduit minimal diameter','mm',c.toFixed(0),c<18?AVP('hi','&lt;18 mm: obstruction likely'):AVP('ok','≥18 mm'),'Martinez/Mohiaddin 1992 (n=52; anatomic, not outcome-based)');
    const m=n('rvm'),e=n('rvedv');if(m>0&&e>0){const x=m/e;add('RV mass/volume ratio','g/mL',x.toFixed(2),x>=0.45?AVP('hi','≥0.45: higher death/VT risk'):AVP('ok','&lt;0.45'),'INDICATOR (Geva 2018, repaired TOF, n=452, HR 4.08); mixed pressure and volume load')}}
   else rows.push('<div class="rnote"><span class="ref"><b>Tricuspid stenosis:</b> no CMR validation exists (case reports only). Use echo: mean gradient ≥5 mmHg, area ≤1.0 cm², pressure half-time ≥190 ms. CMR can show leaflet morphology, RA size and carcinoid or rheumatic involvement.</span></div>');
+}else if(id==='pr-calc'){const dir=st.m==='direct';let rv=null,rf=null;
+  if(dir){const f=n('fwd'),r=n('rev');if(f>0&&r>=0&&!isNaN(r)){rv=r;rf=r/f*100}}
+  else{const a=n('rvsv'),l=n('lvsv');if(a>0&&l>0&&a>l){rv=a-l;rf=rv/a*100}}
+  if(rf!=null){const g=rf>40?AVP('hi','Severe (&gt;40%)'):rf>=20?AVP('lo','Moderate (20–40%)'+(rf>=25?' · ≥25%: Geva surgical-timing entry':'')):AVP('ok','Mild (&lt;20%)');
+   add('PR fraction','%',rf.toFixed(0),g,'Grading bands from the 2022 CMR native-regurgitation review (Frontiers CV Med): mild &lt;20, moderate 20–40, severe &gt;40. Convention from repaired-TOF studies; not outcome-derived')}
+  if(rv!=null)add('PR volume','mL',rv.toFixed(0),AVP('na','Not graded'),'No CMR PR volume cutoff has been defined (same review)');
+  const bsa=n('bsa'),edv=n('rvedv'),esv=n('rvesv'),led=n('lvedv');const hit=[];let asd=0;
+  if(bsa>0&&edv>0){const x=edv/bsa;asd++;const y=x>=160;if(y)hit.push('RVEDVi');add('RVEDV/BSA','mL/m²',x.toFixed(0),y?AVP('hi','≥160'):AVP('ok','&lt;160'),'Geva surgical-timing criterion (≥160). Transcatheter thresholds may be lower; no data')}
+  if(bsa>0&&esv>0){const x=esv/bsa;asd++;const y=x>=70;if(y)hit.push('RVESVi');add('RVESV/BSA','mL/m²',x.toFixed(0),y?AVP('hi','≥70'):AVP('ok','&lt;70'),'Geva criterion (≥70)')}
+  if(edv>0&&esv>0&&edv>esv){const x=(edv-esv)/edv*100;asd++;const y=x<=45;if(y)hit.push('RVEF');add('RVEF','%',x.toFixed(0),y?AVP('hi','≤45%'):AVP('ok','&gt;45%'),'Geva criterion (≤45)')}
+  if(bsa>0&&led>0){const x=led/bsa;asd++;const y=x<=65;if(y)hit.push('LVEDVi');add('LVEDV/BSA','mL/m²',x.toFixed(0),y?AVP('hi','≤65'):AVP('ok','&gt;65'),'Geva criterion (≤65); small LV suggests RV-dominant physiology')}
+  if(rf!=null&&asd>0){const ok=rf>=25&&hit.length>=2;add('Geva criteria','',`${hit.length} of ${asd} assessed`,ok?AVP('hi','PR fraction ≥25% and ≥2 criteria met'):rf<25?AVP('ok','PR fraction &lt;25%'):AVP('lo',hit.length+' met; ≥2 needed'),'Geva framework for repaired TOF (as cited in the 2022 review). Supports discussion, not a replacement for ACHD guidelines or clinical context')}
  }else if(id==='tr-calc'){const rvsv=n('rvsv'),pf=n('pf'),rvedv=n('rvedv'),rvesv=n('rvesv');const ind=st.m==='ind';let rv=null,rf=null;
   if(rvsv>0&&pf>0&&rvsv>pf){rv=rvsv-pf;rf=rv/rvsv*100}
   if(rf!=null){if(!ind)add('TR fraction','%',rf.toFixed(0),AVP('na','Not graded (4D flow)'),'Cutoffs assume the indirect method; 4D flow reads ~16 mL higher, kappa ≤0.07');
@@ -1052,6 +1065,19 @@ function avView(it){const st=avState[it.id];
    <li>Read peak from a small pixel cluster: single pixels are noisy, wide ROIs under-read.</li>
    <li>2D PC usually under-reads Doppler (about 10%); a low value never excludes severe stenosis.</li>
    <li>Planimetry is more reliable than velocity on CMR; use it as the primary CMR measure.</li></ul></div>`;
+}else if(it.id==='pr-calc'){
+  h+=`<div class="card">${sel('m','Quantification method',[['direct','Direct: phase contrast, main pulmonary artery'],['indirect','Indirect: RV stroke volume − LV stroke volume']])}
+  ${st.m==='direct'?f('fwd','Forward flow','mL','80')+f('rev','Backward flow','mL','30'):f('rvsv','RV stroke volume (volumetric)','mL','120')+f('lvsv','LV stroke volume (volumetric)','mL','80')}
+  <span class="ref">${st.m==='direct'?'Through-plane slice 5 mm to 1 cm above the valve, perpendicular to flow, retrospective gating. In a dilated or turbulent pulmonary artery PR can be underestimated: confirm with RV/LV volumes or phase contrast in each branch pulmonary artery.':'Valid only without significant tricuspid regurgitation or an intracardiac shunt: RV minus LV stroke volume then includes those flows.'}</span>
+  <h3>Ventricles</h3>${f('bsa','BSA','m²','1.90')}${f('rvedv','RVEDV','mL')}${f('rvesv','RVESV','mL')}${f('lvedv','LVEDV','mL')}</div>`;
+  h+=`<div class="card" id="results">${avResults(it.id)}</div>`;
+  h+=`<div class="card"><h3>Grading (draft)</h3><div class="scroll"><table class="tbl"><thead><tr><th>Parameter</th><th>Mild</th><th>Moderate</th><th>Severe</th><th>Based on</th></tr></thead><tbody>
+   <tr><th>PR fraction %</th><td>&lt;20</td><td>20–40</td><td>&gt;40</td><td><span class="ref">2022 CMR review (Frontiers CV Med). ≥20% is often used as "significant"</span></td></tr>
+   <tr><th>PR volume mL</th><td colspan="3">No CMR cutoff defined</td><td><span class="ref">Same review</span></td></tr>
+   <tr><th>Geva criteria (repaired TOF)</th><td colspan="3">PR fraction ≥25% and ≥2 of: RVEDVi ≥160, RVESVi ≥70, LVEDVi ≤65, RVEF ≤45%</td><td><span class="ref">Geva, as cited in the review</span></td></tr></tbody></table></div>
+  <span class="ref"><b>Not outcome-derived:</b> these PR bands come from repaired-TOF practice, not from a mortality or event cohort. Severe PR in pulmonary hypertension behaves differently (normal leaflets, pressure-loaded RV).</span>
+  <span class="ref"><b>Transcatheter valves:</b> lower thresholds may apply since percutaneous options appeared, but studies are lacking.</span>
+  <span class="ref">Source: Frontiers in Cardiovascular Medicine 2022, doi 10.3389/fcvm.2022.881141 (CMR in native valvular regurgitation). Cutoffs were read from that review rather than from each primary study.</span></div>`;
  }else if(it.id==='tr-calc'){
   h+=`<div class="card">${sel('m','Quantification method',[['ind','Indirect: RV stroke volume − pulmonary forward flow'],['4d','4D flow / direct tricuspid inflow']])}
   ${f('rvsv','RV stroke volume (volumetric)','mL','120')}${f('pf','Pulmonary forward flow','mL','70')}
@@ -1366,6 +1392,7 @@ function buildReport(){const out=[];
  for(const [v,name] of [['ms','Mitral valve: stenosis'],['ts','Tricuspid valve: stenosis'],['ps','Pulmonic valve: stenosis']]){avState['sten-calc'].v=v;add(name,'sten-calc','',avResults('sten-calc'))}
  avState['sten-calc'].v=v0;
  add('Tricuspid valve: regurgitation','tr-calc','',avResults('tr-calc'));
+ add('Pulmonic valve: regurgitation','pr-calc','',avResults('pr-calc'));
  add('ECV and native T1','ecv','Field strength '+ecvState.f+' T',ecvResults(),r=>!/^(Partition|ΔR1)/.test(r.lab));
  add('Iron (T2*)','iron','',ironResults());
  return out}
@@ -1375,7 +1402,7 @@ function pillShort(r){if(!r.pills[0])return '';const d=document.createElement('d
 function vShort(r){const u=r.unit&&!/\/m²/.test(r.unit)&&r.unit.length<7?r.unit:'';return r.val+(u?(u==='%'?'':' ')+u:'')}
 const KEYG={'lv-vol':[[/EF$/],[/EDV\/BSA$/,/EDV$/],[/ESV\/BSA$/,/ESV$/],[/mass\/BSA$/,/mass$/]],'rv-vol':[[/EF$/],[/EDV\/BSA$/,/EDV$/],[/ESV\/BSA$/,/ESV$/],[/mass\/BSA$/,/mass$/]],
  'la-vol':[[/EF$/],[/max.*BSA/i,/max/i],[/LACI/]],'ra-vol':[[/EF$/],[/max.*BSA/i,/max/i],[/RACI/],[/area/i],[/strain/i]]};
-const SHORTN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ao-calc':'Ao','ar-calc':'AR','as-calc':'AS','mr-calc':'MR','tr-calc':'TR','ecv':'ECV','iron':'Iron'};
+const SHORTN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ao-calc':'Ao','ar-calc':'AR','as-calc':'AS','mr-calc':'MR','tr-calc':'TR','pr-calc':'PR','ecv':'ECV','iron':'Iron'};
 function keyRows(g){const G=KEYG[g.open];if(!G)return g.rows.slice(0,6);const out=[];
  for(const grp of G){let hit=null;for(const re of grp){hit=g.rows.find(r=>re.test(r.lab));if(hit)break}if(hit&&!out.includes(hit))out.push(hit)}return out.length?out:g.rows.slice(0,4)}
 function sname(g){let n=SHORTN[g.open]||g.name;if(g.open==='sten-calc')n=g.name.startsWith('Mitral')?'MS':g.name.startsWith('Tricuspid')?'TS':'PS';
@@ -1427,13 +1454,13 @@ function renderSide(){let on=null;if(current){const g=vgOf(current);on=g?(g.id||
 const SCAN_OK=/^https?:$/.test(location.protocol);
 const T=(k,id,key)=>[k,id,key];
 const CANON={
- lvedv:{l:'LV EDV',u:'mL',lo:20,hi:600,idx:1,to:[T('st','lv-vol','a'),T('av','ar-calc','edv'),T('av','mr-calc','edv'),T('st','rv-vol','lv'),T('st','la-vol','lv'),T('av','tr-calc','lvedv')],w:'LV, AR, MR, RV, LA, TR'},
+ lvedv:{l:'LV EDV',u:'mL',lo:20,hi:600,idx:1,to:[T('st','lv-vol','a'),T('av','ar-calc','edv'),T('av','mr-calc','edv'),T('st','rv-vol','lv'),T('st','la-vol','lv'),T('av','tr-calc','lvedv'),T('av','pr-calc','lvedv')],w:'LV, AR, MR, RV, LA, TR, PR'},
  lvesv:{l:'LV ESV',u:'mL',lo:5,hi:500,idx:1,to:[T('st','lv-vol','b'),T('av','ar-calc','esv')],w:'LV, AR'},
  lvsv:{l:'LV SV',u:'mL',lo:10,hi:250,idx:1,to:[T('av','ar-calc','lvsv'),T('av','mr-calc','lvsv')],w:'AR, MR'},
  lvef:{l:'LV EF',u:'%',lo:5,hi:90,to:[T('av','ar-calc','ef')],w:'AR'},
  lvmass:{l:'LV mass',u:'g',lo:20,hi:500,idx:1,to:[T('st','lv-vol','c')],w:'LV'},
- rvedv:{l:'RV EDV',u:'mL',lo:30,hi:600,idx:1,to:[T('st','rv-vol','a'),T('av','tr-calc','rvedv'),T('av','sten-calc','rvedv')],w:'RV, TR, stenosis'},
- rvesv:{l:'RV ESV',u:'mL',lo:10,hi:500,idx:1,to:[T('st','rv-vol','b'),T('av','tr-calc','rvesv')],w:'RV, TR'},
+ rvedv:{l:'RV EDV',u:'mL',lo:30,hi:600,idx:1,to:[T('st','rv-vol','a'),T('av','tr-calc','rvedv'),T('av','pr-calc','rvedv'),T('av','sten-calc','rvedv')],w:'RV, TR, stenosis'},
+ rvesv:{l:'RV ESV',u:'mL',lo:10,hi:500,idx:1,to:[T('st','rv-vol','b'),T('av','tr-calc','rvesv'),T('av','pr-calc','rvesv')],w:'RV, TR'},
  rvsv:{l:'RV SV',u:'mL',lo:10,hi:250,idx:1,to:[T('av','tr-calc','rvsv'),T('av','ar-calc','rvsv')],w:'TR, AR'},
  rvmass:{l:'RV mass',u:'g',lo:10,hi:200,idx:1,to:[T('st','rv-vol','c'),T('av','sten-calc','rvm')],w:'RV, stenosis'},
  lamax:{l:'LA max volume',u:'mL',lo:10,hi:300,idx:1,to:[T('st','la-vol','a')],w:'LA'},
@@ -1443,7 +1470,7 @@ const CANON={
  raarea:{l:'RA area',u:'cm²',lo:3,hi:60,to:[T('st','ra-vol','area')],w:'RA'},
  aofwd:{l:'Aortic forward volume',u:'mL',lo:5,hi:250,to:[T('av','ar-calc','fwd'),T('av','mr-calc','fwd')],w:'AR, MR'},
  aorev:{l:'Aortic regurgitant volume',u:'mL',lo:1,hi:200,to:[T('av','ar-calc','rev')],w:'AR'},
- pafwd:{l:'Pulmonary forward volume',u:'mL',lo:5,hi:250,to:[T('av','tr-calc','pf')],w:'TR'},
+ pafwd:{l:'Pulmonary forward volume',u:'mL',lo:5,hi:250,to:[T('av','tr-calc','pf'),T('av','pr-calc','fwd')],w:'TR, PR'},
  avvmax:{l:'Aortic peak velocity',u:'m/s',lo:0.3,hi:8,to:[T('av','as-calc','vmax')],w:'AS'},
  avmg:{l:'Aortic mean gradient',u:'mmHg',lo:1,hi:120,to:[T('av','as-calc','mg')],w:'AS'},
  avarea:{l:'Aortic valve area',u:'cm²',lo:0.2,hi:6,to:[T('av','as-calc','ava')],w:'AS'},
@@ -1520,8 +1547,8 @@ function scanFill(){
   if(it.k==='bsa'){setCase('bsa',s);continue}
   for(const t of CANON[it.k].to){set(t[0],t[1],t[2],s);scan.wrote.push(t);if(!scan.opens.includes(t[1]))scan.opens.push(t[1])}}
  if(scan.sex)setCase('sex',scan.sex);
- for(const id of scan.opens){const st=id==='ar-calc'||id==='as-calc'||id==='mr-calc'||id==='tr-calc'||id==='sten-calc'?avState[id]:null;if(st)st.example=false;else{const it=ITEMS.find(i=>i.id===id);if(it)getState(it).example=false}}}
-const SN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ar-calc':'Aortic regurgitation','as-calc':'Aortic stenosis','mr-calc':'Mitral regurgitation','tr-calc':'Tricuspid regurgitation','sten-calc':'Mitral / pulmonic stenosis'};
+ for(const id of scan.opens){const st=id==='ar-calc'||id==='as-calc'||id==='mr-calc'||id==='tr-calc'||id==='pr-calc'||id==='sten-calc'?avState[id]:null;if(st)st.example=false;else{const it=ITEMS.find(i=>i.id===id);if(it)getState(it).example=false}}}
+const SN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ar-calc':'Aortic regurgitation','as-calc':'Aortic stenosis','mr-calc':'Mitral regurgitation','tr-calc':'Tricuspid regurgitation','pr-calc':'Pulmonic regurgitation','sten-calc':'Mitral / pulmonic stenosis'};
 function scanHTML(){
  if(!scan)return `<div class="card"><h3>Scan a report image</h3><p class="ref" style="margin:0 0 8px">Read measurements from a screenshot or photo of a report and fill the calculators. Everything is read on this device.</p>${SCAN_OK?'<div class="rbtns"><button class="primary" data-scan="start">Scan report image</button></div>':'<p class="ref">Scanning needs the website version of the app (it is not available in the offline single file).</p>'}</div>`;
  let h='<div class="card scan">';
