@@ -1,4 +1,4 @@
-const mk=require('./harness_original');const fs=require('fs');
+const mk=require('./harness');const fs=require('fs');
 const T=[];const rec=(id,mod,input,expect,prov,actual,pass)=>T.push({id,mod,input,expect,prov,actual,pass});
 (async()=>{const H=await mk();const {p}=H;
 // ---- LV ----

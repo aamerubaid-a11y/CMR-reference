@@ -1,6 +1,6 @@
 # Evidence matrix: implemented interpretations
 
-Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.11-r1`). Code locations refer to
+Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.11-rc1`; RC review 26 Nov 2026). Code locations refer to
 `src/index.html`. Status key:
 
 - **Verified (full text)**: threshold, operator, units, population and method checked in the full paper.
@@ -20,7 +20,7 @@ Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.1
 | RV (trabeculae in mass / volume) | SCMR 2025 Tables 8, 9 | Adults | `ITEMS[rv-vol]` | Verified (full text) |
 | LA biplane / Simpson | SCMR 2025 Table 13 | Adults | `ITEMS[la-vol]` | Verified (full text) |
 | RA single-plane / Simpson | SCMR 2025 Table 18 (female min LL withheld per footnote a) | Adults | `ITEMS[ra-vol]` | Verified (full text) |
-| Aortic diameters | SCMR 2025 Tables 63, 65, 67 | Adults 20–79 (MESA 45–84) | `AO`, `aoResults`, `groupIdx` | Verified (full text), 136 values; outside studied ages now "unavailable" |
+| Aortic diameters | SCMR 2025 Tables 63, 65, 67 | Adults 20–79 (MESA 45–84) | `AO`, `aoResults`, `groupIdx` | Verified (full text), 136 values; outside studied ages now "unavailable"; RC transcription re-check `tests/aorta_transcription.py`: 116 mean/SD pairs + 16 percentile values vs SCMR text, 0 mismatches ("All" rows not compared) |
 | ECV by sequence | SCMR 2025 Table 90 | Adults, septal ROI | `ECV_REF` | Verified (full text) |
 | Cardiac T2* grading 1.5 T and 3 T | SCMR 2025 Table 100 | Iron overload | `cardCat` | Verified (full text) |
 | RV/LV EDV ratio normal limit 1.27 | Altmayer 2018 Sci Rep (Methods: 152 controls, Han et al. ref 5) | Controls; PH-focused group | `markers()` rv-vol | Secondary for the controls (Han et al. not read); **removed from the SCMR table** |
@@ -54,7 +54,7 @@ Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.1
 | AR RVol | >40 direct; >62 indirect | Polte 2017 Am J Cardiol (abstract) | Surgical cohort, n=38 | ar-calc | Verified (abstract) |
 | AR holodiastolic reversal | presence = significant AR | Kammerlander 2019 (abstract) | AR | ar-calc | Verified; label corrected from "severe" to "significant" |
 | AR LGE | presence, adjusted HR 2.53 | Malahfji 2020 JAHA Table 2 (full text) | Chronic AR | ar-calc | Verified; **citation corrected** (journal) |
-| AR LVEF ≤55 | ≤55% | ACC/AHA 2020 guideline | Echo-based | ar-calc | Unverified here (guideline not re-read); label no longer says "surgical trigger" |
+| AR LVEF ≤55 | ≤55% | ACC/AHA 2020 valve guideline, Table 15 stage C2 (pp. e105–106) and Rec 4.3.3 (full text) | Chronic severe AR; echo-based | ar-calc | **Verified (full text)**. Label: "meets the stage C2 LVEF criterion if AR is chronic and severe". Not a recommendation |
 | Primary MR RF / RVol | <20 mild; >40 severe; RVol >55; ≥60 | Steeds & Myerson 2020; Myerson 2016 (abstract); Penicka 2018 (abstract, pre-defined) | Primary MR | mr-calc | Verified. Conflict: Polte 2017 LVSV−AoFF severe RF >41 / RVol >64 (documented) |
 | MR inflow method | RF >30, RVol >40 | Polte 2017 (abstract) | MR | mr-calc | Verified (abstract) |
 | Secondary MR RF | ≥20 moderate, ≥35 severe | Wang 2023 Circ CV Imaging (abstract) | ICM/NICM, n=1,414 | mr-calc | Verified (abstract) |
@@ -72,7 +72,7 @@ Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.1
 | AS AVA | ≤1.0 severe | SCMR 2025 Table 57 (full text) | Adapted from echo | as-calc | Verified; **operator fixed** (<1.0 → ≤1.0); grey zone **withheld** (Debl 2005 abstract reports 15% overestimation only) |
 | AS AVA/BSA, Vmax | ≤0.6; ≥4 / ≥5 | SCMR 2025 Table 57 | Adapted from echo | as-calc | Verified (full text) |
 | AS mild limits | Vmax >1.65; MG >4.9 | Kany 2025 JACC (abstract) | UK Biobank >95th percentile | as-calc | Verified (abstract) |
-| AS mean gradient ≥40 | ≥40 | Echo guideline | Echo | as-calc | Unverified here; shown as echo-adopted |
+| AS mean gradient ≥40 | ≥40 mmHg | ACC/AHA 2020 valve guideline, Table 13 (p. e91) (full text) | Doppler echo | as-calc | **Verified (full text)**; labelled as Doppler criterion; app notes PC-MRI reads lower |
 | AS SVi | <35 low flow; <45 higher post-AVR mortality | Thornton 2022 JAMA Cardiol (abstract) | Severe AS, AVR | as-calc | Verified (abstract) |
 | AS LGE / ECV | presence (Musa 2018); >27% (Kwak 2021) | abstracts | AS | as-calc | Verified (abstract); ECV ≥38 "amyloid" flag **removed** (no source) |
 | MS planimetry | <1.65 ≈ cath ≤1.5 | Djavidani 2005 JACC (abstract) | n=22 | sten-calc | Verified (abstract) |
@@ -82,6 +82,24 @@ Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.1
 | RV mass/volume (TOF) | ≥0.45 g/mL | Geva 2018 Circulation (abstract) | Pre-PVR repaired TOF | sten-calc | Verified (abstract) |
 | ECV generic tiers (29/36/20%) | — | none specific | — | — | **Withheld**; pooled mean 25.9% (Gottbrecht 2019, abstract) shown for orientation only |
 | Cardiac iron equation | 45.0 × T2*^−1.22 | Carpenter 2011 Circulation (abstract) | 1.5 T | `cardFe` | Verified (abstract); shown at 1.5 T only |
-| Liver iron equation | 0.0254 × R2* + 0.202 | Wood 2005 Blood | 1.5 T | `lic15` | **Inaccessible** (PMC returned no full text; abstract lacks the coefficients). Value still computed; normal/abnormal label **withheld** |
-| Liver normal limit 1.8 mg/g | — | not located | — | `livCat` | **Withheld** |
-| 3 T liver conversion | (R2*3T + 11)/2 | Storey 2007 JMRI | — | `r3to15` | Unverified (not retrieved) |
+| Liver iron equation | 0.0254 × R2* + 0.202 | Wood 2005 Blood | 1.5 T | — | **Primary inaccessible** (only secondary citations seen). LIC **withheld in UI and copied text**; liver T2* and R2* still shown |
+| Liver normal limit 1.8 mg/g | — | not located | — | — | **Withheld** (no LIC shown) |
+| 3 T liver conversion | (R2*3T + 11)/2 | Storey 2007 JMRI (equation present in abstract) | Preliminary, n=20 + 14 | — | Equation verified from abstract; **not applied** (preliminary; LIC withheld) |
+
+
+## Publication status of 2026 sources (PubMed, checked 26 Nov 2026)
+
+All are indexed in PubMed as journal articles with issue and page or article numbers; none is a preprint.
+
+| Source as cited in app | PubMed record | DOI |
+|---|---|---|
+| Kang 2026 (LVEDVi grades) | J Am Coll Cardiol 2026;88(7):773–776, brief report, PMID 41984015 (no abstract in PubMed) | 10.1016/j.jacc.2026.03.033 |
+| Zhang RS 2026 (effective RVEF) | JACC Cardiovasc Imaging 2026;19(7):810–821, PMID 41995650 | 10.1016/j.jcmg.2026.02.018 |
+| Zhang 2026 (RACI) | Circ Cardiovasc Imaging 2026;19(8):e019813, PMID 42478366 | 10.1161/CIRCIMAGING.126.019813 |
+| Margonato 2026 (forward SV ÷ RVESV ≤0.57, aHR 2.36) | Circ Cardiovasc Imaging 2026;19(7):e019717, PMID 42345088; abstract confirms cut-off and HR | 10.1161/CIRCIMAGING.126.019717 |
+| Guo 2026 (RA strain, PAH) | J Cardiovasc Magn Reson 2026, article 102711, PMID 41831721 (volume not in record) | 10.1016/j.jocmr.2026.102711 |
+| Kim 2026 (RA strain, RAP) | J Cardiovasc Magn Reson 2026;28(1):102710, PMID 41825694 | 10.1016/j.jocmr.2026.102710 |
+| Xu 2026 (RA strain, ARVC) | J Am Heart Assoc 2026;15(22):e050695, PMID 43018039 | 10.1161/JAHA.126.050695 |
+| Naami 2026 (review) | J Cardiovasc Dev Dis 2026;13(11), PMID 43083064 | 10.3390/jcdd13110557 |
+
+Note for the owner: a separate 2026 hepatic ECV paper exists (Villar-Calle, Circ Cardiovasc Imaging 2026, doi 10.1161/CIRCIMAGING.125.018988). The app's liver ECV ≥32% cut-off is attributed to Margonato 2025 and was not re-checked against it.

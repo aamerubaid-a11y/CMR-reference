@@ -1,0 +1,25 @@
+== light:home 
+  serious nested-interactive 3 | .item[data-open="lv-vol"][role="button"] :: Element has focusable descendants || .item[data-open="lv-dia"][role="button"] :: Element has focusable descendants
+== light:lv-vol none
+== light:ecv none
+== light:pr-calc none
+== light:report none
+== dark:home 
+  serious nested-interactive 3 | .item[data-open="lv-vol"][role="button"] :: Element has focusable descendants || .item[data-open="lv-dia"][role="button"] :: Element has focusable descendants
+== dark:lv-vol none
+== dark:ecv none
+== dark:pr-calc none
+== dark:report none
+BUTTON[Home] outline:solid 2px shadow:false
+BUTTON[Favorites] outline:solid 2px shadow:false
+BUTTON[Report] outline:solid 2px shadow:false
+BUTTON[Search] outline:solid 2px shadow:false
+BUTTON[LV volumes, EF and m] outline:solid 2px shadow:true
+BUTTON[LV diameters] outline:solid 2px shadow:false
+BUTTON[LV wall thickness by] outline:solid 2px shadow:false
+BUTTON[RV volumes, EF and m] outline:solid 2px shadow:false
+[
+  '<button data-sex="m" class="" aria-pressed="false">Adult male</button>',
+  '<button data-sex="f" class="" aria-pressed="false">Adult female</button>'
+]
+320px horizontal overflow: false

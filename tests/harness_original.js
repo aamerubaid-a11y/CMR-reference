@@ -4,7 +4,7 @@ module.exports=async function(){const b=await chromium.launch();const p=await b.
  const H={p,b,errs,
   async open(id){await p.goto(URL+'#'+id);await p.evaluate(()=>{try{localStorage.clear()}catch(e){}});await p.reload();await p.waitForTimeout(250)},
   async settings(o){const open=await p.$('.setbody');if(!open){const s=await p.$('[data-setopen]');if(s){await s.click();await p.waitForTimeout(120)}}
-   if(o.sex){await p.click(`.setbody [data-sex=${o.sex}]`);await p.waitForTimeout(100)}
+   if(o.sex){await p.click(`.incard [data-sex=${o.sex}]`);await p.waitForTimeout(100)}
    if(o.method){await p.click(`.setbody [data-method=${o.method}]`);await p.waitForTimeout(100)}
    if(o.ctx){await p.click(`.setbody [data-ctx=${o.ctx}]`);await p.waitForTimeout(100)}
    if(o.age!=null){await p.selectOption('.setbody select[data-in=age]',String(o.age));await p.waitForTimeout(100)}},

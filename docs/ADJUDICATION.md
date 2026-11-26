@@ -1,86 +1,73 @@
-# Clinician adjudication packet
+# Clinical decision sheet (RC 2026.11-rc1)
 
-Only decisions that the evidence does not settle. Each interpretation below is **withheld in the app** until a
-qualified CMR clinician records a decision here (name, date, decision). Proposals are labelled as proposals.
+No clinician has made a decision. Every "Proposal" below is a proposal by the reviewer, not an approval. Each
+interpretation stays in its conservative pending state until the app owner (or a CMR clinician the owner
+names) fills in the decision line.
 
-## Q1. "Supranormal" LVEF flag
+**Can the pilot proceed without these decisions?** Yes. Every item below is already in a conservative state
+(withheld, or shown with its source population and labelled as separate from the reference comparison). No
+decision is needed for a limited pilot. All five are needed before public sharing.
 
-**Question:** Should an LVEF above a fixed value (for example >70%) carry a flag when it lies inside the SCMR 2025
-reference interval (men 53–79%, women 55–80%; age groups up to 83%)?
+---
 
-**Competing sources**
-- SCMR 2025 Tables 2, 3, 5: upper limits 77–83% depending on sex, method and age. Values up to these limits are within the healthy reference interval.
-- Krittayaphong 2025 JAHA (doi 10.1161/JAHA.124.039889), CMR referral cohort with suspected CAD: LVEF 70–80% and ≥80% had higher risk than 60–70% (adjusted HR 1.96 for 70–80%). Abstract only reviewed.
-- Shah 2022 JACC HF (doi 10.1016/j.jchf.2022.05.007), MESA and Dallas Heart Study, CMR: highest LVEF quartile had higher MACE (MESA HR 1.27), mainly with low stroke volume. Uses cohort-specific quartiles, not a fixed cut-off.
-- Kondo 2023 Circulation: no supranormal signal in HF trial populations (mostly echo).
+## Q1. LVEF inside the reference interval but high ("supranormal")
 
-**What is withheld now:** the amber "Supranormal: risk marker" label.
+1. **Exact question:** Should an LVEF that is inside the SCMR 2025 interval (men 53–79%, women 55–80%; up to 83% in some age groups) ever carry a risk marker?
+2. **What the sources support:** SCMR 2025 Tables 2, 3, 5 treat these values as within the healthy reference. Krittayaphong 2025 JAHA (CMR referral cohort with suspected CAD; abstract only) and Shah 2022 JACC HF (MESA and Dallas Heart; cohort quartiles, with risk driven mostly by low stroke volume) link high LVEF with risk. Neither gives a fixed CMR cut-off for general use.
+3. **Population and convention:** referral and community cohorts; cohort-specific quartiles; not the SCMR healthy reference population.
+4. **Fit:** weak. No source gives a portable threshold.
+5. **Proposal:** no flag inside the SCMR interval. Optionally add an information-only line: "LVEF ≥70% with low LV stroke volume index has been associated with risk in community cohorts (Shah 2022)."
+6. **Pending behaviour (now):** no supranormal label. The value is compared with the SCMR interval only.
 
-**Proposal (not a decision):** do not flag values inside the SCMR interval. If a marker is wanted, show
-"LVEF ≥70% with LV stroke volume index below the reference: associated with higher risk in community cohorts
-(Shah 2022)" as an informational marker only, never as abnormal.
+**Decision:** ______ **By / date:** ______
 
-**Decision:** ______  **By / date:** ______
+## Q2. Repaired tetralogy of Fallot RV thresholds
 
-## Q2. Repaired tetralogy of Fallot: which RV thresholds, for what purpose
+1. **Exact question:** Which RV thresholds should appear in the repaired-TOF context, and labelled for what purpose (surveillance, risk marker, or timing criterion for pulmonary valve replacement)?
+2. **What the sources support:** Bokma 2023 JACC (abstract): PVR associated with less death/VT only when RVESVi >80 mL/m² (observational). Geva criteria, read only through a 2022 review: PR fraction ≥25% plus ≥2 of RVEDVi ≥160, RVESVi ≥70, LVEDVi ≤65, RVEF ≤45%. Geva 2018 (abstract): RV mass/volume ≥0.45 g/mL and RVEF <40% predict outcomes after PVR (still shown in the stenosis/conduit calculator).
+3. **Population and convention:** repaired TOF; contouring conventions differ between centres; the Geva primary paper was not read.
+4. **Fit:** good for TOF patients, but these are thresholds for decisions, not severity grades.
+5. **Proposal:** show both, labelled by purpose, never combined into one verdict, and never worded as a recommendation. Read the Geva primary paper before enabling.
+6. **Pending behaviour (now):** TOF-context RV labels and the Geva count in the PR calculator are withheld. Values and the SCMR comparison are still shown.
 
-**Question:** Which thresholds should the app show for repaired TOF, and labelled as what (surveillance, risk
-marker, or pulmonary valve replacement timing criterion)?
+**Decision:** ______ **By / date:** ______
 
-**Competing sources**
-- Bokma 2023 JACC (doi 10.1016/j.jacc.2023.02.052), INDICATOR: PVR associated with lower death/VT only when RVESVi >80 mL/m² (HR 0.32); no association at ≤80. Abstract reviewed. Purpose: identifies who benefits from PVR (observational).
-- Geva criteria (as cited in the 2022 Frontiers CMR review, doi 10.3389/fcvm.2022.881141): PR fraction ≥25% plus ≥2 of RVEDVi ≥160, RVESVi ≥70, LVEDVi ≤65, RVEF ≤45%. Purpose: surgical timing. Original Geva paper not read.
-- Oosterhof 2007 / Frigiola 2008 (RVEDVi 150–160, RVESVi 80–82): RV volume normalisation after PVR, a surrogate endpoint (cited in app evidence; not re-read).
-- Geva 2018 Circulation (abstract verified): pre-PVR RV mass/volume ≥0.45 g/mL and RVEF <40% predicted death/VT after PVR. Purpose: risk marker. **Still shown** in the stenosis/conduit calculator.
+## Q3. Echo-derived tiers where no CMR tiers exist
 
-**What is withheld now:** RVEDVi/RVESVi/RVEF labels in the RV "Repaired TOF" context and the Geva criteria count
-in the pulmonic regurgitation calculator. Numeric values and SCMR reference comparisons remain.
+1. **Exact question:** For general-population RVEF, MS pressure half-time and mean gradient, the PS moderate band and RA area, should the app show echo tiers labelled "echo-derived", or only the reference comparison?
+2. **What the sources support:** Muraru 2020 (3D echo RVEF 45/40/30%, abstract), the echo valve guidelines and the ESC/ERS RA-area bands. None of them is CMR-derived.
+3. **Population and convention:** echo. CMR volumes run larger, and phase-contrast gradients run lower.
+4. **Fit:** poor. The values are not interchangeable between modalities.
+5. **Proposal:** keep them withheld.
+6. **Pending behaviour (now):** withheld. Values are compared with the SCMR reference only.
 
-**Proposal (not a decision):** show both, each labelled by purpose, never combined into a single verdict:
-"RVESVi >80 mL/m²: range in which PVR was associated with fewer deaths/VT (Bokma 2023, observational)" and
-"Geva surgical-timing criteria: n of 4 met". Never word either as a recommendation to intervene.
+**Decision:** ______ **By / date:** ______
 
-**Decision:** ______  **By / date:** ______
+## Q4. Kang LVEDVi grades outside DCM/ICM
 
-## Q3. Echo-derived severity tiers where no CMR tiers exist
+1. **Exact question:** Should the Kang 2026 sex-specific grades (men >100 / 150 / 200; women >90 / 130 / 170 mL/m²) apply outside DCM/ICM, or with papillary muscles included in the mass?
+2. **What the sources support:** Kang 2026 JACC 88:773 (brief report, published): derived in DCM and validated in DCM/ICM, with papillary muscles in the blood pool. Only the severe grade is outcome-derived.
+3. **Population and convention:** DCM/ICM; papillary muscles in the blood pool.
+4. **Fit:** good only in DCM/ICM with matching contouring.
+5. **Proposal:** keep the current behaviour.
+6. **Pending behaviour (now):** shown only in the DCM/ICM context, with a note when the contouring setting differs.
 
-**Question:** For parameters with no CMR-derived grades (general-population RVEF, MS pressure half-time and mean
-gradient, PS moderate band, RA area), should the app show echo-derived tiers labelled as such, or only the
-reference comparison?
-
-**Sources:** Muraru 2020 EHJ-CI (3D echo RVEF partitions 45/40/30%; abstract verified); echo valve guidelines (not
-re-read); ESC/ERS PH guideline RA-area bands (echo).
-
-**What is withheld now:** all of these tiers.
-
-**Proposal (not a decision):** keep withheld. CMR and echo volumes and gradients are not interchangeable
-(CMR planimetry reads larger, phase contrast under-reads gradients).
-
-**Decision:** ______  **By / date:** ______
-
-## Q4. Kang LVEDVi grades outside cardiomyopathy
-
-**Question:** Kang 2026 derived sex-specific grades in DCM/ICM with papillary muscles in the blood pool. Should
-they ever apply outside the "DCM / ICM" context, or with papillary-in-mass contouring?
-
-**What the app does now:** only in the DCM/ICM context, with a note when contouring differs.
-
-**Proposal (not a decision):** keep as is.
-
-**Decision:** ______  **By / date:** ______
+**Decision:** ______ **By / date:** ______
 
 ## Q5. Khan LA grades when the value is inside the SCMR interval
 
-**Question:** Khan 2019 grades LAVi with its own normal limit (<52 mL/m², biplane, appendage excluded). The SCMR
-2025 biplane upper limit is 56 for men and 54 for women. A value from 52 up to that limit therefore shows "Within reference" and "Khan: mild
-enlargement" together. Should the Khan line be shown only above the SCMR limit, or as now?
+1. **Exact question:** Khan 2019 grades LAVi using its own normal limit (<52 mL/m², biplane, appendage excluded). The SCMR 2025 biplane upper limit is 56 for men and 54 for women. Between 52 and that limit, the app shows "Within reference" and "Khan: mild enlargement" together. Should the Khan line appear only above the SCMR limit, or only for moderate and severe? A related point: Khan's bands are integers (mild 52–62, moderate 63–73), and the app treats values above 62 and below 63 as moderate. Confirm this convention.
+2. **What the sources support:** Khan 2019 JCMR Table 2 (full text). Mild enlargement was not independently associated with death. SCMR 2025 Table 13 (full text).
+3. **Population and convention:** 10,890 clinical referrals, biplane method, appendage excluded.
+4. **Fit:** moderate.
+5. **Proposal:** show Khan grades only for moderate and severe, and rely on the SCMR comparison below that. Keep the >62 → moderate convention.
+6. **Pending behaviour (now):** both lines are shown, labelled separately, each with its own source and boundaries.
 
-**Sources:** Khan 2019 JCMR Table 2 (full text): normal <52, mild 52–62, moderate 63–73, severe >73; mild was not
-independently associated with death. SCMR 2025 Table 13 (full text): biplane UL 56 (men) and 54 (women).
+**Decision:** ______ **By / date:** ______
 
-**What the app does now:** shows both, labelled separately, with Khan's own boundaries.
+---
 
-**Proposal (not a decision):** show Khan grades only for moderate and severe (the categories with independent
-outcome association), and rely on the SCMR comparison below that.
+## Also for the owner (not clinical decisions)
 
-**Decision:** ______  **By / date:** ______
+- **F17, hematocrit entered as a fraction (0.42):** the app holds the result and asks for a percentage. Decide whether to keep this or convert automatically.
+- **Liver ECV ≥32%:** check the attribution against the 2026 hepatic ECV paper (see EVIDENCE.md).

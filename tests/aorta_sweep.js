@@ -1,5 +1,5 @@
 const fs=require('fs');const src=fs.readFileSync(process.argv[2]||'/home/claude/work/cmr-ref/index.html','utf8');
-const code=src.slice(src.indexOf('const DEC='),src.indexOf('function aoView'));
+const dsrc=src.slice(src.indexOf('function D(x,dp,cuts)'),src.indexOf('function fmt(x,k,cuts)'));const code=dsrc+src.slice(src.indexOf('const DEC='),src.indexOf('function aoView'));
 const {AO,aoState,aoResults}=new Function('esc','REF','sexLabel',code+';return {AO,aoState,aoResults}')(x=>x,'',x=>x==='m'?'Adult male':x==='f'?'Adult female':'');
 const strip=h=>h.replace(/<tr><td>/g,'\n@@').replace(/<[^>]+>/g,'|').replace(/\|+/g,'|');
 // 1. exact boundary + idx sweep

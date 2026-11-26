@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.11-rc1 (branch remediation/audit-2026-11, release candidate, not deployed)
+- Evidence closure: AR LVEF ≤55% and AS mean gradient ≥40 verified in the ACC/AHA 2020 full text (Tables 15 and 13) and relabelled to match the source. Liver iron concentration withheld in the UI and copied text (Wood 2005 calibration not verifiable; Storey 2007 3 T conversion preliminary and not applied); liver T2* and R2* still shown.
+- Population: the chamber "Under 20" group becomes "Under 18 y" (SCMR adult datasets are 18+). The aorta stays unavailable below 20 (youngest SCMR group is 20–29).
+- Adaptive precision at every cut-off (SCMR limits, markers, valve tables, aorta z ±2, ECV/T1/T2), so the shown value never contradicts its label on screen or in copied text. Replaces the earlier "near cut-off" note.
+- Evidence card citation corrected (Zhang RS, JACC Cardiovasc Imaging 2026;19:810–21).
+- APP_VERSION 2026.11-rc1; build cmr-ref-f34dd26b4a.
+- Docs: decision sheet, 77-test disposition, device checklist, proposed synthetic cases, pilot release notes, merge/deploy/rollback steps; aortic transcription check script.
+
 ## 2026.11-r1 (branch remediation/audit-2026-11, not released)
 - Reference population must be chosen (Adult male / Adult female / Under 20). No silent male default.
 - Results show the reference comparison (within/above/below SCMR limits) separately from clinical markers, each
