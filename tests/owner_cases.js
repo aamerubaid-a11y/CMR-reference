@@ -1,5 +1,5 @@
 // Runs the owner-review cases (docs/OWNER_CHECKLIST.md, section C) exactly as written and records what the
-// build shows on screen and in copied text. Output: results/owner-cases-<version>.json. Synthetic values only.
+// build shows on screen and in copied text. Output: results/owner-cases.json. Synthetic values only.
 // Usage: node owner_cases.js   (CMR_URL may point at another build)
 const mk=require('./harness2');const fs=require('fs');
 (async()=>{const H=await mk('chromium');const p=H.p;await H.ctx.grantPermissions(['clipboard-read','clipboard-write']).catch(()=>{});
@@ -32,6 +32,5 @@ await H.open('ao-calc');await p.click('[data-aosex=m]');await p.selectOption('#a
 await av('tr-calc',{lecv:32});await rec('P21','Liver ECV');
 await H.open('ecv');for(const [k,v] of Object.entries({hct:0.42,mpre:1000,mpost:450,bpre:1600,bpost:300}))await H.fill('#ecv-'+k,v);await p.waitForTimeout(800);await rec('P22','ECV');
 await H.open('ecv');for(const [k,v] of Object.entries({hct:42,mpre:1000,mpost:450,bpre:1600,bpost:300}))await H.fill('#ecv-'+k,v);await p.waitForTimeout(800);await rec('P23','ECV');
-const ver=(await p.evaluate(()=>typeof APP_VERSION!=='undefined'?APP_VERSION:'?')).split(' ')[0];
-fs.mkdirSync('results',{recursive:true});fs.writeFileSync(`results/owner-cases-${ver}.json`,JSON.stringify(out,null,1));
+fs.mkdirSync('results',{recursive:true});fs.writeFileSync(`results/owner-cases.json`,JSON.stringify(out,null,1));
 for(const o of out)console.log(o.id,'|',o.screen,'||',o.copy);console.log('pageerrors',H.errs);await H.b.close()})();

@@ -1,6 +1,6 @@
 # Evidence matrix: implemented interpretations
 
-Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.11-rc1`; RC review 26 Nov 2026). Code locations refer to
+Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.11-rc2`; reviewed 26 Nov 2026). Code locations refer to
 `src/index.html`. Status key:
 
 - **Verified (full text)**: threshold, operator, units, population and method checked in the full paper.
@@ -61,11 +61,11 @@ Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.1
 | MR LVEDVi | ≥100 | Myerson 2016 (abstract) | Primary MR | mr-calc | Verified (abstract) |
 | MR LA emptying fraction | <30% | Altes 2025 JACC Adv (abstract) | Primary MR, surgery | mr-calc | Verified (abstract) |
 | MVP LGE | presence | Figliozzi 2023 (HR 4.2), Constant Dit Beaufils 2021 (HR 2.6) (abstracts) | MVP | mr-calc | Verified (abstract) |
-| TR fraction strata | ≥20 elevated; ≥40 high; ≥50 highest | Margonato 2025 Circulation; Zhan 2020 JACC (abstracts) | Functional TR | tr-calc | Verified; **relabelled as risk strata** (sources do not name mild/moderate/severe) |
+| TR fraction strata | ≥20 elevated; ≥40 high; ≥50 highest | Margonato 2025 Circulation (full text, author postprint; spline relative hazard >1 from 20%, >2 from 40%); Zhan 2020 JACC (abstract) | TR across the severity spectrum (Margonato); functional TR (Zhan) | tr-calc | Verified; **relabelled as risk strata**. rc2: TR evidence page text corrected (it still named mild/moderate/severe) |
 | TR volume | ≥35; ≥45 | Wang 2021; Zhan 2020 (abstracts) | TR | tr-calc | Verified (abstract) |
 | Effective RVEF | ≤25% | Zhang 2026 JACC CVI (abstract) | TR | tr-calc | Verified (abstract) |
 | Forward SV ÷ RVESV | ≤0.57 | Margonato 2026 Circ CVI (abstract) | TR | tr-calc | Verified (abstract) |
-| Liver ECV | ≥32% | Margonato 2025 (abstract) | TR | tr-calc | Verified (abstract) |
+| Liver ECV | ≥32% | Margonato D et al. Circulation 2025;152(25):1769–80, doi 10.1161/CIRCULATIONAHA.125.074862; full text read from the author postprint in ORBi (handle 2268/339470). Methods p.1771; statistics p.1772; Fig 3 p.1776; Table 4 p.1777; limitations pp.1778–9 | 371 of 489 patients referred for CMR with TR quantification (2 Minnesota centres, 2019–24), with liver mapping; known primary liver disease excluded. **Method:** 1.5 T Siemens, motion-corrected MOLLI with inline ECV map, liver ROI avoiding the IVC and hepatic veins, same-day venous hematocrit. **Endpoint:** death or HF hospitalisation under medical management (censored at TV intervention). **Threshold:** where the spline relative hazard and its whole CI exceeded 1; no reference range exists | tr-calc | **Verified (full text)**. Single network, no external validation; authors say liver ECV sequences are not standardised. **rc2:** label changed from "congestion, higher risk" to "≥32%: associated with right-sided HF and adverse outcomes in TR (source method: 1.5 T MOLLI)" on screen and in copy; the source line states the method limits. The numeric liver ECV is always shown |
 | Septal non-ischemic LGE | presence | Naami 2026 review (full text, n=663) | Functional TR | tr-calc | Secondary; HR 1.79 removed (not verified) |
 | PR fraction | <20 / 20–40 / >40 | 2022 Frontiers CV Med review (full text) | Repaired-TOF convention | pr-calc | Secondary (review); not outcome-derived |
 | PR timing criteria (Geva) | — | via 2022 review | Repaired TOF | pr-calc | **Adjudication** |
@@ -102,4 +102,9 @@ All are indexed in PubMed as journal articles with issue and page or article num
 | Xu 2026 (RA strain, ARVC) | J Am Heart Assoc 2026;15(22):e050695, PMID 43018039 | 10.1161/JAHA.126.050695 |
 | Naami 2026 (review) | J Cardiovasc Dev Dis 2026;13(11), PMID 43083064 | 10.3390/jcdd13110557 |
 
-Note for the owner: a separate 2026 hepatic ECV paper exists (Villar-Calle, Circ Cardiovasc Imaging 2026, doi 10.1161/CIRCIMAGING.125.018988). The app's liver ECV ≥32% cut-off is attributed to Margonato 2025 and was not re-checked against it.
+### Other liver ECV papers (checked; not used to replace the source)
+
+- Villar-Calle et al. Circ Cardiovasc Imaging 2026;19(3):e018988 (PMID 41568441; abstract only, no PMC copy). Weill Cornell; 234 patients with ≥moderate TR. Hepatic ECV in tertiles (cut-offs 32.5% and 41.3%; mean 37.7%). Endpoint: all-cause mortality. Supports liver ECV as a prognostic marker, but uses a different centre, method and endpoint, and no 32% threshold. It neither confirms nor contradicts Margonato's cut-off. Its higher mean suggests absolute values vary between centres or methods.
+- Margonato et al. JACC Cardiovasc Imaging 2026, doi 10.1016/j.jcmg.2026.08.015 (ORBi summary only). Same group and likely overlapping cohort (462 patients). Uses an above-median split (31%); adjusted HR 1.82. Not independent validation.
+
+Disposition: keep the cited Margonato 2025 threshold, labelled with its population and method. It is not interchangeable across sequences, so applying it at the owner's centre is an owner decision (OWNER_CHECKLIST A3).

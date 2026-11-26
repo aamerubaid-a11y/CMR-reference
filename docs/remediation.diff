@@ -1,5 +1,14 @@
 --- src/index.baseline-0af7de5.html	2026-11-26 13:58:04.632954787 -0500
-+++ src/index.html	2026-11-26 14:52:07.612649050 -0500
++++ src/index.html	2026-11-26 15:36:34.972577056 -0500
+@@ -75,7 +75,7 @@
+ .items{display:none;border-top:1px solid var(--line)}
+ .group.open .items{display:block}
+ .item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left}
+-.item:last-child{border-bottom:0}
++.item:last-child{border-bottom:0} .item>.open{display:flex;align-items:center;gap:12px;flex:1;min-width:0;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+ .item:hover{background:var(--surface-2)}
+ .ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface-2);color:var(--accent);flex:none;border:1px solid var(--line)}
+ .ico.calc{background:var(--accent);color:var(--accent-ink);border-color:transparent}
 @@ -231,6 +231,7 @@
  .dhead{background:var(--surface);-webkit-backdrop-filter:none;backdrop-filter:none}
  .rstrip{background:var(--surface);flex-wrap:wrap;overflow:visible;white-space:normal;gap:4px 14px}
@@ -12,7 +21,7 @@
  
  <script>
  (function(){
-+const APP_VERSION='2026.11-rc1 (release candidate, not deployed)';
++const APP_VERSION='2026.11-rc2 (release candidate, not deployed)';
 +const DATA_VERSION='SCMR 2025 reference values, JCMR 2025;27:101853';
  const REF = 'Kawel-Boehm N, Hetzel SJ, Ambale-Venkatesh B, et al. Society for Cardiovascular Magnetic Resonance reference values ("normal values") in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27:101853.';
  const P=(m,f)=>({m,f});
@@ -50,7 +59,7 @@
   {id:'t1',sec:'tissue',kind:'table',title:'Native T1 and ECV',sub:'Mid-ventricular septum · Tables 89, 90',
    head:['Field · vendor · sequence','Native T1 LL–UL (ms)','ECV LL–UL (%)'],rows:[['1.5T',null,null],['GE · MOLLI 3(3)3(3)5b','956–1098','—'],['Philips · MOLLI 3b(2s)5b','884–1064','—'],['Philips · MOLLI 3(3)3(3)5b','911–1023','15.9–39.5'],['Siemens · MOLLI 5b(4b)2b','933–1059','—'],['Siemens · MOLLI 5s(3s)3s','946–1102','21.9–32.7'],['Siemens · MOLLI 3(3)3(3)5b','883–1020','19.0–31.0'],['Siemens · ShMOLLI','874–1034','22.4–34.4'],['Siemens · SASHA','1054–1234','18.3–29.9'],['3T',null,null],['Philips · MOLLI 3(3)3(3)5b','1011–1103','—'],['Siemens · MOLLI 5s(3s)3s','1138–1289','22.5–32.1'],['Siemens · MOLLI 5b(3s)3b','1126–1234','—'],['Siemens · ShMOLLI','1035–1215','19.6–29.6'],['Siemens · SASHA','1408–1580','16.2–23.4']],
    table:'Tables 89 and 90',howto:['Draw the ROI in the septum of a mid-cavity short-axis map, away from blood pool and adjacent tissue.','Values depend on field strength, vendor, sequence and software version. The paper is clear that each site should build its own reference range.','Draw blood hematocrit close to the scan for ECV.'],keys:'t1 mapping ecv extracellular volume molli shmolli sasha tissue'},
-@@ -389,6 +392,7 @@
+@@ -389,10 +392,11 @@
   if(g.tabs.length>1){const sv=avState['sten-calc'].v;const bar='<div class="seg vtabs" role="tablist">'+g.tabs.map(([l,sid,v])=>`<button role="tab" data-vtab="${sid}" ${v?`data-vv="${v}"`:''} class="${sid===id&&(!v||sv===v)?'on':''}">${l}</button>`).join('')+'</div>';h=h.replace('<div class="wrap">','<div class="wrap">'+bar)}return h}
  
  // favorites
@@ -58,6 +67,20 @@
  let favs=[];try{favs=JSON.parse(localStorage.getItem('cmr-favs')||'[]')}catch(e){favs=[]}
  const saveFavs=()=>{try{localStorage.setItem('cmr-favs',JSON.stringify(favs))}catch(e){}};
  const isFav=id=>favs.includes(id);
+-function toggleFav(id){favs=isFav(id)?favs.filter(x=>x!==id):[...favs,id];saveFavs();render()}
++function toggleFav(id){const had=document.activeElement&&document.activeElement.matches&&document.activeElement.matches('[data-fav]');favs=isFav(id)?favs.filter(x=>x!==id):[...favs,id];saveFavs();render();if(had){const b=document.querySelector('[data-fav="'+id+'"]');if(b)b.focus()}}
+ 
+ let openSecs=['lv'];try{openSecs=JSON.parse(localStorage.getItem('cmr-open')||'["lv"]')}catch(e){}
+ let tab='home',query='';
+@@ -421,7 +425,7 @@
+ function enhance(){app.querySelectorAll('table.tbl').forEach(t=>{const hs=t.querySelectorAll('thead th');if(!hs.length||hs[hs.length-1].textContent.trim()!=='Based on')return;hs[hs.length-1].remove();const n=hs.length-1;t.querySelectorAll('tbody tr').forEach(tr=>{const last=tr.lastElementChild;if(!last||tr.children.length<2)return;const b=document.createElement('tr');b.className='basis';const td=document.createElement('td');td.colSpan=n;td.innerHTML=last.innerHTML;b.appendChild(td);last.remove();tr.classList.add('hasb');tr.after(b)})});app.querySelectorAll('.card').forEach(c=>{if(c.id==='results')return;const refs=[...c.children].filter(e=>e.tagName==='SPAN'&&e.classList.contains('ref'));if(refs.length<2)return;const d=document.createElement('details');d.className='notes';const sm=document.createElement('summary');sm.textContent='Why these cutoffs: sources and caveats';d.appendChild(sm);c.insertBefore(d,refs[0]);refs.forEach(r=>d.appendChild(r))})}
+ function header(withSearch){return `<div class="band"><div class="brand">${MARK}<div><h1>CMR Reference</h1><p>Normal values · grading · sources</p></div></div>${withSearch?`<div class="hsearch">${SEARCH_SVG}<input id="hq" type="search" placeholder="Search LVEF, TR fraction, ECV…" aria-label="Search"></div>`:''}</div>`}
+ function itemRow(it){const isT=(it.kind==='table'||it.kind==='evidence');const ic=isT?ICON.table:ICON.calc;const kd=it.kind==='evidence'?'Evidence':it.kind==='table'?'Table':'Calc';
+- return `<div class="item" role="button" tabindex="0" data-open="${it.id}"><span class="ico ${isT?'':'calc'}">${ic}</span><span class="t"><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><span class="kind">${kd}</span><button class="fav ${isFav(it.id)?'on':''}" data-fav="${it.id}" aria-label="${isFav(it.id)?'Remove from':'Add to'} favorites">${isFav(it.id)?HEART_ON:HEART}</button></div>`}
++ return `<div class="item"><button type="button" class="open" data-open="${it.id}"><span class="ico ${isT?'':'calc'}" aria-hidden="true">${ic}</span><span class="t"><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><span class="kind">${kd}</span></button><button type="button" class="fav ${isFav(it.id)?'on':''}" data-fav="${it.id}" aria-pressed="${isFav(it.id)?'true':'false'}" aria-label="Favorite: ${esc(it.title)}">${isFav(it.id)?HEART_ON:HEART}</button></div>`}
+ 
+ let recents=[];try{recents=JSON.parse(localStorage.getItem('cmr-recent')||'[]')}catch(e){recents=[]}
+ function pushRecent(id){const it=ITEMS.find(i=>i.id===id);if(!it||it.kind==='table'||it.kind==='evidence')return;recents=[id,...recents.filter(x=>x!==id)].slice(0,5);try{localStorage.setItem('cmr-recent',JSON.stringify(recents))}catch(e){}}
 @@ -440,7 +444,7 @@
   h+=`<div class="eyebrow">Browse by structure</div>`;
   for(const [k,name] of SECTIONS){const its=ITEMS.filter(i=>i.sec===k&&!i.hide);const op=openSecs.includes(k);const nc=its.filter(i=>i.kind!=='table'&&i.kind!=='evidence').length;
@@ -407,6 +430,15 @@
   <button class="link" data-open="rv-ev">See the evidence and critiques</button></div>`;
   return h}
  
+@@ -810,7 +839,7 @@
+   <li><b>LA strain:</b> prognostic but software-dependent; not graded.</li>
+   <li><b>Echo cutoffs:</b> do not apply. The healthy CMR mean (about 36 mL/m²) already exceeds the echo threshold of 34.</li>
+   <li><b>Critiques:</b> no letter or editorial targeting a specific CMR LA cutoff was found; criticism is methodological (SD-based limits, small samples, method dependence).</li>`},
+- 'tr-ev':{list:()=>TR_EV,bottom:`<li><b>TRF:</b> mild &lt;20%, moderate 20–39%, severe ≥40% (Margonato 2025, censored at intervention), highest risk ≥50% (Zhan 2020). No cutoff replicated independently.</li>
++ 'tr-ev':{list:()=>TR_EV,bottom:`<li><b>TRF:</b> hazard ratio &gt;1 from 20% and &gt;2 from 40% (Margonato 2025, censored at intervention; the paper does not define mild/moderate/severe), highest risk ≥50% (Zhan 2020). No cutoff replicated independently.</li>
+   <li><b>RV:</b> effective RVEF ≤25% is the only externally validated TR-related CMR cutoff. Hinojar 2025 RVEDVi/RVEF tiers for severe TR.</li>
+   <li><b>Method:</b> all cutoffs assume RV stroke volume − pulmonary forward flow; 4D flow values are not interchangeable.</li>
+   <li><b>Critiques:</b> ASE says CMR TR grading is unvalidated; no reproducibility data; editorials on Zhan and Wang not reviewed in full.</li>`},
 @@ -826,21 +855,20 @@
    <li><b>AS:</b> no CMR-specific severe cutoff. Planimetry reads larger and phase contrast reads lower than echo, so echo thresholds under-call severity on CMR.</li>
    <li><b>AS myocardium:</b> LGE and ECV &gt;27% predict death, but EVOLVED did not show that early AVR for fibrosis improves the primary outcome.</li>
@@ -437,7 +469,7 @@
   <button class="link" data-open="la-ev">See the evidence and critiques</button></div>`;
   return h}
  
-@@ -857,7 +885,8 @@
+@@ -857,16 +885,17 @@
  function lrRange(f,a,b){const L=LOCAL[f]||{};const lo=parseFloat(L[a]),hi=parseFloat(L[b]);return lo>0&&hi>lo?[lo,hi,L.lab||'']:null}
  function lrCmp(v,r,u){const [lo,hi,lab]=r;const c=v>hi?'hi':v<lo?'lo':'ok';
   return {pill:AVP(c,c==='hi'?`Above your range (&gt;${hi}${u})`:c==='lo'?`Below your range (&lt;${lo}${u})`:'Within your range'),basis:`Your center's range${lab?' ('+esc(lab)+')':''}: ${lo}–${hi}${u}`,bar:rangeBar(v,[(lo+hi)/2,(hi-lo)/4,lo,hi],c)}}
@@ -447,6 +479,18 @@
  function lrNote(f){const n=parseInt((LOCAL[f]||{}).n);if(!(n>0))return '';
   return n<15?`n = ${n}. The SCMR consensus suggests about 15–20 healthy subjects as a minimum, even for large changes.`:n<50?`n = ${n} can suffice for large changes such as amyloid, iron overload or Fabry disease. Subtle diffuse fibrosis needs 50 or more.`:`n = ${n} reaches the 50-subject level the consensus suggests for subtle changes.`}
  function ecvResults(){const st=ecvState,n=k=>parseFloat(st[k]);const hct=n('hct'),mp=n('mpre'),mq=n('mpost'),bp=n('bpre'),bq=n('bpost'),mn=n('min'),t2=n('t2');
+  const fld=st.f;const lrT1=lrRange(fld,'t1lo','t1hi'),lrE=lrRange(fld,'ecvlo','ecvhi'),lrT2=lrRange(fld,'t2lo','t2hi');
+  const rr=(l,u,v,body)=>`<div class="rrow"><div class="rl"><b>${l}</b><small>${u}</small></div><div class="rv">${v}</div>${body}</div>`;
+- const warn=[];let rows='';const full=hct>0&&mp>0&&mq>0&&bp>0&&bq>0;let any=false;
++ const warn=[];let rows='';const hctOK=hct>=15&&hct<=65;const full=hctOK&&mp>0&&mq>0&&bp>0&&bq>0;let any=false;
++ if(hct>0&&!hctOK&&mp>0&&mq>0&&bp>0&&bq>0){any=true;rows+=rr('ECV','%','—',`<div class="rs">${AVP('na','Not calculated: hematocrit must be a percentage between 15 and 65 (for example 42, not 0.42)')}</div>`)}
+  if(full){
+-  const H=hct>1?hct/100:hct;
+-  if(H<0.15||H>0.7)warn.push('Hematocrit looks implausible; enter it as % (e.g., 42).');
++  const H=hct/100;
+   if(mq>=mp||bq>=bp)warn.push('Post-contrast T1 must be shorter than native T1. Check the values are not swapped.');
+   if(mn>0&&(mn<10||mn>30))warn.push('Post-contrast map should be 10–30 min after contrast (SCMR/EACVI 2017).');
+   if(H<0.30)warn.push('Anaemia: ECV error increases with low hematocrit (SCMR 2025).');
 @@ -875,19 +904,16 @@
     const lam=dm/db,ecv=(1-H)*lam*100;
     let pill,basis,bar='',c;const R=(ECV_REF[fld]||[])[parseInt(st.seq)];
@@ -471,6 +515,15 @@
   let h='<h3>Results</h3>';
   if(!any)return h+`<p class="empty">${warn.join(' ')||'Enter native myocardial T1 or T2, or hematocrit with the four T1 values for ECV.'}</p>`;
   h+=`<div class="rlist">${rows}</div>`;
+@@ -911,7 +937,7 @@
+  let h=`<div class="dhead"><button class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><h2>${esc(it.title)}</h2><button class="fav ${isFav(it.id)?'on':''}" data-fav="${it.id}" aria-label="Favorite">${isFav(it.id)?HEART_ON:HEART}</button></div><div class="wrap">`;
+  h+=`<div class="card"><div class="field"><label class="lbl" for="ecv-f">Field strength</label><select id="ecv-f" data-ecv="f">${[['0.55','0.55 T'],['1.5','1.5 T'],['3','3 T']].map(([v,t])=>`<option value="${v}" ${st.f===v?'selected':''}>${t}</option>`).join('')}</select></div>
+   ${ECV_REF[st.f]?`<div class="field"><label class="lbl" for="ecv-seq">Reference set (SCMR 2025, optional)</label><select id="ecv-seq" data-ecv="seq"><option value="">Generic range</option>${ECV_REF[st.f].map((r,i)=>`<option value="${i}" ${st.seq===String(i)?'selected':''}>${r[0]} · ${r[3]}–${r[4]}%</option>`).join('')}</select></div>`:''}
+-  ${f('hct','Measured hematocrit','%','42')}<span class="ref">Measured, not synthetic. Draw immediately before the scan if possible, otherwise within 24 h.</span>
++  ${f('hct','Measured hematocrit','%','42')}<span class="ref"><b>Enter as a percentage</b> (42, not 0.42). Measured, not synthetic. Draw immediately before the scan if possible, otherwise within 24 h.</span>
+   <h3>Myocardium (septum)</h3>${f('mpre','Native T1','ms',pre)}${f('mpost','Post-contrast T1','ms','450')}${f('t2','T2 (optional)','ms','')}
+   <h3>Blood pool (LV cavity)</h3>${f('bpre','Native T1','ms',bpre)}${f('bpost','Post-contrast T1','ms','300')}
+   ${f('min','Time after contrast','min','15')}</div>`;
 @@ -939,80 +965,84 @@
  // ---------- aortic valve calculators ----------
  const avState={'pr-calc':{m:'direct',fwd:'',rev:'',rvsv:'',lvsv:'',bsa:'',rvedv:'',rvesv:'',lvedv:''},'sten-calc':{v:'ms',mva:'',pht:'',mg:'',pv:'',cd:'',rvm:'',rvedv:''},'tr-calc':{m:'ind',rvsv:'',pf:'',bsa:'',rvedv:'',rvesv:'',lvedv:'',ra:'',lecv:'',lge:'',teer:''},'mr-calc':{t:'p',m:'std',lvsv:'',mi:'',fwd:'',bsa:'',edv:'',laef:'',lge:'',mvp:'',mad:''},'ar-calc':{m:'direct',fwd:'',rev:'',lvsv:'',rvsv:'',bsa:'',edv:'',esv:'',ef:'',hdr:'',lge:''},'as-calc':{ava:'',bsa:'',vmax:'',mg:'',sv:'',lge:'',ecv:'',post:''}};
@@ -540,7 +593,7 @@
 +  if(rvedv>0&&rvesv>0&&rvedv>rvesv){const x=(rvedv-rvesv)/rvedv*100;add('RVEF (total)','%',D(x,0,VCUT['RVEF (total)']),st.teer==='post'?AVP('na','Interpret with caution after T-TEER'):x<50?AVP('hi','High risk (&lt;50%)'):x<=60?AVP('lo','Intermediate (50–60%)'):AVP('ok','&gt;60%'),st.teer==='post'?'A rise in RVEF after T-TEER can mean residual/worse TR (Bombace 2025)':st.teer==='pre'&&x<=45?'Hinojar 2025. Before T-TEER, ≤45% high risk (Kresoja 2021, HR 6.6)':'Hinojar 2025. Volume loading inflates RVEF')}
 +  const lv=n('lvedv');if(rvedv>0&&lv>0){const x=rvedv/lv;add('RV/LV EDV ratio','',D(x,2,VCUT['RV/LV EDV ratio']),x>=1.27?AVP('lo','≥1.27 (weak, HR 1.47)'):AVP('ok','&lt;1.27'),'Zhang 2025, JACC Adv (n=949)')}
 +  const ra=n('ra');if(ra>0&&rvedv>0){const x=ra/rvedv;add('RACI (RA end-diastolic vol ÷ RVEDV)','',D(x,2,VCUT['RACI (RA end-diastolic vol ÷ RVEDV)']),x>=0.62?AVP('hi','≥0.62: higher risk'):AVP('ok','&lt;0.62'),'Zhang 2026, Circ CV Imaging (HR 2.06)')}
-+  const le=n('lecv');if(le>0)add('Liver ECV','%',D(le,0,VCUT['Liver ECV']),le>=32?AVP('hi','≥32%: congestion, higher risk'):AVP('ok','&lt;32%'),'Margonato 2025, Circulation (371 with liver mapping)');
++  const le=n('lecv');if(le>0)add('Liver ECV','%',D(le,0,VCUT['Liver ECV']),le>=32?AVP('hi','≥32%: associated with right-sided HF and adverse outcomes in TR (source method: 1.5 T MOLLI)'):AVP('ok','&lt;32% (source method: 1.5 T MOLLI)'),'Margonato 2025 Circulation (n=371 with liver mapping; 1.5 T Siemens MOLLI inline ECV, same-day hematocrit; spline-derived, not externally validated). Applies only to a comparable liver ECV method');
 +  if(st.lge)add('Septal non-ischemic LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Associated with higher risk'):AVP('ok','None'),'Functional TR cohort, n=663 (single centre; presence only)');
   }else if(id==='mr-calc'){const fwd=n('fwd');const src=st.m==='std'?n('lvsv'):n('mi');let rv=null,rf=null;
    if(src>0&&fwd>0&&src>fwd){rv=src-fwd;rf=rv/src*100}
@@ -683,7 +736,7 @@
   return h}
  const LA_EV=[
   {t:'Outcome-based LA volume severity grading by CMR',a:'Khan MA, et al. J Cardiovasc Magn Reson 2019;21:4',doi:'10.1186/s12968-018-0517-0',tag:'Retrospective · 3 US centres · used for biplane grades',
-@@ -1332,15 +1349,29 @@
+@@ -1332,18 +1349,33 @@
  
  let current=null;
  // ---------- Report: findings built from the values entered on each page ----------
@@ -714,14 +767,34 @@
 +const FOOT=()=>`— CMR Reference ${APP_VERSION}; ${DATA_VERSION}. Verify against the source before reporting.`;
  function rowsOf(html){const d=document.createElement('div');d.innerHTML=html;
   const trs=[...d.querySelectorAll('table.res tbody tr')].map(r=>{const td=[...r.children];const pills=[...(td[td.length-1]||r).querySelectorAll('.pill')];
-   return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>2?td[td.length-2].textContent.trim():'',pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),
-@@ -1369,20 +1400,21 @@
+-  return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>2?td[td.length-2].textContent.trim():'',pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),
++  const hd=[...d.querySelectorAll('table.res thead th')].map(x=>x.textContent.trim());const inp=td[1]?td[1].textContent.trim():'',der=td.length>2?td[td.length-2].textContent.trim():'';
++  return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>3&&inp&&inp!==der?inp+(der&&!/^—/.test(der)?'; '+(hd[td.length-2]||'').toLowerCase()+' '+der:''):der,pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),
+    refs:td.length>2?[td[1].textContent.trim()]:[],cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}});
+  return trs.concat([...d.querySelectorAll('.rrow')].map(r=>{const q=x=>r.querySelector(x);const pills=[...r.querySelectorAll('.pill')];
+   const small=q('.rl small')?q('.rl small').textContent.trim():'';const parts=small.split(' · ').filter(Boolean);
+@@ -1352,12 +1384,12 @@
+    pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),refs:[...r.querySelectorAll('.rs .ref')].map(x=>x.textContent.trim()).filter(Boolean),
+    cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}}))}
+ function buildReport(){const out=[];
+- const add=(name,open,ctx,html,keep,map)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(map)rows=rows.map(map);if(rows.length)out.push({name,open,ctx,rows})};
++ const add=(name,open,ctx,html,keep,map)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(map)rows=rows.map(map);if(rows.length)out.push({name,open,ctx,rows,note:noteOf(html)})};
+  const it=id=>ITEMS.find(i=>i.id===id);
+  for(const [id,name] of [['lv-vol','Left ventricle'],['rv-vol','Right ventricle'],['la-vol','Left atrium'],['ra-vol','Right atrium']]){const x=it(id),s=getState(x);
+   const M=x.methods[s.method];const cx=(s.ctx&&s.ctx!=='gen')?'; context: '+s.ctx:'';
+   add(name,id,(M&&M.label?M.label:s.method)+' · '+(s.sex==='f'?'female':'male')+cx,resultsHTML(x))}
+- add('Aorta','ao-calc',(aoState.lvl||'')+(parseFloat(aoState.d)>0?', diameter '+aoState.d+' mm':'')+(parseFloat(aoState.age)>0?', age '+aoState.age:'')+' · '+(aoState.sex==='f'?'female':'male'),aoResults(),null,r=>Object.assign(r,{lab:'z-score, '+r.lab.toLowerCase()}));
++ add('Aorta','ao-calc',(aoState.lvl||'')+(parseFloat(aoState.d)>0?', diameter '+aoState.d+' mm':'')+(parseFloat(aoState.age)>0?', age '+aoState.age:'')+' · '+(aoState.sex==='f'?'female':'male'),aoResults(),null,r=>Object.assign(r,{lab:r.lab.toLowerCase()}));
+  add('Aortic valve: regurgitation','ar-calc','',avResults('ar-calc'));
+  add('Aortic valve: stenosis','as-calc','',avResults('as-calc'));
+  add('Mitral valve: regurgitation','mr-calc','',avResults('mr-calc'));
+@@ -1369,20 +1401,22 @@
   add('ECV and native T1','ecv','Field strength '+ecvState.f+' T',ecvResults(),r=>!/^(Partition|ΔR1)/.test(r.lab));
   add('Iron (T2*)','iron','',ironResults());
   return out}
 -function gShort(t){return t.replace(/\s*\([^)]*\)/g,'').replace(/^within typical normal range$/i,'normal').replace(/consistent with /i,'').replace(/\s+/g,' ').trim().toLowerCase().replace(/ sd\b/g,' SD').replace(/\bml\b/g,'mL').replace(/\blge\b/g,'LGE').replace(/\becv\b/g,'ECV')}
 -function lShort(l){return l.replace(/\s*\([^)]*\)/g,'').replace(/^(LV|RV|LA|RA)(?=[A-Z])/,'').replace(/\b(LV|RV|LA|RA)\b ?/g,'').replace(/^Regurgitant fraction/i,'RF').replace(/^Regurgitant vol(ume)?/i,'RVol').replace(/^Peak velocity/i,'Vmax').replace(/^Planimetric /,'').replace(/^Native myocardial T1/i,'native T1').replace(/volume/i,'vol').replace(/\/BSA/,' idx').replace(/z-score, absolute/,'z abs').replace(/z-score, indexed/,'z idx').replace(/\s+/g,' ').trim()}
-+function gShort(t){return t.replace(/^within typical normal range$/i,'normal').replace(/consistent with /i,'').replace(/\s+/g,' ').trim().toLowerCase().replace(/ sd\b/g,' SD').replace(/\bml\b/g,'mL').replace(/\blge\b/g,'LGE').replace(/\becv\b/g,'ECV')}
++function gShort(t){return t.replace(/^within typical normal range$/i,'normal').replace(/consistent with /i,'').replace(/\s+/g,' ').trim().replace(/^([A-Z])([a-z]+)(?=[\s(]|$)/,(m,x,y)=>x.toLowerCase()+y)}
 +function lShort(l){if(/^(RV\/LV|RACI|LACI)/.test(l))return l.replace(/\s*\([^)]*\)/g,'');return l.replace(/\s*\([^)]*\)/g,'').replace(/^(LV|RV|LA|RA)(?=[A-Z])/,'').replace(/\b(LV|RV|LA|RA)\b ?/g,'').replace(/^Regurgitant fraction/i,'RF').replace(/^Regurgitant vol(ume)?/i,'RVol').replace(/^Peak velocity/i,'Vmax').replace(/^Planimetric /,'').replace(/^Native myocardial T1/i,'native T1').replace(/volume/i,'vol').replace(/\/BSA/,' idx').replace(/z-score, absolute/,'z abs').replace(/z-score, indexed/,'z idx').replace(/\s+/g,' ').trim()}
  function pillShort(r){if(!r.pills[0])return '';const d=document.createElement('div');d.innerHTML=r.pills[0];const el=d.firstChild;const t=gShort(el.textContent);el.textContent=t.charAt(0).toUpperCase()+t.slice(1);return el.outerHTML}
  function vShort(r){const u=r.unit&&!/\/m²/.test(r.unit)&&r.unit.length<7?r.unit:'';return r.val+(u?(u==='%'?'':' ')+u:'')}
@@ -734,16 +807,17 @@
   for(const grp of G){let hit=null;for(const re of grp){hit=g.rows.find(r=>re.test(r.lab));if(hit)break}if(hit&&!out.includes(hit))out.push(hit)}return out.length?out:g.rows.slice(0,4)}
  function sname(g){let n=SHORTN[g.open]||g.name;if(g.open==='sten-calc')n=g.name.startsWith('Mitral')?'MS':g.name.startsWith('Tricuspid')?'TS':'PS';
   if(g.open==='ao-calc'&&parseFloat(aoState.d)>0)n+=' ('+(aoState.lvl||'')+' '+aoState.d+' mm)';return n}
++function noteOf(html){const d=document.createElement('div');d.innerHTML=html;const n=[...d.querySelectorAll('.rnote')].map(x=>x.textContent.replace(/\s+/g,' ').trim()).filter(t=>/^Check inputs/.test(t));return n.join(' ')}
  function lineOf(g,only){let rs=keyRows(g);if(only)rs=rs.filter(r=>r.cls==='hi'||r.cls==='lo');if(!rs.length)return '';
 - return sname(g)+': '+rs.map(r=>lShort(r.lab)+' '+vShort(r)+(r.grades.length?' ('+gShort(r.grades[0])+')':'')).join('; ')}
 -function reportText(secs,only){const L=secs.map(g=>lineOf(g,only)).filter(Boolean);return L.length?L.join('\n'):(only?'No abnormal values among the entered findings.':'')}
 + const cx=ctxFor(g.open);
-+ return sname(g)+(cx?' ['+cx+']':'')+': '+rs.map(r=>lShort(r.lab)+' '+vShort(r)+(r.grades.length?' ('+r.grades.map(gShort).join('; ')+')':'')).join('; ')}
++ return sname(g)+(cx?' ['+cx+']':'')+': '+rs.map(r=>lShort(r.lab)+' '+vShort(r)+(r.grades.length?' ('+r.grades.map(gShort).join('; ')+')':'')).join('; ')+(g.note?'. '+g.note:'')}
 +function reportText(secs,only){const L=secs.map(g=>lineOf(g,only)).filter(Boolean);return L.length?L.join('\n')+'\n'+FOOT():(only?'No abnormal values among the entered findings.':'')}
  function reportBody(){const secs=buildReport();
   if(!secs.length)return `<div class="card"><p class="empty">No findings yet. Enter measurements on any chamber, valve or mapping page.</p></div>`;
   let h='<div class="card rcompact">';
-@@ -1396,7 +1428,7 @@
+@@ -1396,7 +1430,7 @@
  function reportView(){
   let h=header()+'<div class="wrap">';
   h+=scanHTML();
@@ -752,7 +826,7 @@
   h+=`<div id="rbody">${reportBody()}</div>`;
   h+=`<span class="ref">Findings only, no impression. Verify before use. Nothing is saved or sent; no patient identifiers.</span>`;
   return h+'</div>'}
-@@ -1504,7 +1536,7 @@
+@@ -1504,7 +1538,7 @@
     logger:m=>{if(m.status)prog((m.status==='recognizing text'?'Reading text… ':m.status.charAt(0).toUpperCase()+m.status.slice(1)+'… ')+(m.progress!=null&&m.status==='recognizing text'?Math.round(m.progress*100)+'%':''))}});
    await worker.setParameters({tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'});
    const r=await worker.recognize(c);const P=parseReport(r.data.text);
@@ -761,7 +835,7 @@
   catch(e){if(scan){scan.stage='err';scan.msg=(e&&e.message)||'Could not read the image.'}}
   finally{if(worker)try{await worker.terminate()}catch(x){}if(c){c.width=c.height=0}}
   render()}
-@@ -1517,7 +1549,6 @@
+@@ -1517,7 +1551,6 @@
   for(const it of scan.items){if(!it.inc)continue;const v=parseFloat(it.v);if(!(v>=0))continue;const s=String(v);
    if(it.k==='bsa'){setCase('bsa',s);continue}
    for(const t of CANON[it.k].to){set(t[0],t[1],t[2],s);scan.wrote.push(t);if(!scan.opens.includes(t[1]))scan.opens.push(t[1])}}
@@ -769,7 +843,7 @@
   for(const id of scan.opens){const st=id==='ar-calc'||id==='as-calc'||id==='mr-calc'||id==='tr-calc'||id==='pr-calc'||id==='sten-calc'?avState[id]:null;if(st)st.example=false;else{const it=ITEMS.find(i=>i.id===id);if(it)getState(it).example=false}}}
  const SN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ar-calc':'Aortic regurgitation','as-calc':'Aortic stenosis','mr-calc':'Mitral regurgitation','tr-calc':'Tricuspid regurgitation','pr-calc':'Pulmonic regurgitation','sten-calc':'Mitral / pulmonic stenosis'};
  function scanHTML(){
-@@ -1531,11 +1562,11 @@
+@@ -1531,11 +1564,11 @@
   else if(scan.stage==='err')h+=`<h3>Could not read the image</h3><p class="ref">${esc(scan.msg)}</p><div class="rbtns"><button class="primary" data-scan="start">Try again</button><button data-scan="cancel">Close</button></div>`;
   else{h+=`<h3>Check the values</h3>`;
    if(scan.phi)h+=`<div class="phi"><b>This image may contain patient identifiers.</b> Possible identifiers were detected in the text. Discard it, crop or cover them, and scan again. Nothing has been stored or sent.</div>`;
@@ -784,16 +858,16 @@
   return h+'</div>'}
  function copyText(txt,btn,done){const o=btn.textContent;const ok=()=>{btn.textContent='Copied ✓';setTimeout(()=>{btn.textContent=o},1600)};
   const fb=()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){btn.textContent='Copy failed'}ta.remove()};
-@@ -1544,7 +1575,7 @@
+@@ -1544,7 +1577,7 @@
   if(!res||res.classList.contains('held')){const o=btn.textContent;btn.textContent='Fix highlighted values first';setTimeout(()=>{btn.textContent=o},1800);return}
   const rows=rowsOf(res.innerHTML);if(!rows.length){const o=btn.textContent;btn.textContent='Nothing to copy yet';setTimeout(()=>{btn.textContent=o},1800);return}
   const nm=current==='sten-calc'?({ms:'Mitral valve: stenosis',ts:'Tricuspid valve: stenosis',ps:'Pulmonic valve: stenosis'})[avState['sten-calc'].v]||it.title:it.title;
 - copyText(lineOf({name:nm,open:current,rows},false),btn)}
-+ copyText(lineOf({name:nm,open:current,rows:rows,all:true},false).replace(/^[^\[:]*/,nm+' ')+'\n'+FOOT(),btn)}
++ copyText(lineOf({name:nm,open:current,rows:rows,all:true,note:noteOf(res.innerHTML)},false).replace(/^[^\[:]*/,nm+' ')+'\n'+FOOT(),btn)}
  function resetCurrent(){const it=ITEMS.find(i=>i.id===current);if(!it)return;const o=JSON.parse(INIT);const clr=(dst,src)=>{for(const k in src)if(src[k]==='')dst[k]=''};
   if(it.methods){const st=getState(it);for(const k of ['a','b','c','lv','area','rv','str','h','w'])if(k in st)st[k]='';for(const k of Object.keys(st))if(k.startsWith('v_'))delete st[k];st.example=false}
   else if(it.kind==='aocalc'){aoState.d='';aoState.age=''}
-@@ -1581,7 +1612,7 @@
+@@ -1581,7 +1614,7 @@
   if(window.__stripUpd)window.__stripUpd()}
  function postUI(){const res=document.getElementById('results');document.body.classList.toggle('calcpage',!!res);app.classList.toggle('calc',!!res);
   if(res){const wrap=res.parentElement;if(wrap&&wrap.classList.contains('wrap')){let p=res.previousElementSibling;while(p&&!p.classList.contains('card'))p=p.previousElementSibling;
@@ -802,7 +876,7 @@
   validate()}
  app.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('.row input'));clearTimeout(vtimer);vtimer=setTimeout(validate,650)});
  app.addEventListener('change',()=>validate());
-@@ -1593,6 +1624,8 @@
+@@ -1593,6 +1626,8 @@
   enhance();
   setupStrip();
   postUI();
@@ -811,7 +885,7 @@
   renderSide();
   if(!app.querySelector('.disc')){const d=document.createElement('p');d.className='foot disc';d.textContent='Educational reference only. Not medical advice. Independent project, not endorsed by OSU or SCMR.';app.appendChild(d)}
   ['home','fav','report','search'].forEach(t=>document.getElementById('nav-'+t).classList.toggle('on',!current&&tab===t));
-@@ -1608,11 +1641,12 @@
+@@ -1608,11 +1643,12 @@
   const o=e.target.closest('[data-open]');if(o){openItem(o.dataset.open);return}
   if(e.target.closest('[data-back]')){goBack();return}
   const sc=e.target.closest('[data-scan]');if(sc){const a=sc.dataset.scan;
@@ -826,7 +900,7 @@
   const rc=e.target.closest('[data-rcopy]');if(rc){const t=document.getElementById('rtext'),m=document.getElementById('rmsg');const txt=rc.dataset.rcopy==='ab'?t.dataset.ab:t.dataset.all;t.textContent=txt;
    const fb=()=>{const r=document.createRange();r.selectNodeContents(t);const sl=getSelection();sl.removeAllRanges();sl.addRange(r);m.textContent='Text selected. Press copy.'};
    try{navigator.clipboard.writeText(txt).then(()=>{m.textContent='Copied.';const o=rc.textContent;rc.textContent='Copied ✓';setTimeout(()=>{rc.textContent=o},1600)},fb)}catch(x){fb()}return}
-@@ -1641,7 +1675,7 @@
+@@ -1641,7 +1677,7 @@
  });
  app.addEventListener('input',e=>{
   if(e.target.dataset.lr!=null){const f=ecvState.f;(LOCAL[f]=LOCAL[f]||{})[e.target.dataset.lr]=e.target.value;saveLocal();const r=document.getElementById('results');if(r)r.innerHTML=ecvResults();const sm=document.getElementById('lrsum');if(sm)sm.textContent=lrSummary(f);const nt=document.getElementById('lrnote');if(nt)nt.textContent=lrNote(f);return}

@@ -1,4 +1,4 @@
-# CMR Reference 2026.11-rc1: draft pilot release notes
+# CMR Reference 2026.11-rc2: draft pilot release notes
 
 **Status: draft.** This is for a limited pilot with named CMR readers who are told that the app is not
 validated. It is not for public release. The app is an educational and reference aid. It has not been
@@ -11,6 +11,7 @@ clinically validated and is not a medical device. Always check against the prima
 - Several unsourced or other-modality grades were removed or withheld: supranormal EF, borderline LV mass, echo RVEF tiers, the AS grey zone, generic ECV tiers, echo MS/PS bands, and repaired-TOF timing labels.
 - Corrections: the RACI definition (RA minimum volume), the AS AVA operator (≤1.0), the RA strain operator, the AR LGE citation, and the Khan LA bands.
 - Iron: you must choose 1.5 T or 3 T. Liver iron concentration (mg/g) is withheld because the calibration could not be verified. Liver T2* and R2* are still shown.
+- Liver ECV label names its source population and method; hematocrit must be a percentage; copied text keeps measured inputs and acronyms.
 - Near a cut-off, values are shown with extra decimals so that the displayed value never contradicts its label, on screen or in copied text.
 - Copied text includes population, method, age group, table, center ranges, and the app and data versions.
 - Two reset buttons: "Clear this page" (keeps population and BSA) and "New patient" (clears everything).
@@ -19,13 +20,14 @@ clinically validated and is not a medical device. Always check against the prima
 ## Known limitations
 
 - Tested automatically in Chromium only. Not yet tested on real iPhone or Android devices or with screen readers.
-- Accessibility: in the home list, a favourite button sits inside a row button. Screen readers may announce this oddly.
+- Accessibility: only automated checks (axe-core, no violations on 5 pages × 2 themes) and scripted keyboard tests. No real screen-reader session yet. This is not a claim of accessibility compliance.
 - No independent clinician review yet. The decisions in `ADJUDICATION.md` (Q1–Q5) are pending, and the related outputs are withheld or shown conservatively.
 - Some thresholds were verified only from abstracts (see `EVIDENCE.md`, status column).
 - Center-specific ranges have no author or date fields.
 - No in-app prompt when an update is available. Reload once while online after an update.
-- Third-party licence notices (tesseract.js, fonts) are not yet in the app.
-- A hematocrit entered as a fraction (0.42) is held with a message, not converted.
+- Third-party licence notices (tesseract.js Apache-2.0, fonts OFL-1.1) are not yet shipped, and permission to reuse the SCMR tables is not established (see OWNER_CHECKLIST).
+- Hematocrit must be entered as a percentage (15–65). Anything else gives no ECV.
+- Liver ECV ≥32% comes from one network's 1.5 T MOLLI method and is not externally validated. It may not apply to other sequences.
 
 ## Reporting problems
 

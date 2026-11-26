@@ -1,6 +1,6 @@
-# Disposition of the 77 original audit tests on 2026.11-rc1
+# Disposition of the 77 original audit tests on 2026.11-rc2
 
-Run: `node tests/suite_original.js` (original assertions unchanged; one harness line changed because the population buttons moved out of Settings). Chromium, Playwright 1.63, build `cmr-ref-f34dd26b4a`. Raw output: `tests/results/original-suite-on-rc1.json`. Result: 26 pass, 51 fail. Classification generated with `tests/dispo.py` and checked by hand against each test's assertion and the RC output. No test is in "Valid and exposing an unresolved defect" or "Not executed".
+Run: `node tests/suite_original.js` (original assertions unchanged; one harness line changed because the population buttons moved out of Settings). Chromium, Playwright 1.63, code commit c68d431, build `cmr-ref-af44e7d671`. Raw output: `tests/results/final-original-suite.json`. Result: 26 pass, 51 fail, all classified below with `tests/dispo.py` and checked by hand against each test's assertion and the RC output. No test is in "Valid and exposing an unresolved defect" or "Not executed".
 
 | Original test | Disposition | Reason | Evidence (RC output) | Replacement / covering test |
 |---|---|---|---|---|
@@ -76,7 +76,7 @@ Run: `node tests/suite_original.js` (original assertions unchanged; one harness 
 | AS-AVA-1.3 | Superseded by sourced behaviour change | Grey-zone/"unlikely" tiers (1.0–1.3) not supported for CMR planimetry; app now says ">1.0: does not exclude severe". | `>1.0: does not exclude severe` | as-calc-Planimetric AVA {ava:1.01} |
 | AS-AVA-1.31 | Superseded by sourced behaviour change | Grey-zone/"unlikely" tiers (1.0–1.3) not supported for CMR planimetry; app now says ">1.0: does not exclude severe". | `>1.0: does not exclude severe` | as-calc-Planimetric AVA {ava:1.01} |
 | ECV-calc | Still valid and passing | Passes unchanged on the RC. | `26.2 Not interpreted: choose a sequence-matched reference set or enter your center range` | retained as-is |
-| ECV-hctfrac | Still valid and passing | Passes unchanged on the RC. | `26.2 · held true · Hematocrit is usually 15–65 %.` | ECV-hand (F17 hct-fraction handling still open, held with message) |
+| ECV-hctfrac | Still valid and passing | Passes unchanged on the RC. | `— · held true · Hematocrit is usually 15–65 %.` | HCT-fraction, HCT-switch, HCT-report (fraction now gives no ECV; percentage required) |
 | FE-20.1 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20.1 ms — Select the field strength Cardiac ir` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
 | FE-20 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20 ms — Select the field strength Cardiac iron` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
 | FE-10 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 10 ms — Select the field strength Cardiac iron` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |

@@ -1,3 +1,5 @@
+> **Superseded by `OWNER_CHECKLIST.md` (2026.11-rc2).** Kept for the rc1 record.
+
 # Release-candidate package: 2026.11-rc1
 
 Branch `remediation/audit-2026-11`. Parent commit c0f2f52. The RC commit is the commit that adds this file.

@@ -1,21 +1,44 @@
-# Validation report: 2026.11-rc1 (branch remediation/audit-2026-11)
+# Validation report: 2026.11-rc2 (branch remediation/audit-2026-11)
 
-## Environment and commands (final run, after the last code change)
+## Final run (after the last code change)
 
-- Code: `src/index.html` with `APP_VERSION='2026.11-rc1 (release candidate, not deployed)'`; build `cmr-ref-f34dd26b4a` (from `build/build.py`).
-- Commit: the RC commit on this branch that contains this file (see `git log`); the parent is c0f2f52.
-- Machine: Linux 6.18 sandbox, Node 22.23.4, Playwright 1.63.0. **Chromium only**: Firefox and WebKit downloads are blocked here (403). Tests used the local build (`file://` and `http://localhost:8765`). The live GitHub Pages site was **not** tested, because it cannot be reached from this environment.
+- **Tested code commit:** `c68d431`. Root `index.html` is byte-identical to the build output (sha256 `df3d263ec250d7d3…`); `sw.js` reads `CACHE='cmr-ref-af44e7d671'`; About shows `2026.11-rc2 (release candidate, not deployed)`. Later commits change documentation, test results, and the output file name in `tests/owner_cases.js` only.
+- **Environment:** Linux 6.18 sandbox, Node 22.23.4, Playwright 1.63.0, **Chromium only** (Firefox/WebKit downloads blocked here, 403). Desktop 1280×900 and phone 360/390/320 px viewports. Local files (`file://`) and `http://localhost:8765`. Run on 26 Nov 2026 (UTC ≈ 20:30–20:50).
+- **Not tested:** real iPhone Safari, real Android Chrome, desktop Safari/Firefox, any screen reader, the live GitHub Pages site (unreachable from here), installed-app and offline behaviour on a device.
 
-| Command (run from `tests/`, with the build at `../` or `CMR_URL`) | Result | Skips | Failures |
+| Command (from `tests/`) | Result | Skips | Failures |
 |---|---|---|---|
-| `node suite2.js chromium` | 172 run: 29 Layer 1 (software), 143 Layer 2 (evidence boundaries) | 0 | 0 |
-| `node aorta_sweep.js` | 580 cases | 0 | 0 |
-| `python3 aorta_transcription.py ../src/index.html <SCMR 2025 text>` | 116 mean/SD pairs + 16 percentile values = 132 values | "All" rows not compared | 0 mismatches |
-| `node scan_gate.js` (real OCR, local http server) | Before Apply: LV fields empty. After Apply: 1.92 / 182 / 74 / 128. Population not applied | 0 | 0 |
-| `node axe.js` (axe-core 4.10.2; 5 pages × light/dark) | 1 rule remaining: `nested-interactive` on home list rows (favourite button inside a row button), serious | — | known, open |
-| `node suite_original.js` | 77 run: 26 pass, 51 fail; all 51 are explained in `TEST_DISPOSITION.md` | 0 | 51 (expected) |
+| `CMR_URL=file://…/index.html node suite2.js chromium` | 184 run (40 Layer 1 software, 144 Layer 2 evidence boundaries) | 0 | 0 |
+| `node owner_cases.js` | 23 owner cases executed; screen and copy recorded in `results/final-owner-cases.txt` | 0 | n/a (record, not assertions) |
+| `node aorta_sweep.js ../src/index.html` | 580 cases | 0 | 0 |
+| `python3 aorta_transcription.py ../src/index.html <SCMR 2025 text>` | 132 values (116 mean/SD pairs + 16 percentiles) | "All" rows not compared | 0 mismatches |
+| `node scan_gate.js` (real OCR) | Before Apply: fields empty. After Apply: 1.92/182/74/128. Population not applied | 0 | 0 |
+| `node axe.js` (axe-core 4.10.2; home, LV, ECV, PR, report × light/dark) | No violations (the earlier `nested-interactive` is fixed) | — | 0 |
+| `node suite_original.js` | 77 run: 26 pass, 51 fail; all 51 classified in `TEST_DISPOSITION.md` (unchanged from rc1) | 0 | 51 (expected) |
 
-Raw outputs are in `tests/results/*-rc1.*`.
+Raw outputs are in `tests/results/final-*`.
+
+### Screen, copy and report agreement
+Checked by COPY, COPY-stale, PREC-COPY, LR-copy, LECV-label, HCT-fraction, HCT-switch, HCT-report, COPY-iron15,
+COPY-iron3, COPY-liver, COPY-aorta and COPY-checkinputs, and by the screen/copy pairs in the owner-case record.
+Fixed in rc2 after this check exposed them: acronyms lowercased in copied text; iron and aortic copies missing the
+measured T2*/diameter; the "Check inputs" note missing from copies.
+
+### Withheld features stay withheld
+KANG-general, LA-simpson-noTier, RVEF-gen-30.0, RVEF-tof-30.0, pr-calc TOF RVEDVi, sten-ms PHT, sten-ps 4.0, RA
+area, as-calc AVA 1.01 (no grey zone), ECV-hand (no generic tier), IRON-liver-withheld, COPY-liver, PEDS-LV,
+PEDS-LA, PEDS-AO-12/19.9, AO-above-oldest, NOSEX: all pass.
+
+### Accessibility (rc2)
+The defect: each home-list row was a `div role="button"` that contained the favourite `<button>` (axe
+`nested-interactive`, WCAG 2.2 SC 4.1.2 Name, Role, Value). Children of a button role are presentational, so
+assistive technology could merge the favourite into the row's name ("… Add to favorites, button") or skip it.
+It affected screen-reader users, especially iOS VoiceOver swipe navigation. Opening calculators still worked by
+keyboard and screen reader. Only the favourite toggle (not essential) was affected, so it did not block the pilot.
+Fixed: the row is now a real item `<button>` plus a sibling favourite `<button aria-pressed>` named
+"Favorite: <item>", with focus kept after toggling. Test A11Y-home checks the structure, keyboard toggle, focus
+and opening. axe now reports no violations. **This is not a compliance claim:** only automated checks were run,
+with no real screen-reader session.
 
 ### What "580/0" means
 

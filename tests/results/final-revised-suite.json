@@ -1781,6 +1781,56 @@
  },
  {
   "layer": 1,
+  "id": "COPY-iron15",
+  "mod": "iron",
+  "input": "Cardiac T2* 9.9 at 1.5 T, copy",
+  "expect": "copy has T2* 9.9 ms, R2* and mg/g",
+  "prov": "screen/copy agreement",
+  "actual": "Iron overload calculator [cardiac T2* at 1.5 T · SCMR 2025 Table 100]: Cardiac T2*, 1.5 T T2* 9.9 ms · R2* 101 s⁻¹; iron 2.74 mg/g (severe iron overload (<10 ms))\n— CMR Reference 2026.11-rc2 (release ",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "COPY-iron3",
+  "mod": "iron",
+  "input": "Cardiac T2* 5.4 at 3 T, copy",
+  "expect": "copy has T2* 5.4 ms; no mg/g",
+  "prov": "screen/copy agreement",
+  "actual": "Iron overload calculator [cardiac T2* at 3 T · SCMR 2025 Table 100]: Cardiac T2*, 3 T T2* 5.4 ms · R2* 185 s⁻¹ (severe iron overload (<5.5 ms))\n— CMR Reference 2026.11-rc2 (release candidate, not depl",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "COPY-liver",
+  "mod": "iron",
+  "input": "Liver T2* 8 at 1.5 T, copy",
+  "expect": "copy has T2* 8 ms and R2* 125; LIC withheld",
+  "prov": "supported numeric outputs kept",
+  "actual": "Iron overload calculator [cardiac T2* at field strength not selected · SCMR 2025 Table 100]: Liver, 1.5T T2* 8 ms · R2* 125 s⁻¹ (liver iron concentration withheld: calibration not verified)\n— CMR Refe",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "COPY-aorta",
+  "mod": "ao-calc",
+  "input": "Sinus 36.22 mm, male 25 y, copy",
+  "expect": "copy has diameter and z",
+  "prov": "screen/copy agreement",
+  "actual": "Aortic size calculator [Adult male · Sinus of Valsalva · age 25 y · LVOT view, diastole · SCMR 2025 Table 67]: Absolute 36.2 mm; z +2.04 (above +2 SD)\n— CMR Reference 2026.11-rc2 (release candidate, n",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "COPY-checkinputs",
+  "mod": "lv-vol",
+  "input": "EDV 100, ESV 120: copy and report",
+  "expect": "both carry the Check inputs note; no EF",
+  "prov": "screen/copy/report agreement",
+  "actual": "LV volumes, EF and mass [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 100.0 mL (within reference); ESV 120.0 mL (above reference). || LV [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 100.0 mL (within reference); ESV 120.0 mL (above referenc",
+  "pass": true
+ },
+ {
+  "layer": 1,
   "id": "A11Y-home",
   "mod": "home",
   "input": "Home list row",

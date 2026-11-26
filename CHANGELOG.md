@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.11-rc2 (branch remediation/audit-2026-11, release candidate, not deployed; code commit c68d431)
+- Liver ECV ≥32%: source verified in full text (Margonato 2025 Circulation, author postprint). The label now names the TR population and source method ("source method: 1.5 T MOLLI") on screen and in copied text. Other liver ECV papers checked and documented; the source was not replaced.
+- TR evidence page: removed mild/moderate/severe wording attributed to Margonato 2025 (it reports hazard thresholds).
+- Accessibility: home list rows are now an item button plus a separate, named favourite toggle (`aria-pressed`). This removes the nested interactive control (WCAG 4.1.2). Focus stays on the favourite after toggling.
+- Hematocrit: must be a percentage from 15 to 65. The silent fraction conversion was removed. Out of range gives "ECV not calculated" on screen and in the report, and Copy is refused.
+- Copied text: no longer lowercases acronyms (HF, TR, PAH…). Iron and aortic rows now include the measured T2*/R2* and diameter. The "Check inputs" note is carried into copied and report text.
+- Tests: 184 revised (was 172), plus `owner_cases.js` (23 owner cases). APP_VERSION 2026.11-rc2; build cmr-ref-af44e7d671.
+
 ## 2026.11-rc1 (branch remediation/audit-2026-11, release candidate, not deployed)
 - Evidence closure: AR LVEF ≤55% and AS mean gradient ≥40 verified in the ACC/AHA 2020 full text (Tables 15 and 13) and relabelled to match the source. Liver iron concentration withheld in the UI and copied text (Wood 2005 calibration not verifiable; Storey 2007 3 T conversion preliminary and not applied); liver T2* and R2* still shown.
 - Population: the chamber "Under 20" group becomes "Under 18 y" (SCMR adult datasets are 18+). The aorta stays unavailable below 20 (youngest SCMR group is 20–29).

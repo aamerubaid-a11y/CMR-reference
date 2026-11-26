@@ -1,4 +1,4 @@
-# Clinical decision sheet (RC 2026.11-rc1)
+# Clinical decision sheet (2026.11-rc2; summary and pilot-relevant items in OWNER_CHECKLIST.md §A)
 
 No clinician has made a decision. Every "Proposal" below is a proposal by the reviewer, not an approval. Each
 interpretation stays in its conservative pending state until the app owner (or a CMR clinician the owner
@@ -67,7 +67,7 @@ decision is needed for a limited pilot. All five are needed before public sharin
 
 ---
 
-## Also for the owner (not clinical decisions)
+## Closed in rc2
 
-- **F17, hematocrit entered as a fraction (0.42):** the app holds the result and asks for a percentage. Decide whether to keep this or convert automatically.
-- **Liver ECV ≥32%:** check the attribution against the 2026 hepatic ECV paper (see EVIDENCE.md).
+- **F17, hematocrit as a fraction:** the input must now be a percentage from 15 to 65. There is no conversion, and no ECV is shown or exported otherwise.
+- **Liver ECV ≥32%:** source verified in full text; the label is now method-qualified. Whether it applies at your centre is OWNER_CHECKLIST A3.
