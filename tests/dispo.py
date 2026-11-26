@@ -27,7 +27,7 @@ def m(i):
 rows=[];c={}
 for x in r:
   if x['pass']:
-    k,why,rep=P,'Passes unchanged on the RC.',{'DEF-sex':'NOSEX','COPY':'COPY, PREC-COPY','XFER':'XFER','LV-EF-round':'ROUND, PREC-LVEF','ECV-hctfrac':'ECV-hand (F17 hct-fraction handling still open, held with message)'}.get(x['id'],'retained as-is')
+    k,why,rep=P,'Passes unchanged on the RC.',{'DEF-sex':'NOSEX','COPY':'COPY, PREC-COPY','XFER':'XFER','LV-EF-round':'ROUND, PREC-LVEF','ECV-hctfrac':'HCT-fraction, HCT-switch, HCT-report (fraction now gives no ECV; percentage required)'}.get(x['id'],'retained as-is')
   else:
     k,why,rep=m(x['id'])
   c[k]=c.get(k,0)+1

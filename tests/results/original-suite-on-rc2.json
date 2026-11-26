@@ -1,0 +1,695 @@
+[
+ {
+  "id": "LV-EDVi-100",
+  "mod": "LV",
+  "input": "Male, papillary-in-mass, all ages, BSA 1, LVEDV 100",
+  "expect": "/Normal/",
+  "prov": "SCMR 2025 Table 2 male UL 104 (row shows \"normal 46–104\")",
+  "actual": "Within reference [mL/m² · normal 46–104]",
+  "pass": false
+ },
+ {
+  "id": "LV-EDVi-101",
+  "mod": "LV",
+  "input": "Male, papillary-in-mass, all ages, BSA 1, LVEDV 101",
+  "expect": "/Normal/",
+  "prov": "SCMR 2025 Table 2 male UL 104 (row shows \"normal 46–104\")",
+  "actual": "Within reference [mL/m² · normal 46–104]",
+  "pass": false
+ },
+ {
+  "id": "LV-EDVi-104",
+  "mod": "LV",
+  "input": "Male, papillary-in-mass, all ages, BSA 1, LVEDV 104",
+  "expect": "/Normal/",
+  "prov": "SCMR 2025 Table 2 male UL 104 (row shows \"normal 46–104\")",
+  "actual": "Within reference [mL/m² · normal 46–104]",
+  "pass": false
+ },
+ {
+  "id": "LV-EDVi-105",
+  "mod": "LV",
+  "input": "Male, papillary-in-mass, all ages, BSA 1, LVEDV 105",
+  "expect": "/dilation/",
+  "prov": "SCMR 2025 Table 2 male UL 104 (row shows \"normal 46–104\")",
+  "actual": "Above reference [mL/m² · normal 46–104]",
+  "pass": false
+ },
+ {
+  "id": "LV-EDVi-age",
+  "mod": "LV",
+  "input": "Male 20–29 y, LVEDVi 106",
+  "expect": "/Normal/",
+  "prov": "SCMR 2025 Table 5 male 20–29 UL 108",
+  "actual": "Within reference [mL/m² · normal 48–108]",
+  "pass": false
+ },
+ {
+  "id": "LV-EDVi-F91",
+  "mod": "LV",
+  "input": "Female, LVEDVi 91",
+  "expect": "/Normal/",
+  "prov": "SCMR Table 2 female UL 91",
+  "actual": "Within reference",
+  "pass": false
+ },
+ {
+  "id": "LV-Kang-149",
+  "mod": "LV",
+  "input": "Male LVEDVi 149",
+  "expect": "/Mild/",
+  "prov": "Kang 2026 tiers as implemented (≥150 mod, ≥200 severe)",
+  "actual": "Above reference",
+  "pass": false
+ },
+ {
+  "id": "LV-Kang-150",
+  "mod": "LV",
+  "input": "Male LVEDVi 150",
+  "expect": "/Moderate/",
+  "prov": "Kang 2026 tiers as implemented (≥150 mod, ≥200 severe)",
+  "actual": "Above reference",
+  "pass": false
+ },
+ {
+  "id": "LV-Kang-199",
+  "mod": "LV",
+  "input": "Male LVEDVi 199",
+  "expect": "/Moderate/",
+  "prov": "Kang 2026 tiers as implemented (≥150 mod, ≥200 severe)",
+  "actual": "Above reference",
+  "pass": false
+ },
+ {
+  "id": "LV-Kang-200",
+  "mod": "LV",
+  "input": "Male LVEDVi 200",
+  "expect": "/Severe/",
+  "prov": "Kang 2026 tiers as implemented (≥150 mod, ≥200 severe)",
+  "actual": "Above reference",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-40",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 60 (EF 40%)",
+  "expect": "/Reduced \\(≤40/",
+  "prov": "App HF categories (≤40, 41–49) + SCMR LL",
+  "actual": "40.0 Below reference | HF category: reduced EF (≤40%) [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-41",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 59 (EF 41%)",
+  "expect": "/Mildly reduced/",
+  "prov": "App HF categories (≤40, 41–49) + SCMR LL",
+  "actual": "41.0 Below reference | HF category: mildly reduced EF (41–49%) [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-49",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 51 (EF 49%)",
+  "expect": "/Mildly reduced/",
+  "prov": "App HF categories (≤40, 41–49) + SCMR LL",
+  "actual": "49.0 Below reference | HF category: mildly reduced EF (41–49%) [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-50",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 50 (EF 50%)",
+  "expect": "/Below normal/",
+  "prov": "App HF categories (≤40, 41–49) + SCMR LL",
+  "actual": "50.0 Below reference [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-52",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 48 (EF 52%)",
+  "expect": "/Below normal/",
+  "prov": "App HF categories (≤40, 41–49) + SCMR LL",
+  "actual": "52.0 Below reference [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-53",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 47 (EF 53%)",
+  "expect": "/^Normal/",
+  "prov": "SCMR Table 2 male LL 53",
+  "actual": "53.0 Within reference [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-70",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 30 (EF 70%)",
+  "expect": "/^Normal/",
+  "prov": "SCMR Table 2 male LL 53",
+  "actual": "70.0 Within reference [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-71",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 29 (EF 71%)",
+  "expect": "/Supranormal/",
+  "prov": "SCMR Table 2 male UL 79: within normal range (app adds >70% supranormal flag)",
+  "actual": "71.0 Within reference [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-79",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 21 (EF 79%)",
+  "expect": "/^Normal/",
+  "prov": "SCMR Table 2 male UL 79: within normal range (app adds >70% supranormal flag)",
+  "actual": "79.0 Within reference [% · normal 53–79]",
+  "pass": false
+ },
+ {
+  "id": "LV-EF-80",
+  "mod": "LV",
+  "input": "Male, EDV 100, ESV 20 (EF 80%)",
+  "expect": "/Supranormal|Above/",
+  "prov": "SCMR Table 2 male LL 53",
+  "actual": "80.0 Above reference [% · normal 53–79]",
+  "pass": true
+ },
+ {
+  "id": "LV-EF-round",
+  "mod": "LV",
+  "input": "Male EDV 100, ESV 47.4 (EF 52.6%)",
+  "expect": "display and label agree",
+  "prov": "Display rounds to integer; grading uses unrounded value",
+  "actual": "52.6% · Below reference",
+  "pass": true
+ },
+ {
+  "id": "LV-M-147",
+  "mod": "LV",
+  "input": "Male mass 147 g",
+  "expect": "/Normal/",
+  "prov": "SCMR Table 2 male 124±23, UL 169; MESA +1/+2 SD rule",
+  "actual": "Within reference [g · normal 78–169]",
+  "pass": false
+ },
+ {
+  "id": "LV-M-148",
+  "mod": "LV",
+  "input": "Male mass 148 g",
+  "expect": "/Borderline/",
+  "prov": "SCMR Table 2 male 124±23, UL 169; MESA +1/+2 SD rule",
+  "actual": "Within reference [g · normal 78–169]",
+  "pass": false
+ },
+ {
+  "id": "LV-M-169",
+  "mod": "LV",
+  "input": "Male mass 169 g",
+  "expect": "/Borderline/",
+  "prov": "SCMR Table 2 male 124±23, UL 169; MESA +1/+2 SD rule",
+  "actual": "Within reference [g · normal 78–169]",
+  "pass": false
+ },
+ {
+  "id": "LV-M-170",
+  "mod": "LV",
+  "input": "Male mass 170 g",
+  "expect": "/Increased|Above/",
+  "prov": "SCMR Table 2 male 124±23, UL 169; MESA +1/+2 SD rule",
+  "actual": "Above reference [g · normal 78–169]",
+  "pass": true
+ },
+ {
+  "id": "LV-M-171",
+  "mod": "LV",
+  "input": "Male mass 171 g",
+  "expect": "/Increased/",
+  "prov": "SCMR Table 2 male 124±23, UL 169; MESA +1/+2 SD rule",
+  "actual": "Above reference [g · normal 78–169]",
+  "pass": false
+ },
+ {
+  "id": "LV-ESV>EDV",
+  "mod": "LV",
+  "input": "EDV 100, ESV 120",
+  "expect": "warning shown",
+  "prov": "Physiologically impossible input",
+  "actual": "no EF row · warn: none ",
+  "pass": false
+ },
+ {
+  "id": "LV-neg",
+  "mod": "LV",
+  "input": "EDV −50",
+  "expect": "warning shown, no result",
+  "prov": "Invalid input",
+  "actual": "[] · held true Volume looks too large for mL; check the value.",
+  "pass": true
+ },
+ {
+  "id": "LV-BSA0",
+  "mod": "LV",
+  "input": "BSA 0",
+  "expect": "warning, no indexed values",
+  "prov": "Invalid input",
+  "actual": "LVEDV,LVESV,LVSV,LVEF · BSA is usually 0.5–3.5 m².",
+  "pass": true
+ },
+ {
+  "id": "DEF-sex",
+  "mod": "LV",
+  "input": "Fresh open, no settings touched",
+  "expect": "sex must be chosen explicitly",
+  "prov": "Safety expectation (auditor)",
+  "actual": "Settings summary: All ages · Papillary in mass",
+  "pass": true
+ },
+ {
+  "id": "RESET",
+  "mod": "LV",
+  "input": "Female, BSA 1.95, then Reset measurements",
+  "expect": "BSA and sex cleared for next patient",
+  "prov": "Stale-patient expectation (auditor)",
+  "actual": "BSA after reset \"1.95\", All ages · Papillary in mass",
+  "pass": false
+ },
+ {
+  "id": "COPY",
+  "mod": "LV",
+  "input": "Female, method mass, copy result",
+  "expect": "copied text names sex, contouring method and reference",
+  "prov": "Self-contained report expectation",
+  "actual": "LV volumes, EF and mass [Adult female · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 150.0 mL (within reference); EDV idx 78.9 (within reference); ESV 60.0 mL (within reference); ESV idx 31.6 (within reference); SV 90.0 mL (within reference); SV idx 47.4 (within reference); EF 60.0% (within reference); mass 100.0 g (within reference); mass idx 52.6 (within reference)\n— CMR Reference 2026.11-rc2 (release candidate, not deployed); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against the source before reporting.",
+  "pass": true
+ },
+ {
+  "id": "XFER",
+  "mod": "LV→RV",
+  "input": "Enter BSA 2.1, female on LV, open RV",
+  "expect": "documented, visible carry-over",
+  "prov": "Design check",
+  "actual": "RV opens with BSA \"?\", All ages · Papillary in mass",
+  "pass": true
+ },
+ {
+  "id": "RV-EF-F-47",
+  "mod": "RV",
+  "input": "Female, trabeculae-in-volume, RVEF 47%",
+  "expect": "/Normal/",
+  "prov": "SCMR Table 9 female LL 47",
+  "actual": "Within reference [% · normal 47–75]",
+  "pass": false
+ },
+ {
+  "id": "RV-EF-F-46",
+  "mod": "RV",
+  "input": "Female, trabeculae-in-volume, RVEF 46%",
+  "expect": "/Below|reduced/",
+  "prov": "SCMR Table 9 female LL 47: 46% is below",
+  "actual": "Below reference [% · normal 47–75]",
+  "pass": true
+ },
+ {
+  "id": "RV-EF-F-45",
+  "mod": "RV",
+  "input": "Female, trabeculae-in-volume, RVEF 45%",
+  "expect": "/Below|reduced/",
+  "prov": "SCMR LL 47: 45% below",
+  "actual": "Below reference [% · normal 47–75]",
+  "pass": true
+ },
+ {
+  "id": "RV-EF-F-44",
+  "mod": "RV",
+  "input": "Female, trabeculae-in-volume, RVEF 44%",
+  "expect": "/reduced/",
+  "prov": "App rule <45 mildly reduced",
+  "actual": "Below reference [% · normal 47–75]",
+  "pass": false
+ },
+ {
+  "id": "RV-EF-F-mass-48",
+  "mod": "RV",
+  "input": "Female, trabeculae-in-mass, RVEF 48%",
+  "expect": "/Below|reduced/",
+  "prov": "SCMR Table 8 female LL 49",
+  "actual": "Below reference [% · normal 49–77]",
+  "pass": true
+ },
+ {
+  "id": "LA-56",
+  "mod": "LA",
+  "input": "Male biplane LAVi 56",
+  "expect": "/Normal/",
+  "prov": "SCMR Table 13 UL 56; tiers 62/73 as implemented (Khan 2019)",
+  "actual": "Within reference | Khan: mild enlargement (52–62)",
+  "pass": false
+ },
+ {
+  "id": "LA-57",
+  "mod": "LA",
+  "input": "Male biplane LAVi 57",
+  "expect": "/Mild/",
+  "prov": "SCMR Table 13 UL 56; tiers 62/73 as implemented (Khan 2019)",
+  "actual": "Above reference | Khan: mild enlargement (52–62)",
+  "pass": false
+ },
+ {
+  "id": "LA-62",
+  "mod": "LA",
+  "input": "Male biplane LAVi 62",
+  "expect": "/Mild/",
+  "prov": "SCMR Table 13 UL 56; tiers 62/73 as implemented (Khan 2019)",
+  "actual": "Above reference | Khan: mild enlargement (52–62)",
+  "pass": false
+ },
+ {
+  "id": "LA-63",
+  "mod": "LA",
+  "input": "Male biplane LAVi 63",
+  "expect": "/Moderate/",
+  "prov": "SCMR Table 13 UL 56; tiers 62/73 as implemented (Khan 2019)",
+  "actual": "Above reference | Khan: moderate enlargement (63–73)",
+  "pass": false
+ },
+ {
+  "id": "LA-73",
+  "mod": "LA",
+  "input": "Male biplane LAVi 73",
+  "expect": "/Moderate/",
+  "prov": "SCMR Table 13 UL 56; tiers 62/73 as implemented (Khan 2019)",
+  "actual": "Above reference | Khan: moderate enlargement (63–73)",
+  "pass": false
+ },
+ {
+  "id": "LA-74",
+  "mod": "LA",
+  "input": "Male biplane LAVi 74",
+  "expect": "/Severe/",
+  "prov": "SCMR Table 13 UL 56; tiers 62/73 as implemented (Khan 2019)",
+  "actual": "Above reference | Khan: severe enlargement (>73)",
+  "pass": false
+ },
+ {
+  "id": "AR-14.9",
+  "mod": "AR",
+  "input": "Direct, fwd 100, rev 14.9",
+  "expect": "/Mild/",
+  "prov": "Implemented bands: <15 / 15–31 / ≥32 (Hashimoto 2022, Steeds & Myerson 2020)",
+  "actual": "14.9 Mild (<15%)",
+  "pass": true
+ },
+ {
+  "id": "AR-15",
+  "mod": "AR",
+  "input": "Direct, fwd 100, rev 15",
+  "expect": "/Moderate/",
+  "prov": "Implemented bands: <15 / 15–31 / ≥32 (Hashimoto 2022, Steeds & Myerson 2020)",
+  "actual": "15.0 Intermediate (15 to <32%)",
+  "pass": false
+ },
+ {
+  "id": "AR-31.9",
+  "mod": "AR",
+  "input": "Direct, fwd 100, rev 31.9",
+  "expect": "/Moderate/",
+  "prov": "Implemented bands: <15 / 15–31 / ≥32 (Hashimoto 2022, Steeds & Myerson 2020)",
+  "actual": "31.9 Intermediate (15 to <32%)",
+  "pass": false
+ },
+ {
+  "id": "AR-32",
+  "mod": "AR",
+  "input": "Direct, fwd 100, rev 32",
+  "expect": "/Severe/",
+  "prov": "Implemented bands: <15 / 15–31 / ≥32 (Hashimoto 2022, Steeds & Myerson 2020)",
+  "actual": "32.0 Severe (≥32%)",
+  "pass": true
+ },
+ {
+  "id": "MRp-19.9",
+  "mod": "MR",
+  "input": "Primary, LVSV 100, Ao fwd 80.1",
+  "expect": "/Mild/",
+  "prov": "Implemented: <20 / 20–40 / >40",
+  "actual": "19.9 Mild (<20%)",
+  "pass": true
+ },
+ {
+  "id": "MRp-20.0",
+  "mod": "MR",
+  "input": "Primary, LVSV 100, Ao fwd 80",
+  "expect": "/Moderate/",
+  "prov": "Implemented: <20 / 20–40 / >40",
+  "actual": "20.0 Intermediate (20–40%)",
+  "pass": false
+ },
+ {
+  "id": "MRp-40.0",
+  "mod": "MR",
+  "input": "Primary, LVSV 100, Ao fwd 60",
+  "expect": "/Moderate/",
+  "prov": "Implemented: <20 / 20–40 / >40",
+  "actual": "40.0 Intermediate (20–40%)",
+  "pass": false
+ },
+ {
+  "id": "MRp-40.1",
+  "mod": "MR",
+  "input": "Primary, LVSV 100, Ao fwd 59.9",
+  "expect": "/Severe/",
+  "prov": "Implemented: <20 / 20–40 / >40",
+  "actual": "40.1 Severe (>40%)",
+  "pass": true
+ },
+ {
+  "id": "MRs-19.9",
+  "mod": "MR",
+  "input": "Secondary, LVSV 100, Ao fwd 80.1",
+  "expect": "/Mild/",
+  "prov": "Wang 2023: ≥20 moderate, ≥35 severe",
+  "actual": "19.9 Mild (<20%)",
+  "pass": true
+ },
+ {
+  "id": "MRs-20.0",
+  "mod": "MR",
+  "input": "Secondary, LVSV 100, Ao fwd 80",
+  "expect": "/Moderate/",
+  "prov": "Wang 2023: ≥20 moderate, ≥35 severe",
+  "actual": "20.0 Moderate (20–34%)",
+  "pass": true
+ },
+ {
+  "id": "MRs-34.9",
+  "mod": "MR",
+  "input": "Secondary, LVSV 100, Ao fwd 65.1",
+  "expect": "/Moderate/",
+  "prov": "Wang 2023: ≥20 moderate, ≥35 severe",
+  "actual": "34.9 Moderate (20–34%)",
+  "pass": true
+ },
+ {
+  "id": "MRs-35.0",
+  "mod": "MR",
+  "input": "Secondary, LVSV 100, Ao fwd 65",
+  "expect": "/Severe/",
+  "prov": "Wang 2023: ≥20 moderate, ≥35 severe",
+  "actual": "35.0 Severe (≥35%)",
+  "pass": true
+ },
+ {
+  "id": "TR-19.9",
+  "mod": "TR",
+  "input": "Indirect, RVSV 100, PA fwd 80.1",
+  "expect": "/Mild/",
+  "prov": "Margonato 2025 20/40; Zhan 2020 50",
+  "actual": "19.9 Below the 20% risk threshold",
+  "pass": false
+ },
+ {
+  "id": "TR-20.0",
+  "mod": "TR",
+  "input": "Indirect, RVSV 100, PA fwd 80",
+  "expect": "/Moderate/",
+  "prov": "Margonato 2025 20/40; Zhan 2020 50",
+  "actual": "20.0 Elevated risk (20 to <40%)",
+  "pass": false
+ },
+ {
+  "id": "TR-39.9",
+  "mod": "TR",
+  "input": "Indirect, RVSV 100, PA fwd 60.1",
+  "expect": "/Moderate/",
+  "prov": "Margonato 2025 20/40; Zhan 2020 50",
+  "actual": "39.9 Elevated risk (20 to <40%)",
+  "pass": false
+ },
+ {
+  "id": "TR-40.0",
+  "mod": "TR",
+  "input": "Indirect, RVSV 100, PA fwd 60",
+  "expect": "/Severe \\(≥40/",
+  "prov": "Margonato 2025 20/40; Zhan 2020 50",
+  "actual": "40.0 High risk (≥40%)",
+  "pass": false
+ },
+ {
+  "id": "TR-49.9",
+  "mod": "TR",
+  "input": "Indirect, RVSV 100, PA fwd 50.1",
+  "expect": "/Severe \\(≥40/",
+  "prov": "Margonato 2025 20/40; Zhan 2020 50",
+  "actual": "49.9 High risk (≥40%)",
+  "pass": false
+ },
+ {
+  "id": "TR-50.0",
+  "mod": "TR",
+  "input": "Indirect, RVSV 100, PA fwd 50",
+  "expect": "/highest/",
+  "prov": "Margonato 2025 20/40; Zhan 2020 50",
+  "actual": "50.0 Highest-risk stratum (≥50%)",
+  "pass": false
+ },
+ {
+  "id": "PR-19.9",
+  "mod": "PR",
+  "input": "Direct, fwd 100, back 19.9",
+  "expect": "/Mild/",
+  "prov": "2022 Frontiers review: <20 / 20–40 / >40",
+  "actual": "19.9 Mild (<20%)",
+  "pass": true
+ },
+ {
+  "id": "PR-20",
+  "mod": "PR",
+  "input": "Direct, fwd 100, back 20",
+  "expect": "/Moderate/",
+  "prov": "2022 Frontiers review: <20 / 20–40 / >40",
+  "actual": "20.0 Moderate (20–40%)",
+  "pass": true
+ },
+ {
+  "id": "PR-40",
+  "mod": "PR",
+  "input": "Direct, fwd 100, back 40",
+  "expect": "/Moderate/",
+  "prov": "2022 Frontiers review: <20 / 20–40 / >40",
+  "actual": "40.0 Moderate (20–40%)",
+  "pass": true
+ },
+ {
+  "id": "PR-40.1",
+  "mod": "PR",
+  "input": "Direct, fwd 100, back 40.1",
+  "expect": "/Severe/",
+  "prov": "2022 Frontiers review: <20 / 20–40 / >40",
+  "actual": "40.1 Severe (>40%)",
+  "pass": true
+ },
+ {
+  "id": "PR-indirect-neg",
+  "mod": "PR",
+  "input": "Indirect, RVSV 70 < LVSV 80",
+  "expect": "message explaining no PR / inconsistent input",
+  "prov": "Invalid combination",
+  "actual": "Empty results, no message",
+  "pass": false
+ },
+ {
+  "id": "AS-AVA-0.99",
+  "mod": "AS",
+  "input": "AVA 0.99",
+  "expect": "/Severe/",
+  "prov": "Implemented <1.0 severe; 1.0–1.3 grey",
+  "actual": "Severe (≤1.0)",
+  "pass": true
+ },
+ {
+  "id": "AS-AVA-1",
+  "mod": "AS",
+  "input": "AVA 1",
+  "expect": "/Grey/",
+  "prov": "Implemented <1.0 severe; 1.0–1.3 grey",
+  "actual": "Severe (≤1.0)",
+  "pass": false
+ },
+ {
+  "id": "AS-AVA-1.3",
+  "mod": "AS",
+  "input": "AVA 1.3",
+  "expect": "/Grey/",
+  "prov": "Implemented <1.0 severe; 1.0–1.3 grey",
+  "actual": ">1.0: does not exclude severe",
+  "pass": false
+ },
+ {
+  "id": "AS-AVA-1.31",
+  "mod": "AS",
+  "input": "AVA 1.31",
+  "expect": "/unlikely/",
+  "prov": "Implemented <1.0 severe; 1.0–1.3 grey",
+  "actual": ">1.0: does not exclude severe",
+  "pass": false
+ },
+ {
+  "id": "ECV-calc",
+  "mod": "ECV",
+  "input": "Hct 42, T1 myo 1000→450, blood 1600→300",
+  "expect": "ECV 26.2% (hand calculation, standard formula)",
+  "prov": "Standard ECV equation (SCMR/EACVI 2017)",
+  "actual": "26.2 Not interpreted: choose a sequence-matched reference set or enter your center range",
+  "pass": true
+ },
+ {
+  "id": "ECV-hctfrac",
+  "mod": "ECV",
+  "input": "Same, hematocrit entered as 0.42",
+  "expect": "same ECV or clear prompt",
+  "prov": "Code converts fractions, validator expects 15–65",
+  "actual": "— · held true · Hematocrit is usually 15–65 %.",
+  "pass": true
+ },
+ {
+  "id": "FE-20.1",
+  "mod": "Iron",
+  "input": "Cardiac T2* 20.1 ms",
+  "expect": "/Normal/",
+  "prov": "SCMR 2025 Table 100 (1.5 T): >20 / 10–20 / <10",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20.1 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T o",
+  "pass": false
+ },
+ {
+  "id": "FE-20",
+  "mod": "Iron",
+  "input": "Cardiac T2* 20 ms",
+  "expect": "/overload \\(10/",
+  "prov": "SCMR 2025 Table 100 (1.5 T): >20 / 10–20 / <10",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T onl",
+  "pass": false
+ },
+ {
+  "id": "FE-10",
+  "mod": "Iron",
+  "input": "Cardiac T2* 10 ms",
+  "expect": "/overload \\(10/",
+  "prov": "SCMR 2025 Table 100 (1.5 T): >20 / 10–20 / <10",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 10 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T onl",
+  "pass": false
+ },
+ {
+  "id": "FE-9.9",
+  "mod": "Iron",
+  "input": "Cardiac T2* 9.9 ms",
+  "expect": "/Severe/",
+  "prov": "SCMR 2025 Table 100 (1.5 T): >20 / 10–20 / <10",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 9.9 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T on",
+  "pass": false
+ }
+]
