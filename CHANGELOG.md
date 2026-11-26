@@ -1,7 +1,7 @@
 # Changelog
 
 ## 2026.11-rc3 (branch remediation/audit-2026-11; code commit 442a377; build cmr-ref-c9f86960bf)
-- Evidence: 29 abstract-dependent markers inventoried and classed (EVIDENCE.md). Labels narrowed to their source population or endpoint where needed: HF categories (clinical HF), AR LVESVi and AR RF ≥32% (prognostic "High risk", not "Severe"), Hinojar (severe TR), Xu ARVC (both thresholds; LV-involvement caveat), secondary MR (LVEF <50%), effective RVEF, forward SV ÷ RVESV, Kany ("below the mild-AS limit"), Thornton, Kwak, Geva, RACI. Unverified secondary claims removed.
+- Evidence: 30 abstract-dependent markers (17 class 1, 13 class 2) plus 8 removed secondary claims (MARKER_INVENTORY.md). Labels narrowed to their source population or endpoint where needed: HF categories (clinical HF), AR LVESVi and AR RF ≥32% (prognostic "High risk", not "Severe"), Hinojar (severe TR), Xu ARVC (both thresholds; LV-involvement caveat), secondary MR (LVEF <50%), effective RVEF, forward SV ÷ RVESV, Kany ("below the mild-AS limit"), Thornton, Kwak, Geva, RACI. Unverified secondary claims removed.
 - Licensing: THIRD_PARTY_NOTICES.txt (tesseract.js stack, compiled libraries, English model, fonts) shipped and cached offline. About adds the CC BY 4.0 attribution for the SCMR values, the font OFL text, and the notices pointer (LICENSING.md).
 - Version wording is deployment-neutral: "release candidate: evaluation use; validation incomplete". Corrected the About sentence that said inputs are not checked.
 - Tests: 190 revised (6 new, 6 updated), plus sw_offline.js. The original suite has 25 pass / 52 fail (AR-32 now superseded).

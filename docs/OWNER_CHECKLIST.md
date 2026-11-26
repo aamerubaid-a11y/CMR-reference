@@ -21,19 +21,27 @@ No approval below is filled in.
 4. Copy result and paste into Notes: it includes "Adult male", "SCMR 2025 Table 2", "EF 60.0% (within reference)" and "2026.11-rc3".
 5. New patient: all fields are empty and no population is selected.
 
-## A. Clinical applicability judgements for enabled features [CLIN]
+## A. Clinical applicability decisions [CLIN]
 
-The evidence for each feature has been checked (EVIDENCE.md, 29-marker table). These questions are only about
-whether a feature fits your patients and your centre's methods. If you decline a feature, the conservative
-alternative applies: the number is still shown, but without the label.
+The evidence for each feature is checked (MARKER_INVENTORY.md). These rows are only about fit to your patients
+and methods. You have not yet given your acquisition method, strain software or pilot population, so
+applicability is **unconfirmed** for every row. Every feature below is enabled in rc3. No decision blocks the
+pilot. Any label you do not approve before the pilot is withheld: the number is still shown, without the label.
+That is a small change, followed by a retest and a new candidate ID.
 
-| # | Focused question | Relevant evidence | If you decline |
-|---|---|---|---|
-| A1 | Show "Khan: mild enlargement" (52 mL/m² up to the SCMR upper limit) next to "Within reference"? | Khan 2019 Table 2: mild was not independently prognostic; moderate and severe were | Show Khan only for moderate and severe |
-| A2 | Keep Kang LVEDVi grades limited to DCM/ICM? | Kang 2026: derived and validated in DCM/ICM, papillary muscles in the blood pool | Withhold Kang grades entirely |
-| A3 | Does your liver ECV method (field strength, MOLLI or other, ROI, hematocrit timing) match Margonato's 1.5 T MOLLI method well enough to show the ≥32% label? | Margonato 2025 full text: spline-derived, not externally validated, sequences not standardised | Show liver ECV as a number only |
-| A4 | Strain-based labels (RA strain in PAH, ARVC, TR): does your feature-tracking software match the sources? | The abstracts do not name the software; strain values differ by vendor | Show strain as a number only |
-| A5 | Thresholds derived in a specific population (severe TR for Hinojar, LVEF <50% for secondary MR, severe AS before AVR for Kwak/Thornton, repaired TOF for Geva): acceptable for the pilot when each label names its population? | Labels and copied text now state the population | Withhold any you choose (name them) |
+| # | Feature | Current behaviour (rc3) | Evidence population / method | Decision needed | Fallback if not approved |
+|---|---|---|---|---|---|
+| A1 | Khan LA grades (full-text source; outside the 30-marker abstract inventory) | Mild/moderate/severe shown beside the SCMR comparison, including "mild" while "Within reference" | 10,890 CMR referrals; biplane, appendage excluded; mild not independently prognostic | Show "mild"? Keep the >62 → moderate convention? | Khan moderate/severe only |
+| A2 | Kang LVEDVi grades (full-text source) | DCM/ICM context only; note if contouring differs | DCM derivation, DCM/ICM validation; papillary muscles in blood pool | Keep enabled in DCM/ICM? | Withhold Kang grades |
+| A3 | Liver ECV ≥32% (TR calc) | Label with "(source method: 1.5 T MOLLI)" | 371 TR patients; 1.5 T Siemens MOLLI inline ECV; same-day hematocrit; not externally validated | Does your liver ECV method match? (unconfirmed) | Number only |
+| A4a | RA strain in PAH (M07) | Low/intermediate/high risk in PAH | n=348 PAH; software not stated in abstract | Does your strain software match? (unconfirmed) | Number only |
+| A4b | RA strain in ARVC (M08) | <18.6 end-stage HF; <23 arrhythmia (no LV involvement) | n=316 ARVC; software not stated | Same (unconfirmed) | Number only |
+| A4c | RA longitudinal strain in TR (Kim 2026, full text) | <6.6% → RA pressure likely >10 mmHg | n=47 severe TR; exploratory | Same (unconfirmed) | Number only |
+| A5a | RVEF/RVEDVi tiers in severe TR (M05) | Labels say "in severe TR"; shown in the TR calculator for any TR | ≥severe TR by echo, n=314 | Keep in the TR calculator when TR may be less than severe? | Show only in the RV page TR context |
+| A5b | Secondary MR RF ≥20/≥35 (M11) | Labels say "functional MR with LVEF <50%" | ICM/NICM, LVEF <50% | Keep? (atrial functional MR not covered) | Number with no grade |
+| A5c | AS ECV >27% (M21) | "Higher post-AVR mortality in severe AS" | Severe AS before AVR; ECV sequence-dependent | Keep? | Number only |
+| A5d | AS SVi <35/<45 (M19) | Echo low-flow convention; CMR mortality gradient below 45 | Severe AS undergoing AVR | Keep? | Number only |
+| A5e | RV mass/volume ≥0.45 (M24) | "after PVR in repaired TOF" | Pre-PVR repaired TOF | Keep in the stenosis/conduit calculator? | Number only |
 
 ## B. Device tests [DEV]
 
@@ -109,7 +117,7 @@ For each case, also press Copy result and confirm the copied text agrees with th
 | Device 1 (model, OS, browser) and result | |
 | Device 2 (model, OS, browser) and result | |
 | Cases P1–P23 reviewed; disagreements | |
-| Decisions A1–A5 | |
+| Decisions A1–A5e | |
 | Licensing decisions (E) | |
 | Unresolved issues | |
 | Approved for limited pilot? | |
@@ -119,13 +127,13 @@ For each case, also press Copy result and confirm the copied text agrees with th
 | # | Item | Pilot | Public |
 |---|---|---|---|
 | E1 | Third-party notices (OCR stack, model, fonts) | Done | Done |
-| E2 | SCMR article licence: the article says CC BY 4.0, PubMed says "All rights reserved". Do you accept the article's own statement for the pilot? | Your decision | **Resolve with the publisher or SCMR** |
+| E2 | SCMR article licence: CC BY 4.0, verified on the article PDF and the publisher page. The PubMed "All rights reserved" field is generic metadata (LICENSING.md §3) | Done | Done |
 | E3 | Licence for your own code (none chosen) | Optional | Decide |
 | E4 | Name / trademark use (SCMR, OSU) | Non-endorsement statement present | Qualified advice |
 
 ## F. Evidence work still open [EV]
 
-None blocks the pilot. All 29 abstract-dependent markers are dispositioned (EVIDENCE.md). Optional for public release:
+None blocks the pilot. All 30 abstract-dependent markers are dispositioned (MARKER_INVENTORY.md). Optional for public release:
 - re-check the evidence-page reference cards;
 - re-read the Messroghli 2017 ECV timing hint;
 - read full texts where the method is not in the abstract (markers #7, #13, #15).

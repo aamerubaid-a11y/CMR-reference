@@ -13,7 +13,9 @@ Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.1
 ## Abstract-dependent markers: rc3 disposition (authoritative for these rows)
 
 The earlier "25 markers checked against abstracts only" was a miscount: it counted 24 rows plus the legend line.
-This inventory covers those 24 rows plus 5 more where the decisive threshold rests on an abstract, 29 in total.
+This table covers those 24 rows plus 5 more where the decisive threshold rests on an abstract: 29 numbered rows,
+with row 20 split into 20a/20b, so **30 markers**. Class 1: 17. Class 2: 13. Class 3: 0. The authoritative
+inventory with IDs, active wording and code locations is `MARKER_INVENTORY.md`.
 Every marker was re-read against the PubMed record: abstract text, or full text where marked. Each appears on
 screen in the result row, and the label (the "pill") is what is copied and exported. Class key: **1** = adequately
 supported for its stated use; **2** = supported only with the narrower wording now shown; **3** = insufficiently
@@ -53,7 +55,7 @@ your patients (OWNER_CHECKLIST §A). All 29 are enabled in the pilot candidate.
 | 28 | TR fraction ≥50% (TR calc) | "Highest-risk stratum (≥50%)" | Zhan 2020 (32912443) | Yes: functional TR, n=547 | Method as in #15 | 1 |
 | 29 | RACI ≥0.62 (RA TR context; TR calc) | "≥0.62: higher mortality in functional TR" | Zhang RS 2026 Circ CVI (42478366) | Yes: RA ÷ RV end-diastolic volume; Youden cut-off; n=633 | Single centre; no external validation | 1 |
 
-**Withheld or removed (class 3):** these were secondary claims, not threshold labels, and could not be verified here.
+**Removed secondary claims (S01–S08 in MARKER_INVENTORY.md; a separate count, not markers):** these were not threshold labels and could not be verified here.
 They have been removed from the interface (test NO-UNVERIFIED):
 - pre-T-TEER "RVEF ≤45% high risk (Kresoja 2021, HR 6.6)";
 - "Houston ≥30% (Tayal 2021)";

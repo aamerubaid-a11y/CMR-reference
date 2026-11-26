@@ -31,20 +31,23 @@ Remaining caveats for third-party software:
 - The bundled minified files keep their own licence banners.
 - The single-file offline build (`CMR-Reference-offline.html`, not committed) contains fonts but no OCR. Its About section includes the font notices.
 
-## 3. SCMR reference values
+## 3. SCMR reference values (re-checked 26 Nov 2026)
 
-- **Article:** Kawel-Boehm N, Hetzel SJ, Ambale-Venkatesh B, Captur G, Chin CWL, François CJ, Jerosch-Herold M, Luu JM, Raisi-Estabragh Z, Starekova J, Taylor M, van Hout M, Bluemke DA. Society for Cardiovascular Magnetic Resonance reference values ("normal values") in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27(1):101853. doi 10.1016/j.jocmr.2025.101853; PMID 39914499; PMC12159681.
-- **Reuse terms established:** the article's own first-page notice (in the article text I worked from) says "© 2025 The Authors. Published by Elsevier Inc. on behalf of Society for Cardiovascular Magnetic Resonance. This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/)."
-- **Conflicting metadata:** PubMed's copyright record for this PMID says "All rights reserved" and not open access. I could not open the PMC or publisher page from here to settle it.
-- **Supplements:** none were used. I did not check whether any exist.
-- **What the app reproduces or adapts:** numeric values from Tables 2, 3 and 5 (LV); 8 and 9 (RV); 13 (LA); 18 (RA); 57 (valve stages, which the article itself adapts from echo guidelines [92,93]); 63, 65 and 67 (aorta); 89, 90 and 95 (T1, ECV and T2 ranges); and 100 (T2* grading). These are transcribed into calculators and lookup tables, sometimes rearranged, and given interpretation labels. Figures and prose are not reproduced.
-- **Conditions now met in the app (CC BY 4.0):** attribution with authors, title and source; copyright notice; licence name and link; a statement of changes; and a non-endorsement statement. These are in About, in `THIRD_PARTY_NOTICES.txt`, and in the copied-text footer (version line plus "SCMR 2025 reference values, JCMR 2025;27:101853").
-- **Not established; needs publisher clarification or qualified advice:**
-  - which licence actually applies, given the PubMed "All rights reserved" record;
-  - whether any table contains third-party material outside the CC BY licence (the article text shows no "reproduced with permission" credits; Table 57 is "adapted from echocardiography according to references [92,93]");
-  - whether, and in which jurisdictions, compiled numeric reference values are protected at all;
-  - use of the SCMR name in the app (descriptive only, with a non-endorsement statement); trademark questions need qualified advice.
-- **Blocker status:** if the article is CC BY 4.0, a colleague pilot and public sharing look permissible with the attribution now in place. That is not confirmed. **Resolve the licence conflict before public release.** For the pilot, it is your call whether the article's own CC BY statement is enough. A notice alone does not settle a permission question.
+- **Same article in every record:** DOI 10.1016/j.jocmr.2025.101853; PMID 39914499; PMC12159681; Elsevier pii S1097664725000158. That is J Cardiovasc Magn Reson 2025;27(1):101853, published online 4 Feb 2025. The text the app was transcribed from is the version-of-record PDF (journal header "Journal of Cardiovascular Magnetic Resonance 27 (2025) 101853").
+- **Licence wording that applies, and where it appears:**
+  - *Version-of-record PDF, first page footnote:* "1097-6647/© 2025 The Authors. Published by Elsevier Inc. on behalf of Society for Cardiovascular Magnetic Resonance. This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/)."
+  - *Publisher article page (ScienceDirect):* header "Open access · Under a Creative Commons license", and the line "© 2025 The Authors. Published by Elsevier Inc. on behalf of Society for Cardiovascular Magnetic Resonance."
+- **The "All rights reserved" records are not article licences.** PubMed's copyright field ("Copyright © 2025 The Authors. Published by Elsevier Inc. All rights reserved") is generic metadata. The ScienceDirect site footer ("All content on this site: Copyright © 2026 Elsevier B.V. … All rights are reserved …") is a site-wide notice, and it adds that "for all open access content, the relevant licensing terms apply". Neither overrides the article-specific CC BY 4.0 statement. **There is no permission conflict, only inconsistent metadata.** The earlier report wrongly called it a conflict.
+- **Separate exclusions or notices on reproduced material:** none found. No "reproduced from", "reprinted", "with permission" or "courtesy" lines appear in the article text or on the publisher page, and no supplementary files are listed. Table 57 is "adapted from echocardiography according to references [92,93]": its thresholds are attributed to guidelines, with no rights notice. Figure captions cite methods ("according to reference …"), and the app does not reproduce figures.
+- **Corrections:** none found on the publisher page, and no erratum record under the first author's JCMR records in PubMed (checked 26 Nov 2026).
+- **What the app reproduces or adapts:** numeric values from Tables 2, 3, 5, 8, 9, 13, 18, 57, 63, 65, 67, 89, 90, 95 and 100. They are transcribed into calculators, rearranged, and given interpretation labels.
+- **Attribution and adaptation notices already in rc3:**
+  - About: authors, title, journal and citation; "© 2025 The Authors"; "open access under CC BY 4.0" with the licence link; a list of changes; and a statement that the authors and SCMR do not endorse the app.
+  - `THIRD_PARTY_NOTICES.txt`: the same attribution block.
+  - Copied text: a footer citing "SCMR 2025 reference values, JCMR 2025;27:101853".
+- **Conclusion:** the article-specific terms (CC BY 4.0) permit the adaptation, with the attribution and change notice that rc3 includes. No publisher inquiry is needed for these terms. This is my reading of the documents, not legal advice.
+- **Still open, for qualified advice (not publisher clarification):** use of the SCMR name in the app, a naming or trademark question that the copyright licence does not settle. The app uses it descriptively, with a non-endorsement statement.
+- **Already distributed vs hosted:** the repository is public, so the source files (including the transcribed tables, the OCR libraries and the fonts) are already distributed via GitHub. That is true of `main` (0af7de5, live on GitHub Pages) and of this branch. **`main` and the live site still lack the rc3 notices:** no CC BY attribution block, no third-party licence texts. That gap stays in production until an approved merge. "Not deployed" applies only to the rc3 candidate as a hosted site.
 
 ## 4. Other cited papers
 
@@ -57,6 +60,7 @@ numerical thresholds only. No permission question was identified, but none was i
 | Item | Pilot | Public release |
 |---|---|---|
 | Third-party software, data and font notices | Done in rc3 | Done (re-check if dependencies change) |
-| SCMR licence conflict (article says CC BY 4.0; PubMed says "All rights reserved") | Owner judgement; the article's own statement supports reuse | **Must be resolved** (publisher page or SCMR/Elsevier) |
-| Licence for your own code | Not required to distribute your own work, but say what others may do with it | Decide |
-| Trademark / name use (SCMR, OSU) | Non-endorsement statement present | Qualified advice recommended |
+| SCMR reuse terms | CC BY 4.0 verified on the article and publisher page; attribution in place | Same |
+| Production gap: `main`/live site lack the rc3 notices | Fixed by an approved merge of rc3 | Same |
+| Licence for your own code | Optional | Decide |
+| Name use (SCMR, OSU) | Non-endorsement statement present | Qualified advice recommended |
