@@ -1,6 +1,7 @@
 # Build: expects a working tree <W>/build/build.py with <W>/cmr-ref/index.html (copy of src/index.html),
 # <W>/fontpkg/node_modules/@fontsource/* and <W>/ocrpkg/node_modules (tesseract.js 5.1.1, tesseract.js-core, eng traineddata).
 # Output: <W>/build/dist (PWA), CMR-Reference-offline.html, CMR-Reference-PWA.zip.
+# Also needs build/licenses/THIRD_PARTY_NOTICES.txt (copied to dist and listed in the service-worker cache).
 import base64,re,os,shutil,hashlib,zipfile,json
 B=os.path.dirname(os.path.abspath(__file__));S=os.path.dirname(B)
 src=open(os.path.join(S,'cmr-ref/index.html')).read()
@@ -55,9 +56,11 @@ head=f'''<!doctype html>
 <body>
 '''
 page=head+body+install_js+'\n</body>\n</html>\n'
-ver=hashlib.sha1(page.encode()).hexdigest()[:10]
+NOTICES=open(os.path.join(B,'licenses','THIRD_PARTY_NOTICES.txt'),encoding='utf-8').read()
+ver=hashlib.sha1((page+NOTICES).encode()).hexdigest()[:10]
 D=os.path.join(B,'dist');os.makedirs(D,exist_ok=True)
 open(os.path.join(D,'index.html'),'w').write(page)
+open(os.path.join(D,'THIRD_PARTY_NOTICES.txt'),'w',encoding='utf-8').write(NOTICES)
 O=os.path.join(D,'ocr');shutil.rmtree(O,ignore_errors=True);os.makedirs(O+'/lang')
 N=os.path.join(S,'ocrpkg/node_modules')
 for a,b in [('tesseract.js/dist/tesseract.min.js','tesseract.min.js'),('tesseract.js/dist/worker.min.js','worker.min.js'),('tesseract.js-core/tesseract-core-simd-lstm.wasm.js','tesseract-core-simd-lstm.wasm.js'),('@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz','lang/eng.traineddata.gz')]:
@@ -66,7 +69,7 @@ json.dump({"name":"CMR Reference","short_name":"CMR Ref","description":"CMR norm
  "icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},{"src":"icon-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]},open(os.path.join(D,'manifest.webmanifest'),'w'),indent=1)
 open(os.path.join(D,'sw.js'),'w').write(f"""// CMR Reference service worker: caches the whole app for offline use
 const CACHE='cmr-ref-{ver}';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable.png','./apple-touch-icon.png'];
+const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable.png','./apple-touch-icon.png','./THIRD_PARTY_NOTICES.txt'];
 self.addEventListener('install',e=>{{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))}});
 self.addEventListener('activate',e=>{{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))}});
 self.addEventListener('fetch',e=>{{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin!==location.origin)return;
