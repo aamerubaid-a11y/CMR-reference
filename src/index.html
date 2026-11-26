@@ -1374,7 +1374,8 @@ function ctxFor(id){const it=ITEMS.find(i=>i.id===id);
 const FOOT=()=>`— CMR Reference ${APP_VERSION}; ${DATA_VERSION}. Verify against the source before reporting.`;
 function rowsOf(html){const d=document.createElement('div');d.innerHTML=html;
  const trs=[...d.querySelectorAll('table.res tbody tr')].map(r=>{const td=[...r.children];const pills=[...(td[td.length-1]||r).querySelectorAll('.pill')];
-  return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>2?td[td.length-2].textContent.trim():'',pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),
+  const hd=[...d.querySelectorAll('table.res thead th')].map(x=>x.textContent.trim());const inp=td[1]?td[1].textContent.trim():'',der=td.length>2?td[td.length-2].textContent.trim():'';
+  return {lab:td[0]?td[0].textContent.trim():'',unit:'',normal:'',val:td.length>3&&inp&&inp!==der?inp+(der&&!/^—/.test(der)?'; '+(hd[td.length-2]||'').toLowerCase()+' '+der:''):der,pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),
    refs:td.length>2?[td[1].textContent.trim()]:[],cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}});
  return trs.concat([...d.querySelectorAll('.rrow')].map(r=>{const q=x=>r.querySelector(x);const pills=[...r.querySelectorAll('.pill')];
   const small=q('.rl small')?q('.rl small').textContent.trim():'';const parts=small.split(' · ').filter(Boolean);
@@ -1383,12 +1384,12 @@ function rowsOf(html){const d=document.createElement('div');d.innerHTML=html;
    pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),refs:[...r.querySelectorAll('.rs .ref')].map(x=>x.textContent.trim()).filter(Boolean),
    cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}}))}
 function buildReport(){const out=[];
- const add=(name,open,ctx,html,keep,map)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(map)rows=rows.map(map);if(rows.length)out.push({name,open,ctx,rows})};
+ const add=(name,open,ctx,html,keep,map)=>{let rows=rowsOf(html);if(keep)rows=rows.filter(keep);if(map)rows=rows.map(map);if(rows.length)out.push({name,open,ctx,rows,note:noteOf(html)})};
  const it=id=>ITEMS.find(i=>i.id===id);
  for(const [id,name] of [['lv-vol','Left ventricle'],['rv-vol','Right ventricle'],['la-vol','Left atrium'],['ra-vol','Right atrium']]){const x=it(id),s=getState(x);
   const M=x.methods[s.method];const cx=(s.ctx&&s.ctx!=='gen')?'; context: '+s.ctx:'';
   add(name,id,(M&&M.label?M.label:s.method)+' · '+(s.sex==='f'?'female':'male')+cx,resultsHTML(x))}
- add('Aorta','ao-calc',(aoState.lvl||'')+(parseFloat(aoState.d)>0?', diameter '+aoState.d+' mm':'')+(parseFloat(aoState.age)>0?', age '+aoState.age:'')+' · '+(aoState.sex==='f'?'female':'male'),aoResults(),null,r=>Object.assign(r,{lab:'z-score, '+r.lab.toLowerCase()}));
+ add('Aorta','ao-calc',(aoState.lvl||'')+(parseFloat(aoState.d)>0?', diameter '+aoState.d+' mm':'')+(parseFloat(aoState.age)>0?', age '+aoState.age:'')+' · '+(aoState.sex==='f'?'female':'male'),aoResults(),null,r=>Object.assign(r,{lab:r.lab.toLowerCase()}));
  add('Aortic valve: regurgitation','ar-calc','',avResults('ar-calc'));
  add('Aortic valve: stenosis','as-calc','',avResults('as-calc'));
  add('Mitral valve: regurgitation','mr-calc','',avResults('mr-calc'));
@@ -1411,9 +1412,10 @@ function keyRows(g){if(g.all)return g.rows;const G=KEYG[g.open];if(!G)return g.r
  for(const grp of G){let hit=null;for(const re of grp){hit=g.rows.find(r=>re.test(r.lab));if(hit)break}if(hit&&!out.includes(hit))out.push(hit)}return out.length?out:g.rows.slice(0,4)}
 function sname(g){let n=SHORTN[g.open]||g.name;if(g.open==='sten-calc')n=g.name.startsWith('Mitral')?'MS':g.name.startsWith('Tricuspid')?'TS':'PS';
  if(g.open==='ao-calc'&&parseFloat(aoState.d)>0)n+=' ('+(aoState.lvl||'')+' '+aoState.d+' mm)';return n}
+function noteOf(html){const d=document.createElement('div');d.innerHTML=html;const n=[...d.querySelectorAll('.rnote')].map(x=>x.textContent.replace(/\s+/g,' ').trim()).filter(t=>/^Check inputs/.test(t));return n.join(' ')}
 function lineOf(g,only){let rs=keyRows(g);if(only)rs=rs.filter(r=>r.cls==='hi'||r.cls==='lo');if(!rs.length)return '';
  const cx=ctxFor(g.open);
- return sname(g)+(cx?' ['+cx+']':'')+': '+rs.map(r=>lShort(r.lab)+' '+vShort(r)+(r.grades.length?' ('+r.grades.map(gShort).join('; ')+')':'')).join('; ')}
+ return sname(g)+(cx?' ['+cx+']':'')+': '+rs.map(r=>lShort(r.lab)+' '+vShort(r)+(r.grades.length?' ('+r.grades.map(gShort).join('; ')+')':'')).join('; ')+(g.note?'. '+g.note:'')}
 function reportText(secs,only){const L=secs.map(g=>lineOf(g,only)).filter(Boolean);return L.length?L.join('\n')+'\n'+FOOT():(only?'No abnormal values among the entered findings.':'')}
 function reportBody(){const secs=buildReport();
  if(!secs.length)return `<div class="card"><p class="empty">No findings yet. Enter measurements on any chamber, valve or mapping page.</p></div>`;
@@ -1575,7 +1577,7 @@ function copyResult(btn){const res=document.getElementById('results');const it=I
  if(!res||res.classList.contains('held')){const o=btn.textContent;btn.textContent='Fix highlighted values first';setTimeout(()=>{btn.textContent=o},1800);return}
  const rows=rowsOf(res.innerHTML);if(!rows.length){const o=btn.textContent;btn.textContent='Nothing to copy yet';setTimeout(()=>{btn.textContent=o},1800);return}
  const nm=current==='sten-calc'?({ms:'Mitral valve: stenosis',ts:'Tricuspid valve: stenosis',ps:'Pulmonic valve: stenosis'})[avState['sten-calc'].v]||it.title:it.title;
- copyText(lineOf({name:nm,open:current,rows:rows,all:true},false).replace(/^[^\[:]*/,nm+' ')+'\n'+FOOT(),btn)}
+ copyText(lineOf({name:nm,open:current,rows:rows,all:true,note:noteOf(res.innerHTML)},false).replace(/^[^\[:]*/,nm+' ')+'\n'+FOOT(),btn)}
 function resetCurrent(){const it=ITEMS.find(i=>i.id===current);if(!it)return;const o=JSON.parse(INIT);const clr=(dst,src)=>{for(const k in src)if(src[k]==='')dst[k]=''};
  if(it.methods){const st=getState(it);for(const k of ['a','b','c','lv','area','rv','str','h','w'])if(k in st)st[k]='';for(const k of Object.keys(st))if(k.startsWith('v_'))delete st[k];st.example=false}
  else if(it.kind==='aocalc'){aoState.d='';aoState.age=''}
