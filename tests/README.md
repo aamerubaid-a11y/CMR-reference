@@ -4,6 +4,7 @@
 - `scan_gate.js`: OCR scan end-to-end; serve the built `dist/` on http://localhost:8765 first.
 - `aorta_transcription.py <index.html> <scmr.txt>`: compares the app's aortic table with the SCMR 2025 text (Tables 63, 65, 67).
 - `owner_cases.js`: runs the 23 owner-review cases exactly as written in docs/OWNER_CHECKLIST.md §C and records screen and copied text (`results/owner-cases.json`).
+- `sw_offline.js`: with the repo root served on http://localhost:8765, checks that the service worker caches the app and notices and that both load offline.
 - `dispo.py <original results json>`: prints the 77-test disposition table.
 - `axe.js`: axe-core accessibility scan (paths inside need editing).
 - `suite_original.js` + `harness_original.js`: the original audit suite, kept unchanged for comparison.

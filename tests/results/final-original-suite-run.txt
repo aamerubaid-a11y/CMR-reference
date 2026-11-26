@@ -1,4 +1,4 @@
-total 77 fail 51
+total 77 fail 52
 FAIL LV-EDVi-100 | Within reference [mL/m² · normal 46–104]
 FAIL LV-EDVi-101 | Within reference [mL/m² · normal 46–104]
 FAIL LV-EDVi-104 | Within reference [mL/m² · normal 46–104]
@@ -9,9 +9,9 @@ FAIL LV-Kang-149 | Above reference
 FAIL LV-Kang-150 | Above reference
 FAIL LV-Kang-199 | Above reference
 FAIL LV-Kang-200 | Above reference
-FAIL LV-EF-40 | 40.0 Below reference | HF category: reduced EF (≤40%) [% · normal 53–79]
-FAIL LV-EF-41 | 41.0 Below reference | HF category: mildly reduced EF (41–49%) [% · normal 53–79]
-FAIL LV-EF-49 | 49.0 Below reference | HF category: mildly reduced EF (41–49%) [% · normal 53–79]
+FAIL LV-EF-40 | 40.0 Below reference | HFrEF range if clinical HF (≤40%) [% · normal 53–79]
+FAIL LV-EF-41 | 41.0 Below reference | HFmrEF range if clinical HF (41–49%) [% · normal 53–79]
+FAIL LV-EF-49 | 49.0 Below reference | HFmrEF range if clinical HF (41–49%) [% · normal 53–79]
 FAIL LV-EF-50 | 50.0 Below reference [% · normal 53–79]
 FAIL LV-EF-52 | 52.0 Below reference [% · normal 53–79]
 FAIL LV-EF-53 | 53.0 Within reference [% · normal 53–79]
@@ -34,6 +34,7 @@ FAIL LA-73 | Above reference | Khan: moderate enlargement (63–73)
 FAIL LA-74 | Above reference | Khan: severe enlargement (>73)
 FAIL AR-15 | 15.0 Intermediate (15 to <32%)
 FAIL AR-31.9 | 31.9 Intermediate (15 to <32%)
+FAIL AR-32 | 32.0 High risk (≥32%: death or HF events)
 FAIL MRp-20.0 | 20.0 Intermediate (20–40%)
 FAIL MRp-40.0 | 40.0 Intermediate (20–40%)
 FAIL TR-19.9 | 19.9 Below the 20% risk threshold

@@ -234,9 +234,9 @@
   "id": "HF-40.0",
   "mod": "lv-vol",
   "input": "LVEF 40.0",
-  "expect": "/reduced EF \\(≤40/",
+  "expect": "/HFrEF range if clinical HF \\(≤40/",
   "prov": "Bozkurt 2021 Universal Definition",
-  "actual": "Below reference | HF category: reduced EF (≤40%)",
+  "actual": "Below reference | HFrEF range if clinical HF (≤40%)",
   "pass": true
  },
  {
@@ -244,9 +244,9 @@
   "id": "HF-40.1",
   "mod": "lv-vol",
   "input": "LVEF 40.1",
-  "expect": "/mildly reduced/",
+  "expect": "/HFmrEF range if clinical HF/",
   "prov": "Bozkurt 2021 Universal Definition",
-  "actual": "Below reference | HF category: mildly reduced EF (41–49%)",
+  "actual": "Below reference | HFmrEF range if clinical HF (41–49%)",
   "pass": true
  },
  {
@@ -254,9 +254,9 @@
   "id": "HF-49.9",
   "mod": "lv-vol",
   "input": "LVEF 49.9",
-  "expect": "/mildly reduced/",
+  "expect": "/HFmrEF range if clinical HF/",
   "prov": "Bozkurt 2021 Universal Definition",
-  "actual": "Below reference | HF category: mildly reduced EF (41–49%)",
+  "actual": "Below reference | HFmrEF range if clinical HF (41–49%)",
   "pass": true
  },
  {
@@ -706,7 +706,7 @@
   "input": "arvc {\"str\":18.5}",
   "expect": "/end-stage/",
   "prov": "Xu 2026 <18.6",
-  "actual": "18.5 <18.6%: end-stage HF risk in ARVC",
+  "actual": "18.5 <18.6%: higher end-stage HF risk in ARVC | <23%: higher malignant ventricular arrhythmia risk in ARVC without LV involvement (not significant with LV involvement)",
   "pass": true
  },
  {
@@ -714,9 +714,9 @@
   "id": "RA-arvc-RA reservoir strain-{\"str\":22.9}",
   "mod": "ra-vol",
   "input": "arvc {\"str\":22.9}",
-  "expect": "/arrhythmic/",
-  "prov": "Xu 2026 <23",
-  "actual": "22.9 <23%: arrhythmic risk in ARVC",
+  "expect": "/ventricular arrhythmia risk in ARVC without LV involvement/",
+  "prov": "Xu 2026 <23 (no LV involvement)",
+  "actual": "22.9 <23%: higher malignant ventricular arrhythmia risk in ARVC without LV involvement (not significant with LV involvement)",
   "pass": true
  },
  {
@@ -764,9 +764,9 @@
   "id": "ar-calc-Regurgitant fraction-{\"fwd\":100,\"rev\":32}",
   "mod": "ar-calc",
   "input": "{\"fwd\":100,\"rev\":32}",
-  "expect": "/Severe/",
-  "prov": "Hashimoto 2022 ≥32",
-  "actual": "32.0 Severe (≥32%)",
+  "expect": "/High risk \\(≥32%/",
+  "prov": "Hashimoto 2022 ≥32 (prognostic; not a severity grade)",
+  "actual": "32.0 High risk (≥32%: death or HF events)",
   "pass": true
  },
  {
@@ -876,7 +876,7 @@
   "input": "{\"t\":\"s\",\"lvsv\":100,\"fwd\":80}",
   "expect": "/Moderate \\(20/",
   "prov": "Wang 2023 ≥20",
-  "actual": "20.0 Moderate (20–34%)",
+  "actual": "20.0 Moderate (20–34%; functional MR with LVEF <50%)",
   "pass": true
  },
  {
@@ -886,7 +886,7 @@
   "input": "{\"t\":\"s\",\"lvsv\":100,\"fwd\":65.1}",
   "expect": "/Moderate/",
   "prov": "",
-  "actual": "34.9 Moderate (20–34%)",
+  "actual": "34.9 Moderate (20–34%; functional MR with LVEF <50%)",
   "pass": true
  },
  {
@@ -896,7 +896,7 @@
   "input": "{\"t\":\"s\",\"lvsv\":100,\"fwd\":65}",
   "expect": "/Severe \\(≥35/",
   "prov": "Wang 2023 ≥35",
-  "actual": "35.0 Severe (≥35%)",
+  "actual": "35.0 Severe (≥35%; functional MR with LVEF <50%)",
   "pass": true
  },
  {
@@ -986,7 +986,7 @@
   "input": "{\"rvsv\":100,\"pf\":25,\"rvedv\":100}",
   "expect": "/≤25%/",
   "prov": "Zhang 2026 ≤25",
-  "actual": "25 ≤25%: higher mortality",
+  "actual": "25 ≤25%: higher mortality in ≥moderate functional TR",
   "pass": true
  },
  {
@@ -1006,7 +1006,7 @@
   "input": "{\"rvsv\":100,\"pf\":57,\"rvesv\":100}",
   "expect": "/≤0.57/",
   "prov": "Margonato 2026 ≤0.57",
-  "actual": "0.57 ≤0.57: RV–PA uncoupling",
+  "actual": "0.57 ≤0.57: higher risk of death or HF hospitalisation in TR",
   "pass": true
  },
  {
@@ -1056,7 +1056,7 @@
   "input": "{\"ra\":62,\"rvedv\":100}",
   "expect": "/≥0.62/",
   "prov": "",
-  "actual": "0.62 ≥0.62: higher risk",
+  "actual": "0.62 ≥0.62: higher mortality in functional TR",
   "pass": true
  },
  {
@@ -1184,9 +1184,9 @@
   "id": "as-calc-SV/BSA-{\"sv\":34.9,\"bsa\":1}",
   "mod": "as-calc",
   "input": "{\"sv\":34.9,\"bsa\":1}",
-  "expect": "/Low flow/",
-  "prov": "echo definition <35 (Thornton 2022)",
-  "actual": "34.9 Low flow (<35)",
+  "expect": "/below the echo low-flow definition/",
+  "prov": "echo definition <35 (Thornton 2022 abstract)",
+  "actual": "34.9 <35: below the echo low-flow definition",
   "pass": true
  },
  {
@@ -1196,7 +1196,7 @@
   "input": "{\"sv\":44.9,\"bsa\":1}",
   "expect": "/35–44/",
   "prov": "Thornton <45",
-  "actual": "44.9 35–44: higher post-AVR mortality",
+  "actual": "44.9 35–44: CV mortality after AVR rose more steeply below 45 (severe AS)",
   "pass": true
  },
  {
@@ -1224,9 +1224,9 @@
   "id": "as-calc-ECV-{\"ecv\":45}",
   "mod": "as-calc",
   "input": "{\"ecv\":45}",
-  "expect": "/Higher risk/",
+  "expect": "/Higher post-AVR mortality in severe AS/",
   "prov": "no amyloid label",
-  "actual": "45 Higher risk (>27%)",
+  "actual": "45 Higher post-AVR mortality in severe AS (>27%)",
   "pass": true
  },
  {
@@ -1546,7 +1546,7 @@
   "input": "Center range active, copy",
   "expect": "copy names the center range and label",
   "prov": "F14",
-  "actual": "ECV calculator [1.5 T · center range (Test MOLLI): T1 950–1050 ms · no sequence-matched SCMR set]: native T1 1100 ms (above your range (>1050 ms))\n— CMR Reference 2026.11-rc2 (release candidate, not deployed); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against the source before reportin",
+  "actual": "ECV calculator [1.5 T · center range (Test MOLLI): T1 950–1050 ms · no sequence-matched SCMR set]: native T1 1100 ms (above your range (>1050 ms))\n— CMR Reference 2026.11-rc3 (release candidate: evaluation use; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against t",
   "pass": true
  },
  {
@@ -1656,7 +1656,7 @@
   "input": "copy AR RF 31.96",
   "expect": "copy shows 31.96 and intermediate",
   "prov": "screen/copy agreement",
-  "actual": "Aortic regurgitation calculator [direct aortic phase contrast]: RF 31.96% (intermediate (15 to <32%)); RVol 32 mL (≤40 mL)\n— CMR Reference 2026.11-rc2 (release ",
+  "actual": "Aortic regurgitation calculator [direct aortic phase contrast]: RF 31.96% (intermediate (15 to <32%)); RVol 32 mL (≤40 mL)\n— CMR Reference 2026.11-rc3 (release ",
   "pass": true
  },
  {
@@ -1786,7 +1786,7 @@
   "input": "Cardiac T2* 9.9 at 1.5 T, copy",
   "expect": "copy has T2* 9.9 ms, R2* and mg/g",
   "prov": "screen/copy agreement",
-  "actual": "Iron overload calculator [cardiac T2* at 1.5 T · SCMR 2025 Table 100]: Cardiac T2*, 1.5 T T2* 9.9 ms · R2* 101 s⁻¹; iron 2.74 mg/g (severe iron overload (<10 ms))\n— CMR Reference 2026.11-rc2 (release ",
+  "actual": "Iron overload calculator [cardiac T2* at 1.5 T · SCMR 2025 Table 100]: Cardiac T2*, 1.5 T T2* 9.9 ms · R2* 101 s⁻¹; iron 2.74 mg/g (severe iron overload (<10 ms))\n— CMR Reference 2026.11-rc3 (release ",
   "pass": true
  },
  {
@@ -1796,7 +1796,7 @@
   "input": "Cardiac T2* 5.4 at 3 T, copy",
   "expect": "copy has T2* 5.4 ms; no mg/g",
   "prov": "screen/copy agreement",
-  "actual": "Iron overload calculator [cardiac T2* at 3 T · SCMR 2025 Table 100]: Cardiac T2*, 3 T T2* 5.4 ms · R2* 185 s⁻¹ (severe iron overload (<5.5 ms))\n— CMR Reference 2026.11-rc2 (release candidate, not depl",
+  "actual": "Iron overload calculator [cardiac T2* at 3 T · SCMR 2025 Table 100]: Cardiac T2*, 3 T T2* 5.4 ms · R2* 185 s⁻¹ (severe iron overload (<5.5 ms))\n— CMR Reference 2026.11-rc3 (release candidate: evaluati",
   "pass": true
  },
  {
@@ -1816,7 +1816,7 @@
   "input": "Sinus 36.22 mm, male 25 y, copy",
   "expect": "copy has diameter and z",
   "prov": "screen/copy agreement",
-  "actual": "Aortic size calculator [Adult male · Sinus of Valsalva · age 25 y · LVOT view, diastole · SCMR 2025 Table 67]: Absolute 36.2 mm; z +2.04 (above +2 SD)\n— CMR Reference 2026.11-rc2 (release candidate, n",
+  "actual": "Aortic size calculator [Adult male · Sinus of Valsalva · age 25 y · LVOT view, diastole · SCMR 2025 Table 67]: Absolute 36.2 mm; z +2.04 (above +2 SD)\n— CMR Reference 2026.11-rc3 (release candidate: e",
   "pass": true
  },
  {
@@ -1827,6 +1827,66 @@
   "expect": "both carry the Check inputs note; no EF",
   "prov": "screen/copy/report agreement",
   "actual": "LV volumes, EF and mass [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 100.0 mL (within reference); ESV 120.0 mL (above reference). || LV [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 100.0 mL (within reference); ESV 120.0 mL (above referenc",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "XU-both",
+  "mod": "ra-vol",
+  "input": "ARVC RA reservoir strain 18.5",
+  "expect": "both end-stage HF and arrhythmia markers",
+  "prov": "Xu 2026 abstract",
+  "actual": "<18.6%: higher end-stage HF risk in ARVC | <23%: higher malignant ventricular arrhythmia risk in ARVC without LV involvement (not significant with LV involvement)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "WANG-pop",
+  "mod": "mr-calc",
+  "input": "Secondary MR RF 40",
+  "expect": "severe label restricted to LVEF <50%; copy matches",
+  "prov": "Wang 2023 abstract",
+  "actual": "Severe (≥35%; functional MR with LVEF <50%) || Mitral regurgitation calculator [secondary MR · LV stroke volume − aortic forward flow]: RF 40.0% (severe (≥35%; functional MR with LVEF <50%)); RVol 40 mL (not",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "TR-wording",
+  "mod": "tr-calc",
+  "input": "eRVEF 20, fSV/ESV 0.40",
+  "expect": "population/endpoint in labels; no unverified site names",
+  "prov": "Zhang 2026; Margonato 2026 abstracts",
+  "actual": "≤25%: higher mortality in ≥moderate functional TR || ≤0.57: higher risk of death or HF hospitalisation in TR",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANY-wording",
+  "mod": "as-calc",
+  "input": "Vmax 1.5, MG 4",
+  "expect": "\"below the mild-AS limit\", not \"no AS\"",
+  "prov": "Kany 2025 abstract",
+  "actual": "≤1.65: below the mild-AS limit || ≤4.9: below the mild-AS limit",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "NO-UNVERIFIED",
+  "mod": "all",
+  "input": "Source text",
+  "expect": "removed unverified claims absent",
+  "prov": "rc3 inventory",
+  "actual": "none",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "ABOUT-notices",
+  "mod": "home",
+  "input": "About section",
+  "expect": "version wording, CC BY attribution, OFL text, notices pointer",
+  "prov": "licensing",
+  "actual": "2026.11-rc3 (release candidate: evaluation use; validation incomplete) · reference data: SCMR 2025 reference values, JCMR 2025;27:101853.",
   "pass": true
  },
  {

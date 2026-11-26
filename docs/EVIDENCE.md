@@ -1,6 +1,6 @@
 # Evidence matrix: implemented interpretations
 
-Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.11-rc2`; reviewed 26 Nov 2026). Code locations refer to
+Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.11-rc3`; reviewed 26 Nov 2026). Code locations refer to
 `src/index.html`. Status key:
 
 - **Verified (full text)**: threshold, operator, units, population and method checked in the full paper.
@@ -9,6 +9,66 @@ Checked November 2026 on branch `remediation/audit-2026-11` (app version `2026.1
 - **Unverified / inaccessible**: source not retrievable here; interpretation withheld unless noted.
 - **Withheld**: no longer shown as a classification.
 - **Adjudication**: withheld until a CMR clinician decides (see ADJUDICATION.md).
+
+## Abstract-dependent markers: rc3 disposition (authoritative for these rows)
+
+The earlier "25 markers checked against abstracts only" was a miscount: it counted 24 rows plus the legend line.
+This inventory covers those 24 rows plus 5 more where the decisive threshold rests on an abstract, 29 in total.
+Every marker was re-read against the PubMed record: abstract text, or full text where marked. Each appears on
+screen in the result row, and the label (the "pill") is what is copied and exported. Class key: **1** = adequately
+supported for its stated use; **2** = supported only with the narrower wording now shown; **3** = insufficiently
+verified, withheld or removed. Evidence sufficiency is separate from whether a marker applies at your centre or to
+your patients (OWNER_CHECKLIST §A). All 29 are enabled in the pilot candidate.
+
+| # | Marker (calculator) | Displayed label (rc3; also copied) | Source checked (PMID) | Supports threshold / definition / population / interpretation? | Missing detail that could change applicability | Class |
+|---|---|---|---|---|---|---|
+| 1 | LVEF ≤40 / 41–49 (LV) | "HFrEF range if clinical HF (≤40%)" / "HFmrEF range if clinical HF (41–49%)" | Bozkurt 2021 Universal Definition (33605000) | Yes: defined for **symptomatic HF**. The old label implied any patient | Consensus, modality-agnostic | 2 |
+| 2 | LVESVi ≥45 (LV AR context; AR calc) | "≥45 mL/m²: higher risk in chronic ≥moderate AR with no or minimal symptoms" | Hashimoto 2022 (35857306) | Yes: n=178; composite death, HF hospitalisation or NYHA progression on medical therapy. "Matches ESC 2025 >45" removed (not verified) | Contouring convention not in abstract | 2 |
+| 3 | LVEDV >246 mL (LV AR context; AR calc) | LV page: ">246 mL: progression to surgery in AR"; AR calc: "Above 246 mL" | Myerson 2012 (22879371) | Yes: AUC 0.88, progression to symptoms or surgery indication, n=113 | Unindexed | 1 |
+| 4 | RV/LV EDV ≥1.27 in TR (RV; TR calc) | RV page: "≥1.27: higher mortality in TR"; TR calc: "≥1.27 (weak, HR 1.47)" | Zhang RS 2025 JACC Adv (40614565) | Yes: ≥moderate TR, n=949, aHR 1.47 | Origin of the 1.27 normal limit not in abstract | 1 |
+| 5 | RVEF <50 / 50–60 / >60; RVEDVi >150 / 100–150 (RV TR context; TR calc) | "High / Intermediate risk in severe TR (…)" | Hinojar 2025 (40120094) | Yes: ≥severe TR by echo, n=314, death or HF. TR-calc labels now name severe TR | Boundary inclusivity at 50/60/100/150 not stated | 2 |
+| 6 | RVEF >54 / 37–54 / <37 in PAH (RV) | "Low / Intermediate / High 1-year risk in PAH" | Lewis 2020 ASPIRE (31647310) | Yes: PAH, discovery/test cohorts, 1-year mortality | — | 1 |
+| 7 | RA reservoir strain 16.1 / 36.8 in PAH (RA) | "High / Intermediate / Low risk in PAH" | Guo 2026 JCMR (41831721) | Yes: n=348, 1-year mortality strata | Feature-tracking software not in abstract (strain is vendor-dependent); inclusivity not stated | 1 (applicability: centre software) |
+| 8 | RA reservoir strain <18.6 / <23 in ARVC (RA) | "<18.6%: higher end-stage HF risk"; "<23%: higher malignant ventricular arrhythmia risk in ARVC without LV involvement (not significant with LV involvement)". Both now shown when <18.6 | Xu 2026 JAHA (43018039) | Yes, but the <23% association was not significant with LV involvement, so the label is narrowed | Software; no external validation | 2 |
+| 9 | AR RVol >40 direct / >62 indirect (AR calc) | "Severe range (>40 / >62 mL)" | Polte 2017 (28450039) | Yes: method-specific, n=38 surgical cohort | Small cohort | 1 |
+| 10 | MR inflow method RF >30 / RVol >40 (MR calc) | "Severe (>30%, inflow method)" | Polte 2017 (28450039) | Yes: MiIF−AoFF method | Small cohort | 1 |
+| 11 | Secondary MR RF ≥20 / ≥35 (MR calc) | "Moderate / Severe (…; functional MR with LVEF <50%)" | Wang 2023 (37503633) | Yes: ICM/NICM with LVEF <50%, n=1,414; death, transplant or LVAD. "Houston ≥30% (Tayal 2021)" removed (not verified) | Atrial functional MR not covered | 2 |
+| 12 | Primary MR LVEDVi ≥100 (MR calc) | "≥100" | Myerson 2016 (27189033) | Yes: asymptomatic primary MR; progression to surgery (weak) | Circular endpoint (surgery) | 1 |
+| 13 | Primary MR LA emptying fraction <30% (MR calc) | "<30%: higher risk after repair" | Altes 2025 (40579070) | Yes: primary MR before repair, n=284, aHR 3.78 | LAEF method not in abstract | 1 |
+| 14 | MVP LGE (MR calc) | "Arrhythmic risk marker" | Figliozzi 2023 Radiology (36098639); Constant Dit Beaufils 2021 (33706538) | Yes: any LGE, HR 4.2 (VT/SCD/syncope) and HR 2.6 (CV events). "EHRA 2022" removed; MAD "76% of UK Biobank" removed | Field asks about papillary/inferolateral LGE; sources studied any LGE | 2 |
+| 15 | TR volume ≥35 / ≥45 (TR calc) | "Elevated (35–44 mL)" / "Highest risk (≥45 mL)" | Wang 2021 (34521215); Zhan 2020 (32912443) | Yes: isolated severe TR (Wang); functional TR (Zhan) | Quantification method not in abstracts (the same Houston group's companion paper used RV SV − pulmonary flow) | 1 |
+| 16 | Effective RVEF ≤25% (TR calc) | "≤25%: higher mortality in ≥moderate functional TR" | Zhang RS 2026 JACC CVI (41995650) | Yes: forward volume ÷ RVEDV; derivation n=453 and 2 external cohorts. Unverified site names removed | — | 2 |
+| 17 | Forward SV ÷ RVESV ≤0.57 (TR calc) | "≤0.57: higher risk of death or HF hospitalisation in TR" | Margonato 2026 Circ CVI (42345088) | Yes: spline cut-off, n=631, aHR 2.36. Old label "RV–PA uncoupling" overstated a surrogate | Single network | 2 |
+| 18 | AS Vmax >1.65, MG >4.9 (AS calc) | "≤1.65 / ≤4.9: below the mild-AS limit" (was "no AS") | Kany 2025 (40175013) | Yes: >95th percentile in healthy UK Biobank, deep-learning PC-MRI | Automated measurement; population cohort | 2 |
+| 19 | AS SVi <35 / <45 (AS calc) | "<35: below the echo low-flow definition"; "35–44: CV mortality after AVR rose more steeply below 45 (severe AS)" | Thornton 2022 (35385057) | <45: yes (severe AS undergoing AVR, n=674). <35 is the echo convention quoted in the abstract, not a CMR-derived cut-off | CMR SV runs higher than echo | 2 |
+| 20a | AS LGE presence (AS calc) | "Higher mortality"; source names EVOLVED (verified: JAMA 2025, PMID 39466640) | Musa 2018 (30002099) | Yes: severe AS listed for AVR, aHR 2.39 | — | 1 |
+| 20b | AS ECV >27% (AS calc) | "Higher post-AVR mortality in severe AS (>27%)" | Kwak 2021 (34353531) | Yes: severe AS before AVR, derivation and validation | ECV sequence-dependent | 2 |
+| 21 | MS planimetry <1.65 (stenosis calc) | "<1.65: corresponds to cath MVA ≤1.5" | Djavidani 2005 (15963408) | Yes: n=22 (17 cath), 1.5 T trueFISP | Small cohort | 1 |
+| 22 | RVOT conduit <18 mm (stenosis calc) | "<18 mm: obstruction likely" | Martinez 1992 (1634669) | Yes: n=52; abstract notes calcified obstruction could be missed (now stated) | 1992 spin-echo technique | 1 |
+| 23 | RV mass/volume ≥0.45 (stenosis calc) | "≥0.45: higher death/VT risk after PVR in repaired TOF" | Geva 2018 INDICATOR (30030416) | Yes: pre-PVR repaired TOF, HR 4.08 | — | 2 |
+| 24 | Cardiac iron [Fe] = 45.0 × T2*^−1.22 (iron) | mg/g shown at 1.5 T only | Carpenter 2011 (21444881), **full text PMC3435874** | Yes: 1.5 T Siemens Sonata, 12 ex-vivo hearts, mid-septal R2* | Calibration range mostly T2* 2–12 ms | 1 |
+| 25 | AR RF ≥32% (AR calc) | "High risk (≥32%: death or HF events)" (was "Severe") | Hashimoto 2022 (35857306) | Threshold yes; **not a severity grade** in the source. The valve table now says "outcome threshold; not a defined severity grade" | — | 2 |
+| 26 | AR holodiastolic reversal (AR calc) | "Supports significant AR" | Kammerlander 2019 (30448117) | Yes: significant AR defined by HRF; HR 2.77 | — | 1 |
+| 27 | Primary MR RVol ≥60 (MR calc) | "Severe (≥60 mL: mortality)" | Penicka 2018 (29269390) | Yes: severe pre-defined as RVol ≥60 (LVSV − aortic flow); severe vs moderate predicted mortality in asymptomatic primary MR | Method-specific | 1 |
+| 28 | TR fraction ≥50% (TR calc) | "Highest-risk stratum (≥50%)" | Zhan 2020 (32912443) | Yes: functional TR, n=547 | Method as in #15 | 1 |
+| 29 | RACI ≥0.62 (RA TR context; TR calc) | "≥0.62: higher mortality in functional TR" | Zhang RS 2026 Circ CVI (42478366) | Yes: RA ÷ RV end-diastolic volume; Youden cut-off; n=633 | Single centre; no external validation | 1 |
+
+**Withheld or removed (class 3):** these were secondary claims, not threshold labels, and could not be verified here.
+They have been removed from the interface (test NO-UNVERIFIED):
+- pre-T-TEER "RVEF ≤45% high risk (Kresoja 2021, HR 6.6)";
+- "Houston ≥30% (Tayal 2021)";
+- "Cavalcante 2019" as a source for the scar row (now Wang 2023 only);
+- "EHRA 2022";
+- "MAD in 76% of UK Biobank";
+- "matches ESC 2025 >45";
+- "CMR PHT feasible (Lin 2004)";
+- "PC reads 6–12 lower" (valve table).
+
+Kept with verified support: post-T-TEER caution (Bombace 2025, PMID 41147662) and the EVOLVED statement.
+
+**Not re-reviewed in this pass:** reference cards on the evidence pages, which are descriptive literature notes
+rather than result labels, and the SCMR/EACVI 2017 timing hint in the ECV input warning (Messroghli 2017, not
+re-read).
 
 ## Reference intervals (statistical, shown as "Within / Above / Below reference")
 

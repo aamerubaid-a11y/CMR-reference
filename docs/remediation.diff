@@ -1,5 +1,5 @@
 --- src/index.baseline-0af7de5.html	2026-11-26 13:58:04.632954787 -0500
-+++ src/index.html	2026-11-26 15:36:34.972577056 -0500
++++ src/index.html	2026-11-26 17:10:56.090777212 -0500
 @@ -75,7 +75,7 @@
  .items{display:none;border-top:1px solid var(--line)}
  .group.open .items{display:block}
@@ -21,7 +21,7 @@
  
  <script>
  (function(){
-+const APP_VERSION='2026.11-rc2 (release candidate, not deployed)';
++const APP_VERSION='2026.11-rc3 (release candidate: evaluation use; validation incomplete)';
 +const DATA_VERSION='SCMR 2025 reference values, JCMR 2025;27:101853';
  const REF = 'Kawel-Boehm N, Hetzel SJ, Ambale-Venkatesh B, et al. Society for Cardiovascular Magnetic Resonance reference values ("normal values") in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27:101853.';
  const P=(m,f)=>({m,f});
@@ -54,7 +54,7 @@
   {id:'valves',sec:'valves',kind:'table',title:'Valve disease grading',sub:'Table 57 · AR, MR, TR from CMR outcome studies',
 -  head:['Parameter','Mild / moderate','Severe'],rows:[['Aortic stenosis',null,null],['Peak velocity, PC (m/s)','Mild >1.65 (CMR, Kany 2025) · Mod 3.0–3.9 (echo)','≥4 echo; PC under-reads, <4 does not exclude'],['Mean gradient, PC (mmHg)','Mild >4.9 (CMR, Kany 2025)','≥40 echo; PC reads 6–12 lower'],['Planimetric AVA (cm²)','Grey zone 1.0–1.3 (CMR reads ~0.14 larger)','<1.0 (echo); ~1.3 CMR ≈ 1.0 effective'],['AVA/BSA (cm²/m²)','—','≤0.6 (echo)'],['Aortic regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <15 · Mod 15–31','≥32'],['Regurgitant volume (mL/beat)','≤40 (direct flow)','>40 direct · >62 indirect (Polte 2017)'],['LVESV/BSA (mL/m²)','<45','≥45'],['LVEDV (mL)','≤246','>246'],['Primary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–40','>40'],['Regurgitant volume (mL)','≤55','>55 (≥60 mortality)'],['Secondary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–34','≥35'],['Regurgitant volume (mL)','Not graded','Not graded'],['Tricuspid regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–39','≥40 (highest risk ≥50)'],['Regurgitant volume (mL)','<45','≥45 highest risk'],['Pulmonic regurgitation (consensus)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–40','>40'],['Other',null,null],['Mitral stenosis, CMR planimetric area (cm²)','≥1.65','<1.65 ≈ cath ≤1.5 (Djavidani 2005); very severe ≤1.0 echo only'],['Mitral stenosis, pressure half-time (ms)','<150','≥150 (echo; CMR PHT not validated)'],['Pulmonic stenosis, peak velocity (m/s)','Mod 3–4 (echo)','>4 (echo); 2D PC under-reads ~0.4 m/s'],['RVOT conduit minimal diameter (mm)','≥18','<18 obstruction likely (Martinez 1992)'],['Tricuspid stenosis, area (cm²)','—','≤1.0, mean gradient ≥5 (echo; no CMR data)'],['RV mass/volume, repaired TOF (g/mL)','<0.45','≥0.45 death/VT risk (INDICATOR)']],
 -  table:'Table 57',howto:['Aortic regurgitation uses CMR outcome studies: regurgitant fraction ≥32% (Hashimoto 2022; Myerson 2012 >33%), LVESVi ≥45 mL/m² (Hashimoto), LVEDV >246 mL (Myerson) and regurgitant volume >40 mL by direct flow (Polte 2017; the Myerson volume cutoff is not in its abstract and is reported inconsistently, so it is not used). Mild <15% is from Steeds & Myerson 2020; the moderate band is not outcome-derived. The SCMR Table 57 echo values (RF ≥50%, RVol ≥60 mL, EROA ≥0.30 cm²) are replaced. See the aortic regurgitation calculator.','Mitral regurgitation uses CMR outcome studies (LV stroke volume − aortic forward flow): primary severe RF >40% / RVol >55 mL (Myerson 2016), RVol ≥60 mL for mortality (Penicka 2018), mild <20% from Steeds & Myerson 2020 (moderate is the gap, not outcome-derived); secondary RF ≥20% moderate and ≥35% severe (Wang 2023). EROA is an echo measure and is not used. See the mitral regurgitation calculator.','Tricuspid regurgitation uses CMR outcome studies (indirect method): TRF 20% and 40% from Margonato 2025, ≥50% / ≥45 mL highest risk from Zhan 2020. Pulmonic regurgitation uses the ASE 2017 CMR consensus (not outcome-derived); in repaired tetralogy see the RV page. See the tricuspid regurgitation calculator.','Stenosis: no CMR cutoff for any valve is outcome-validated. CMR-specific numbers shown are agreement-based (AS planimetry grey zone; MS <1.65 cm²; conduit <18 mm) or from UK Biobank mild AS (Kany 2025). Phase contrast under-reads velocity and gradient, so a low value never excludes severe stenosis. See the stenosis calculators.','All other grades are borrowed from echocardiography (2014/2017 AHA/ACC valve guidelines), not derived from CMR outcome data.','CMR-specific regurgitation thresholds are a priority for the outcomes layer of this app.'],keys:'valve regurgitation stenosis mitral aortic tricuspid grading severity'},
-+  head:['Parameter','Mild / moderate','Severe'],rows:[['Aortic stenosis',null,null],['Peak velocity, PC (m/s)','Mild >1.65 (CMR, Kany 2025)','≥4 echo; PC under-reads, <4 does not exclude'],['Mean gradient, PC (mmHg)','Mild >4.9 (CMR, Kany 2025)','≥40 echo; PC reads 6–12 lower'],['Planimetric AVA (cm²)','>1.0 does not exclude severe (CMR planimetry reads about 15% larger than TEE)','≤1.0 (SCMR Table 57, adapted from echo)'],['AVA/BSA (cm²/m²)','—','≤0.6 (echo)'],['Aortic regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <15 · intermediate 15 to <32','≥32'],['Regurgitant volume (mL/beat)','≤40 (direct flow)','>40 direct · >62 indirect (Polte 2017)'],['LVESV/BSA (mL/m²)','<45','≥45'],['LVEDV (mL)','≤246','>246'],['Primary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · intermediate 20–40','>40'],['Regurgitant volume (mL)','≤55','>55 (≥60 mortality)'],['Secondary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–34','≥35'],['Regurgitant volume (mL)','Not graded','Not graded'],['Tricuspid regurgitation (CMR outcome studies)',null,null],['TR fraction (%), risk strata','Below 20 · elevated risk 20 to <40','High risk ≥40 (highest ≥50)'],['TR volume (mL)','<35 · elevated 35–44','≥45 highest risk'],['Pulmonic regurgitation (consensus)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–40','>40'],['Other',null,null],['Mitral stenosis, CMR planimetric area (cm²)','≥1.65','<1.65 ≈ cath ≤1.5 (Djavidani 2005); very severe ≤1.0 echo only'],['Mitral stenosis, pressure half-time (ms)','Not graded on CMR','Not graded on CMR'],['Pulmonic stenosis, peak velocity (m/s)','≤4: not graded','>4 (SCMR Table 57); 2D PC under-reads'],['RVOT conduit minimal diameter (mm)','≥18','<18 obstruction likely (Martinez 1992)'],['Tricuspid stenosis, area (cm²)','—','≤1.0, mean gradient ≥5 (echo; no CMR data)'],['RV mass/volume, repaired TOF (g/mL)','<0.45','≥0.45 death/VT risk (INDICATOR)']],
++  head:['Parameter','Mild / moderate','Severe'],rows:[['Aortic stenosis',null,null],['Peak velocity, PC (m/s)','Mild >1.65 (CMR, Kany 2025)','≥4 echo; PC under-reads, <4 does not exclude'],['Mean gradient, PC (mmHg)','Mild >4.9 (CMR, Kany 2025)','≥40 (Doppler, ACC/AHA 2020); PC may read lower'],['Planimetric AVA (cm²)','>1.0 does not exclude severe (CMR planimetry reads about 15% larger than TEE)','≤1.0 (SCMR Table 57, adapted from echo)'],['AVA/BSA (cm²/m²)','—','≤0.6 (echo)'],['Aortic regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <15 · intermediate 15 to <32','≥32 high risk (outcome threshold; not a defined severity grade)'],['Regurgitant volume (mL/beat)','≤40 (direct flow)','>40 direct · >62 indirect (Polte 2017)'],['LVESV/BSA (mL/m²)','<45','≥45 high risk (no or minimal symptoms)'],['LVEDV (mL)','≤246','>246 progression to surgery'],['Primary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · intermediate 20–40','>40'],['Regurgitant volume (mL)','≤55','>55 (≥60 mortality)'],['Secondary mitral regurgitation, LVEF <50% (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–34','≥35'],['Regurgitant volume (mL)','Not graded','Not graded'],['Tricuspid regurgitation (CMR outcome studies)',null,null],['TR fraction (%), risk strata','Below 20 · elevated risk 20 to <40','High risk ≥40 (highest ≥50)'],['TR volume (mL)','<35 · elevated 35–44','≥45 highest risk'],['Pulmonic regurgitation (consensus)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–40','>40'],['Other',null,null],['Mitral stenosis, CMR planimetric area (cm²)','≥1.65','<1.65 ≈ cath ≤1.5 (Djavidani 2005); very severe ≤1.0 echo only'],['Mitral stenosis, pressure half-time (ms)','Not graded on CMR','Not graded on CMR'],['Pulmonic stenosis, peak velocity (m/s)','≤4: not graded','>4 (SCMR Table 57); 2D PC under-reads'],['RVOT conduit minimal diameter (mm)','≥18','<18 obstruction likely (Martinez 1992)'],['Tricuspid stenosis, area (cm²)','—','≤1.0, mean gradient ≥5 (echo; no CMR data)'],['RV mass/volume, repaired TOF (g/mL)','<0.45','≥0.45 death/VT risk (INDICATOR)']],
 +  table:'Table 57',howto:['Aortic regurgitation uses CMR outcome studies: regurgitant fraction ≥32% (Hashimoto 2022; Myerson 2012 >33%), LVESVi ≥45 mL/m² (Hashimoto), LVEDV >246 mL (Myerson) and regurgitant volume >40 mL by direct flow (Polte 2017; the Myerson volume cutoff is not in its abstract and is reported inconsistently, so it is not used). Mild <15% is from Steeds & Myerson 2020; the moderate band is not outcome-derived. The SCMR Table 57 echo values (RF ≥50%, RVol ≥60 mL, EROA ≥0.30 cm²) are replaced. See the aortic regurgitation calculator.','Mitral regurgitation uses CMR outcome studies (LV stroke volume − aortic forward flow): primary severe RF >40% / RVol >55 mL (Myerson 2016), RVol ≥60 mL for mortality (Penicka 2018), mild <20% from Steeds & Myerson 2020 (moderate is the gap, not outcome-derived); secondary RF ≥20% moderate and ≥35% severe (Wang 2023). EROA is an echo measure and is not used. See the mitral regurgitation calculator.','Tricuspid regurgitation uses CMR outcome studies (indirect method): TRF 20% and 40% from Margonato 2025, ≥50% / ≥45 mL highest risk from Zhan 2020. Pulmonic regurgitation uses the ASE 2017 CMR consensus (not outcome-derived); in repaired tetralogy see the RV page. See the tricuspid regurgitation calculator.','Stenosis: no CMR cutoff for any valve is outcome-validated. CMR-specific numbers shown are agreement-based (MS <1.65 cm²; conduit <18 mm) or from UK Biobank mild AS (Kany 2025). Phase contrast under-reads velocity and gradient, so a low value never excludes severe stenosis. See the stenosis calculators.','All other grades are borrowed from echocardiography (2014/2017 AHA/ACC valve guidelines), not derived from CMR outcome data.','CMR-specific regurgitation thresholds are a priority for the outcomes layer of this app.'],keys:'valve regurgitation stenosis mitral aortic tricuspid grading severity'},
   {id:'t1',sec:'tissue',kind:'table',title:'Native T1 and ECV',sub:'Mid-ventricular septum · Tables 89, 90',
    head:['Field · vendor · sequence','Native T1 LL–UL (ms)','ECV LL–UL (%)'],rows:[['1.5T',null,null],['GE · MOLLI 3(3)3(3)5b','956–1098','—'],['Philips · MOLLI 3b(2s)5b','884–1064','—'],['Philips · MOLLI 3(3)3(3)5b','911–1023','15.9–39.5'],['Siemens · MOLLI 5b(4b)2b','933–1059','—'],['Siemens · MOLLI 5s(3s)3s','946–1102','21.9–32.7'],['Siemens · MOLLI 3(3)3(3)5b','883–1020','19.0–31.0'],['Siemens · ShMOLLI','874–1034','22.4–34.4'],['Siemens · SASHA','1054–1234','18.3–29.9'],['3T',null,null],['Philips · MOLLI 3(3)3(3)5b','1011–1103','—'],['Siemens · MOLLI 5s(3s)3s','1138–1289','22.5–32.1'],['Siemens · MOLLI 5b(3s)3b','1126–1234','—'],['Siemens · ShMOLLI','1035–1215','19.6–29.6'],['Siemens · SASHA','1408–1580','16.2–23.4']],
@@ -81,16 +81,101 @@
  
  let recents=[];try{recents=JSON.parse(localStorage.getItem('cmr-recent')||'[]')}catch(e){recents=[]}
  function pushRecent(id){const it=ITEMS.find(i=>i.id===id);if(!it||it.kind==='table'||it.kind==='evidence')return;recents=[id,...recents.filter(x=>x!==id)].slice(0,5);try{localStorage.setItem('cmr-recent',JSON.stringify(recents))}catch(e){}}
-@@ -440,7 +444,7 @@
+@@ -440,7 +444,92 @@
   h+=`<div class="eyebrow">Browse by structure</div>`;
   for(const [k,name] of SECTIONS){const its=ITEMS.filter(i=>i.sec===k&&!i.hide);const op=openSecs.includes(k);const nc=its.filter(i=>i.kind!=='table'&&i.kind!=='evidence').length;
    h+=`<div class="group ${op?'open':''}"><button data-sec="${k}" aria-expanded="${op}"><span class="sicon">${SICON[k]}</span><span class="gt"><b>${name}</b><small>${nc} calculator${nc===1?'':'s'} ${its.length-nc?` · ${its.length-nc} reference page${its.length-nc===1?'':'s'}`:''}</small></span>${CHEV}</button><div class="items">${its.map(itemRow).join('')}</div></div>`}
 - h+=`<details class="notes" style="margin:14px 0"><summary>About and disclaimer</summary><div class="ref" style="padding:0 12px 12px;font-size:12.5px;line-height:1.5"><p><b>For education and reference only.</b> Not medical advice, not a substitute for clinical judgment or a formal report, and not an FDA-cleared device. Verify results against the cited source before using them in a report or a treatment decision.</p><p><b>Independent project.</b> Normal values come from the SCMR 2025 reference-values paper, but this app is not an official SCMR product. It is <b>not endorsed by The Ohio State University (OSU) or SCMR</b>, or by ASE or any other society, and it does not represent the views of any institution. The author’s affiliation is listed for identification only.</p><p><b>Some grades are provisional.</b> Each cutoff is labeled by its basis (outcome study, consensus, echo-borrowed, SD-derived or draft). Labeled drafts are not validated guideline thresholds, so check the cited paper.</p><p><b>Inputs matter.</b> Calculator outputs depend on measurement quality, and the app does not check inputs for plausibility.</p><p><b>Accuracy.</b> Numbers were checked against the sources in November 2026. Errors are still possible. Please report them.</p><p><b>Privacy.</b> Everything runs on your device and nothing is sent anywhere. Do not enter patient identifiers.</p></div></details>`;
-+ h+=`<details class="notes" style="margin:14px 0"><summary>About and disclaimer</summary><div class="ref" style="padding:0 12px 12px;font-size:12.5px;line-height:1.5"><p><b>Version:</b> ${APP_VERSION} · reference data: ${DATA_VERSION}.</p><p><b>For education and reference only.</b> Not medical advice, not a substitute for clinical judgment or a formal report, and not an FDA-cleared device. Verify results against the cited source before using them in a report or a treatment decision.</p><p><b>Independent project.</b> Normal values come from the SCMR 2025 reference-values paper, but this app is not an official SCMR product. It is <b>not endorsed by The Ohio State University (OSU) or SCMR</b>, or by ASE or any other society, and it does not represent the views of any institution. The author’s affiliation is listed for identification only.</p><p><b>Some grades are provisional.</b> Each cutoff is labeled by its basis (outcome study, consensus, echo-borrowed, SD-derived or draft). Labeled drafts are not validated guideline thresholds, so check the cited paper.</p><p><b>Inputs matter.</b> Calculator outputs depend on measurement quality, and the app does not check inputs for plausibility.</p><p><b>Accuracy.</b> Numbers were checked against the sources in November 2026. Errors are still possible. Please report them.</p><p><b>Privacy.</b> Everything runs on your device and nothing is sent anywhere. Do not enter patient identifiers.</p></div></details>`;
++ h+=`<details class="notes" style="margin:14px 0"><summary>About and disclaimer</summary><div class="ref" style="padding:0 12px 12px;font-size:12.5px;line-height:1.5"><p><b>Version:</b> ${APP_VERSION} · reference data: ${DATA_VERSION}.</p><p><b>For education and reference only.</b> Not medical advice, not a substitute for clinical judgment or a formal report, and not an FDA-cleared device. Verify results against the cited source before using them in a report or a treatment decision.</p><p><b>Independent project.</b> Normal values come from the SCMR 2025 reference-values paper, but this app is not an official SCMR product. It is <b>not endorsed by The Ohio State University (OSU) or SCMR</b>, or by ASE or any other society, and it does not represent the views of any institution. The author’s affiliation is listed for identification only.</p><p><b>Some grades are provisional.</b> Each cutoff is labeled by its basis (outcome study, consensus, echo-borrowed, SD-derived or draft). Labeled drafts are not validated guideline thresholds, so check the cited paper.</p><p><b>Inputs matter.</b> Calculator outputs depend on measurement quality. The app flags some implausible entries but cannot detect measurement errors.</p><p><b>Accuracy.</b> Numbers were checked against the sources in November 2026. Errors are still possible. Please report them.</p><p><b>Privacy.</b> Everything runs on your device and nothing is sent anywhere. Do not enter patient identifiers.</p><p><b>Reference-value attribution.</b> Values adapted from Kawel-Boehm N, et al. SCMR reference values (“normal values”) in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27:101853 (© 2025 The Authors; open access under CC BY 4.0, creativecommons.org/licenses/by/4.0). Changes: values transcribed into calculators, reformatted, combined with other sources and given interpretation labels by this app; not endorsed by the authors or SCMR.</p><p><b>Third-party software and fonts.</b> Report scanning uses tesseract.js 5.1.1 and tesseract.js-core 5.1.1 (Apache-2.0; includes Tesseract OCR, Leptonica, libjpeg — this software is based in part on the work of the Independent JPEG Group — libpng, libtiff, libwebp, giflib, zlib, openlibm) and the Tesseract English model (Apache-2.0). Full licence texts are in THIRD_PARTY_NOTICES.txt, shipped with the installable app. Fonts: Inter (Copyright 2020 The Inter Project Authors), Barlow Semi Condensed (Copyright 2017 The Barlow Project Authors), IBM Plex Mono (Copyright 2017 IBM Corp.), licensed under the SIL Open Font License 1.1:</p><details><summary>SIL Open Font License 1.1 (full text)</summary><pre style="white-space:pre-wrap;font-size:11px">-----------------------------------------------------------
++SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
++-----------------------------------------------------------
++
++PREAMBLE
++The goals of the Open Font License (OFL) are to stimulate worldwide
++development of collaborative font projects, to support the font creation
++efforts of academic and linguistic communities, and to provide a free and
++open framework in which fonts may be shared and improved in partnership
++with others.
++
++The OFL allows the licensed fonts to be used, studied, modified and
++redistributed freely as long as they are not sold by themselves. The
++fonts, including any derivative works, can be bundled, embedded,
++redistributed and/or sold with any software provided that any reserved
++names are not used by derivative works. The fonts and derivatives,
++however, cannot be released under any other type of license. The
++requirement for fonts to remain under this license does not apply
++to any document created using the fonts or their derivatives.
++
++DEFINITIONS
++&quot;Font Software&quot; refers to the set of files released by the Copyright
++Holder(s) under this license and clearly marked as such. This may
++include source files, build scripts and documentation.
++
++&quot;Reserved Font Name&quot; refers to any names specified as such after the
++copyright statement(s).
++
++&quot;Original Version&quot; refers to the collection of Font Software components as
++distributed by the Copyright Holder(s).
++
++&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
++or substituting -- in part or in whole -- any of the components of the
++Original Version, by changing formats or by porting the Font Software to a
++new environment.
++
++&quot;Author&quot; refers to any designer, engineer, programmer, technical
++writer or other person who contributed to the Font Software.
++
++PERMISSION &amp; CONDITIONS
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of the Font Software, to use, study, copy, merge, embed, modify,
++redistribute, and sell modified and unmodified copies of the Font
++Software, subject to the following conditions:
++
++1) Neither the Font Software nor any of its individual components,
++in Original or Modified Versions, may be sold by itself.
++
++2) Original or Modified Versions of the Font Software may be bundled,
++redistributed and/or sold with any software, provided that each copy
++contains the above copyright notice and this license. These can be
++included either as stand-alone text files, human-readable headers or
++in the appropriate machine-readable metadata fields within text or
++binary files as long as those fields can be easily viewed by the user.
++
++3) No Modified Version of the Font Software may use the Reserved Font
++Name(s) unless explicit written permission is granted by the corresponding
++Copyright Holder. This restriction only applies to the primary font name as
++presented to the users.
++
++4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
++Software shall not be used to promote, endorse or advertise any
++Modified Version, except to acknowledge the contribution(s) of the
++Copyright Holder(s) and the Author(s) or with their explicit written
++permission.
++
++5) The Font Software, modified or unmodified, in part or in whole,
++must be distributed entirely under this license, and must not be
++distributed under any other license. The requirement for fonts to
++remain under this license does not apply to any document created
++using the Font Software.
++
++TERMINATION
++This license becomes null and void if any of the above conditions are
++not met.
++
++DISCLAIMER
++THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
++COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
++DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
++OTHER DEALINGS IN THE FONT SOFTWARE.</pre></details></div></details>`;
   h+=`<div class="note">Normal ranges: SCMR 2025 reference values (adults, bSSFP). Severity grades are drafts built from CMR outcome studies, and every cutoff shows what it is based on. A decision aid for trained readers, not a substitute for clinical judgment.</div>
   <p class="foot">Numbers re-checked against the SCMR 2025 paper and PubMed records, November 2026.</p>
   <p class="foot"><b>Created by Aamer Ubaid, MD</b><br>Advanced Cardiovascular Imaging Fellow<br>The Ohio State University</p>
-@@ -457,7 +461,7 @@
+@@ -457,7 +546,7 @@
   return h+'</div>'}
  
  // ---------- calculator ----------
@@ -99,7 +184,7 @@
  function derive(it,s){const bsa=parseFloat(s.bsa),a=parseFloat(s.a),b=parseFloat(s.b),c=parseFloat(s.c),r={};const okB=bsa>0;
   if(it.kind==='ventricle'){
    if(a>0){r.edv=a;if(okB)r.edvi=a/bsa}
-@@ -470,12 +474,24 @@
+@@ -470,12 +559,24 @@
    if(b>0){r.min=b;if(okB)r.mini=b/bsa}
    if(a>0&&b>0&&a>b)r.ef=(a-b)/a*100;
    const lv=parseFloat(s.lv);if(it.id==='la-vol'&&b>0&&lv>0)r.laci=b/lv*100;
@@ -127,7 +212,7 @@
  function atrVol(a4,a2,l4,l2){a4=parseFloat(a4);a2=parseFloat(a2);l4=parseFloat(l4);l2=parseFloat(l2);
   const Ls=[l4,l2].filter(x=>x>0);if(a4>0&&a2>0&&Ls.length)return 0.85*a4*a2/Math.min(...Ls);
   if(a4>0&&l4>0)return 8*a4*a4/(3*Math.PI*l4);if(a2>0&&l2>0)return 8*a2*a2/(3*Math.PI*l2);return null}
-@@ -491,15 +507,22 @@
+@@ -491,15 +592,22 @@
   h+=`<div class="bsa-calc"><b>${nm} maximum (end-systole)</b>${row('v_a4x','4ch area','cm²')}${row('v_a2x','2ch area','cm²')}${row('v_l4x','4ch length','cm')}${row('v_l2x','2ch length','cm')}
   <b>${nm} minimum (end-diastole)</b>${row('v_a4n','4ch area','cm²')}${row('v_a2n','2ch area','cm²')}${row('v_l4n','4ch length','cm')}${row('v_l2n','2ch length','cm')}
   <p class="ref" style="margin:6px 0 0">Biplane area-length: 0.85 × A(4ch) × A(2ch) ÷ L, with L the shorter of the two long-axis lengths. With one view only, single-plane 8A² ÷ 3πL is used. Length is measured from the mid mitral${nm==='RA'?' (tricuspid)':''} annulus plane to the atrial roof; trace excluding appendage and veins. Results fill Max vol and Min vol above.${nm==='RA'?' Biplane RA area-length is less validated than for the LA.':''}</p><p class="ref num" id="atrout" style="margin:4px 0 0">${atrOut(s)}</p></div>`;return h}
@@ -153,7 +238,7 @@
   h+=`<div class="row"><label for="bsa-${it.id}">BSA</label><input id="bsa-${it.id}" type="number" inputmode="decimal" step="0.01" data-in="bsa" value="${esc(s.bsa)}" placeholder="1.90"><span class="u">m²</span></div>
   <button class="link" data-togglebsa>${s.showBsa?'Hide':'Calculate BSA from height and weight'}</button>`;
   if(s.showBsa) h+=`<div class="bsa-calc"><button class="link" data-units>${s.imp?'Use cm and kg':'Use inches and pounds'}</button><div class="field"><label class="lbl" for="h-${it.id}">Height (${s.imp?'in':'cm'})</label><input id="h-${it.id}" type="number" inputmode="decimal" data-in="h" value="${esc(s.h)}"></div><div class="field"><label class="lbl" for="w-${it.id}">Weight (${s.imp?'lb':'kg'})</label><input id="w-${it.id}" type="number" inputmode="decimal" data-in="w" value="${esc(s.w)}"></div></div>`;
-@@ -511,21 +534,30 @@
+@@ -511,21 +619,30 @@
   h+=fullTable(it,s);
   h+=howRef(it,s.age!==''&&M.age?M.table+' and '+M.ageTable:M.table);
   return h+'</div>'}
@@ -196,7 +281,7 @@
  function fullTable(it,s){const M=it.methods[s.method];
   let h=`<div class="card"><h3>Reference table · ${esc(M.label)}</h3><div class="scroll"><table class="tbl nums"><thead><tr><th>Parameter</th><th>Men mean ± SD</th><th>Men LL–UL</th><th>Women mean ± SD</th><th>Women LL–UL</th></tr></thead><tbody>`;
   for(const k of Object.keys(it.labels)){const p=M.params[k];if(!p)continue;const [l,u]=it.labels[k];
-@@ -543,7 +575,7 @@
+@@ -543,7 +660,7 @@
   return h+howRef(it,it.table)+'</div>'}
  
  // ---------- iron calculator ----------
@@ -205,7 +290,7 @@
  const IRON_REFS=[
   ['Carpenter JP, et al. On T2* magnetic resonance and cardiac iron. Circulation 2011;123:1519–28.','10.1161/CIRCULATIONAHA.110.007641'],
   ['Wood JC, et al. MRI R2 and R2* mapping accurately estimates hepatic iron concentration in transfusion-dependent thalassemia and sickle cell disease patients. Blood 2005;106:1460–5.','10.1182/blood-2004-10-3982'],
-@@ -552,29 +584,34 @@
+@@ -552,29 +669,34 @@
  const lic15=r2=>0.0254*r2+0.202;            // Wood 2005, R2* at 1.5T (s^-1)
  const r3to15=r3=>(r3+11)/2;                 // Storey 2007, liver: R2*3T = 2.00·R2*1.5T − 11
  const cardFe=t=>45.0*Math.pow(t,-1.22);     // Carpenter 2011, mg/g dry weight
@@ -250,7 +335,7 @@
   h+=`<div class="card"><h3>Interpretation</h3><ul class="howto">
    <li>Cardiac T2* at 1.5T: normal &gt;20 ms, iron overload 10–20 ms, severe &lt;10 ms (SCMR 2025, Table 100). At 3T the paper uses &gt;12, 5.5–12 and &lt;5.5 ms; the cardiac iron equation itself was calibrated at 1.5T.</li>
    <li>Liver iron normal range 0.17–1.8 mg/g, as on the Columbia calculator.</li>
-@@ -617,27 +654,32 @@
+@@ -617,27 +739,32 @@
    abs:{m:[[32,27,37],[33,28,41],[34,29,41],[35,29,41]],f:[[29,25,34],[30,26,36],[31,26,36],[31,27,37]]},
    idx:{m:[[16,13,20],[17,14,21],[18,14,22],[19,15,23]],f:[[17,14,21],[18,15,22],[18,15,22],[20,15,28]]}}
  };
@@ -292,7 +377,7 @@
   if(L.pct)h+=`<span class="ref">MESA reports percentiles, not SD, so no z-score is shown for this measure.</span>`;
   for(const n of notes)h+=`<span class="ref">${esc(n)}</span>`;
   if(!(bsa>0))h+=`<span class="ref">Add BSA to see the indexed z-score.</span>`;
-@@ -650,7 +692,7 @@
+@@ -650,7 +777,7 @@
    <optgroup label="Sinus, cross-sectional (Table 63)">${['cc','ccu'].map(k=>`<option value="${k}" ${st.lvl===k?'selected':''}>${AO[k].label}</option>`).join('')}</optgroup>
    <optgroup label="Ascending aorta (Table 65)"><option value="asc" ${st.lvl==='asc'?'selected':''}>${AO.asc.label}</option></optgroup></select>
    <span class="ref">${esc(L.view)}. Age groups: ${L.groups.join(', ')}.</span></div>
@@ -301,7 +386,7 @@
   <div class="row"><label for="ao-age">Age</label><input id="ao-age" type="number" inputmode="numeric" data-ao="age" value="${esc(st.age)}"><span class="u">years</span></div>
   <div class="row"><label for="ao-d">Diameter</label><input id="ao-d" type="number" inputmode="decimal" step="0.1" data-ao="d" value="${esc(st.d)}"><span class="u">mm</span></div>
   <div class="row"><label for="ao-bsa">BSA</label><input id="ao-bsa" type="number" inputmode="decimal" step="0.01" data-ao="bsa" value="${esc(st.bsa)}" placeholder="optional"><span class="u">m²</span></div>
-@@ -665,78 +707,65 @@
+@@ -665,78 +792,65 @@
   return h+'</div>'}
  
  // ---------- LV severity grading (draft) ----------
@@ -349,10 +434,10 @@
 +function refFlag(x,ll,ul){if(x>ul)return ['hi','Above reference'];if(x<ll)return ['lo','Below reference'];return ['ok','Within reference']}
 +function markers(it,k,x,s,r){const ctx=s.ctx||'gen',sex=s.sex,out=[],CUT={lv:{ef:[40,50],edvi:sex&&KANG[sex]?KANG[sex]:[],esvi:[45],edv:[246]},rv:{ratio:[1.27,2.30],ef:[37,50,54,60],edvi:[100,150]},la:{maxi:KHAN,laci:[25]},ra:{maxi:[74],raci:[0.62],str:[6.6,16.1,18.6,23,36.8]}}[it.id.slice(0,2)]||{},M=(c,l,src)=>out.push({c,l,src,cuts:CUT[k]||[]});
 + if(it.id==='lv-vol'){
-+  if(k==='ef'&&x<50)M(x<=40?'hi':'lo',x<=40?'HF category: reduced EF (≤40%)':'HF category: mildly reduced EF (41–49%)','Universal Definition of HF 2021 (Bozkurt). Categories apply to patients with HF; modality-agnostic, not CMR-derived');
++  if(k==='ef'&&x<50)M(x<=40?'hi':'lo',x<=40?'HFrEF range if clinical HF (≤40%)':'HFmrEF range if clinical HF (41–49%)','Universal Definition of HF 2021 (Bozkurt). Categories apply to patients with HF; modality-agnostic, not CMR-derived');
 +  if(ctx==='cm'&&k==='edvi'&&(sex==='m'||sex==='f')){const [n,mo,se]=KANG[sex];
 +   if(x>n)M(x>=se?'hi':x>=mo?'hi':'lo',x>=se?`Kang: severe dilation (≥${se})`:x>=mo?`Kang: moderate dilation (${mo}–${se-1})`:`Kang: mild dilation (${n}–${mo-1})`,`Kang 2026 (DCM/ICM; papillary muscles in blood pool${s.method==='mass'?', unlike your contouring setting':''}). Severe outcome-derived; moderate set halfway by the authors`)}
-+  if(ctx==='ar'&&k==='esvi'&&x>=45)M('hi','≥45 mL/m²: higher risk in AR','Hashimoto 2022 (asymptomatic moderate–severe AR; death or HF)');
++  if(ctx==='ar'&&k==='esvi'&&x>=45)M('hi','≥45 mL/m²: higher risk in chronic ≥moderate AR with no or minimal symptoms','Hashimoto 2022 JAMA Cardiol (n=178; death, HF hospitalisation or NYHA progression on medical therapy)');
 +  if(ctx==='ar'&&k==='edv'&&x>246)M('hi','>246 mL: progression to surgery in AR','Myerson 2012 (AR; unindexed)')}
 + if(it.id==='rv-vol'){
 +  if(k==='ratio'){M(x>=1.27?'lo':'ok',x>=1.27?'Above published normal limit (≥1.27)':'Below 1.27','Normal limit 1.27 from 152 controls (Han et al., as reported by Altmayer 2018). Not an SCMR value. Not valid with biventricular dilation');
@@ -370,7 +455,7 @@
 +  if(k==='area')M('na','Not graded','Only echocardiographic RA-area bands exist');
 +  if(k==='raci'){if(ctx==='tr')M(x>=0.62?'hi':'ok',x>=0.62?'≥0.62: higher mortality in functional TR':'<0.62','Zhang 2026 Circ CV Imaging (n=633; single centre; Youden cut-off, not externally validated)');else M('na','Graded in functional TR only','Zhang 2026')}
 +  if(k==='str'){if(ctx==='pah')M(x<16.1?'hi':x<=36.8?'lo':'ok',x<16.1?'High risk in PAH (<16.1%)':x<=36.8?'Intermediate risk in PAH (16.1–36.8%)':'Low risk in PAH (>36.8%)','Guo 2026 JCMR (n=348 PAH)');
-+   else if(ctx==='arvc')M(x<18.6?'hi':x<23?'hi':'ok',x<18.6?'<18.6%: end-stage HF risk in ARVC':x<23?'<23%: arrhythmic risk in ARVC':'≥23%','Xu 2026 JAHA (ARVC)');
++   else if(ctx==='arvc'){if(x<18.6)M('hi','<18.6%: higher end-stage HF risk in ARVC','Xu 2026 JAHA (n=316 ARVC)');if(x<23)M('hi','<23%: higher malignant ventricular arrhythmia risk in ARVC without LV involvement (not significant with LV involvement)','Xu 2026 JAHA');if(x>=23)M('ok','≥23%','Xu 2026 JAHA')}
 +   else if(ctx==='tr')M(x<6.6?'hi':'ok',x<6.6?'<6.6% longitudinal strain: RA pressure likely >10 mmHg':'≥6.6%','Kim 2026 JCMR (n=47 severe TR; exploratory; longitudinal, not reservoir, strain)');
 +   else M('na','Not graded','Strain cut-offs are software- and disease-specific')}}
 + return out}
@@ -430,7 +515,7 @@
   <button class="link" data-open="rv-ev">See the evidence and critiques</button></div>`;
   return h}
  
-@@ -810,7 +839,7 @@
+@@ -810,7 +924,7 @@
    <li><b>LA strain:</b> prognostic but software-dependent; not graded.</li>
    <li><b>Echo cutoffs:</b> do not apply. The healthy CMR mean (about 36 mL/m²) already exceeds the echo threshold of 34.</li>
    <li><b>Critiques:</b> no letter or editorial targeting a specific CMR LA cutoff was found; criticism is methodological (SD-based limits, small samples, method dependence).</li>`},
@@ -439,7 +524,7 @@
    <li><b>RV:</b> effective RVEF ≤25% is the only externally validated TR-related CMR cutoff. Hinojar 2025 RVEDVi/RVEF tiers for severe TR.</li>
    <li><b>Method:</b> all cutoffs assume RV stroke volume − pulmonary forward flow; 4D flow values are not interchangeable.</li>
    <li><b>Critiques:</b> ASE says CMR TR grading is unvalidated; no reproducibility data; editorials on Zhan and Wang not reviewed in full.</li>`},
-@@ -826,21 +855,20 @@
+@@ -826,21 +940,20 @@
    <li><b>AS:</b> no CMR-specific severe cutoff. Planimetry reads larger and phase contrast reads lower than echo, so echo thresholds under-call severity on CMR.</li>
    <li><b>AS myocardium:</b> LGE and ECV &gt;27% predict death, but EVOLVED did not show that early AVR for fibrosis improves the primary outcome.</li>
    <li><b>Critiques:</b> no letters target specific cutoffs. Criticism centres on surgical endpoints, flow-measurement error, indexing in women and borrowed echo numbers.</li>`},
@@ -469,7 +554,7 @@
   <button class="link" data-open="la-ev">See the evidence and critiques</button></div>`;
   return h}
  
-@@ -857,16 +885,17 @@
+@@ -857,16 +970,17 @@
  function lrRange(f,a,b){const L=LOCAL[f]||{};const lo=parseFloat(L[a]),hi=parseFloat(L[b]);return lo>0&&hi>lo?[lo,hi,L.lab||'']:null}
  function lrCmp(v,r,u){const [lo,hi,lab]=r;const c=v>hi?'hi':v<lo?'lo':'ok';
   return {pill:AVP(c,c==='hi'?`Above your range (&gt;${hi}${u})`:c==='lo'?`Below your range (&lt;${lo}${u})`:'Within your range'),basis:`Your center's range${lab?' ('+esc(lab)+')':''}: ${lo}–${hi}${u}`,bar:rangeBar(v,[(lo+hi)/2,(hi-lo)/4,lo,hi],c)}}
@@ -491,7 +576,7 @@
    if(mq>=mp||bq>=bp)warn.push('Post-contrast T1 must be shorter than native T1. Check the values are not swapped.');
    if(mn>0&&(mn<10||mn>30))warn.push('Post-contrast map should be 10–30 min after contrast (SCMR/EACVI 2017).');
    if(H<0.30)warn.push('Anaemia: ECV error increases with low hematocrit (SCMR 2025).');
-@@ -875,19 +904,16 @@
+@@ -875,19 +989,16 @@
     const lam=dm/db,ecv=(1-H)*lam*100;
     let pill,basis,bar='',c;const R=(ECV_REF[fld]||[])[parseInt(st.seq)];
     if(R&&st.seq!==''){const [lab,m0,sd,ll,ul]=R;c=ecv>ul?'hi':ecv<ll?'lo':'ok';pill=AVP(c,c==='hi'?`Above reference (&gt;${ul}%)`:c==='lo'?`Below reference (&lt;${ll}%)`:'Within reference range');basis=`SCMR 2025 Table 90 · ${lab}: ${m0} ± ${sd}% (${ll}–${ul}%)`;bar=rangeBar(ecv,[m0,sd,ll,ul],c)}
@@ -515,7 +600,7 @@
   let h='<h3>Results</h3>';
   if(!any)return h+`<p class="empty">${warn.join(' ')||'Enter native myocardial T1 or T2, or hematocrit with the four T1 values for ECV.'}</p>`;
   h+=`<div class="rlist">${rows}</div>`;
-@@ -911,7 +937,7 @@
+@@ -911,7 +1022,7 @@
   let h=`<div class="dhead"><button class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><h2>${esc(it.title)}</h2><button class="fav ${isFav(it.id)?'on':''}" data-fav="${it.id}" aria-label="Favorite">${isFav(it.id)?HEART_ON:HEART}</button></div><div class="wrap">`;
   h+=`<div class="card"><div class="field"><label class="lbl" for="ecv-f">Field strength</label><select id="ecv-f" data-ecv="f">${[['0.55','0.55 T'],['1.5','1.5 T'],['3','3 T']].map(([v,t])=>`<option value="${v}" ${st.f===v?'selected':''}>${t}</option>`).join('')}</select></div>
    ${ECV_REF[st.f]?`<div class="field"><label class="lbl" for="ecv-seq">Reference set (SCMR 2025, optional)</label><select id="ecv-seq" data-ecv="seq"><option value="">Generic range</option>${ECV_REF[st.f].map((r,i)=>`<option value="${i}" ${st.seq===String(i)?'selected':''}>${r[0]} · ${r[3]}–${r[4]}%</option>`).join('')}</select></div>`:''}
@@ -524,7 +609,7 @@
    <h3>Myocardium (septum)</h3>${f('mpre','Native T1','ms',pre)}${f('mpost','Post-contrast T1','ms','450')}${f('t2','T2 (optional)','ms','')}
    <h3>Blood pool (LV cavity)</h3>${f('bpre','Native T1','ms',bpre)}${f('bpost','Post-contrast T1','ms','300')}
    ${f('min','Time after contrast','min','15')}</div>`;
-@@ -939,80 +965,84 @@
+@@ -939,80 +1050,84 @@
  // ---------- aortic valve calculators ----------
  const avState={'pr-calc':{m:'direct',fwd:'',rev:'',rvsv:'',lvsv:'',bsa:'',rvedv:'',rvesv:'',lvedv:''},'sten-calc':{v:'ms',mva:'',pht:'',mg:'',pv:'',cd:'',rvm:'',rvedv:''},'tr-calc':{m:'ind',rvsv:'',pf:'',bsa:'',rvedv:'',rvesv:'',lvedv:'',ra:'',lecv:'',lge:'',teer:''},'mr-calc':{t:'p',m:'std',lvsv:'',mi:'',fwd:'',bsa:'',edv:'',laef:'',lge:'',mvp:'',mad:''},'ar-calc':{m:'direct',fwd:'',rev:'',lvsv:'',rvsv:'',bsa:'',edv:'',esv:'',ef:'',hdr:'',lge:''},'as-calc':{ava:'',bsa:'',vmax:'',mg:'',sv:'',lge:'',ecv:'',post:''}};
  const AVP=(c,l)=>`<span class="pill ${c}">${l}</span>`;
@@ -541,11 +626,11 @@
 -   const c=n('cd');if(c>0)add('Conduit minimal diameter','mm',c.toFixed(0),c<18?AVP('hi','&lt;18 mm: obstruction likely'):AVP('ok','≥18 mm'),'Martinez/Mohiaddin 1992 (n=52; anatomic, not outcome-based)');
 -   const m=n('rvm'),e=n('rvedv');if(m>0&&e>0){const x=m/e;add('RV mass/volume ratio','g/mL',x.toFixed(2),x>=0.45?AVP('hi','≥0.45: higher death/VT risk'):AVP('ok','&lt;0.45'),'INDICATOR (Geva 2018, repaired TOF, n=452, HR 4.08); mixed pressure and volume load')}}
 +  if(st.v==='ms'){const a=n('mva');if(a>0)add('Planimetric MVA (cine)','cm²',D(a,2,VCUT['Planimetric MVA (cine)']),a<1.65?AVP('hi','&lt;1.65: corresponds to cath MVA ≤1.5'):AVP('ok','≥1.65'),'Djavidani 2005 JACC (n=22; sens 89%, spec 75%). CMR reads about 5% larger than cath');
-+   const ph=n('pht');if(ph>0){const x=220/ph;add('Pressure half-time (PC)','ms',D(ph,0,VCUT['Pressure half-time (PC)']),AVP('na','Not graded on CMR'),`Area by 220/PHT = ${x.toFixed(2)} cm². CMR PHT feasible (Lin 2004, n=17) but not validated against cath`)}
++   const ph=n('pht');if(ph>0){const x=220/ph;add('Pressure half-time (PC)','ms',D(ph,0,VCUT['Pressure half-time (PC)']),AVP('na','Not graded on CMR'),`Area by 220/PHT = ${x.toFixed(2)} cm² (echo formula). CMR pressure half-time is not validated against cath`)}
 +   const g=n('mg');if(g>0)add('Mean gradient (PC)','mmHg',D(g,0,VCUT['Mean gradient (PC)']),AVP('na','Not graded on CMR'),'PC-MRI underestimates mitral gradients vs Doppler; heart-rate dependent')}
 +  else if(st.v==='ps'){const v=n('pv');if(v>0)add('Peak velocity (PC)','m/s',D(v,1,VCUT['Peak velocity (PC)']),v>4?AVP('hi','Severe (&gt;4 m/s)'):AVP('na','≤4 m/s: not graded; PC may under-read'),'SCMR 2025 Table 57 (adapted from echo). 2D PC reads below Doppler');
-+   const c=n('cd');if(c>0)add('Conduit minimal diameter','mm',D(c,0,VCUT['Conduit minimal diameter']),c<18?AVP('hi','&lt;18 mm: obstruction likely'):AVP('ok','≥18 mm'),'Martinez/Mohiaddin 1992 (n=52; anatomic, not outcome-based)');
-+   const m=n('rvm'),e=n('rvedv');if(m>0&&e>0){const x=m/e;add('RV mass/volume ratio','g/mL',D(x,2,VCUT['RV mass/volume ratio']),x>=0.45?AVP('hi','≥0.45: higher death/VT risk'):AVP('ok','&lt;0.45'),'INDICATOR (Geva 2018, repaired TOF, n=452, HR 4.08); mixed pressure and volume load')}}
++   const c=n('cd');if(c>0)add('Conduit minimal diameter','mm',D(c,0,VCUT['Conduit minimal diameter']),c<18?AVP('hi','&lt;18 mm: obstruction likely'):AVP('ok','≥18 mm'),'Martinez/Mohiaddin 1992 (n=52; spin-echo; anatomic, not outcome-based; calcified obstruction can be missed)');
++   const m=n('rvm'),e=n('rvedv');if(m>0&&e>0){const x=m/e;add('RV mass/volume ratio','g/mL',D(x,2,VCUT['RV mass/volume ratio']),x>=0.45?AVP('hi','≥0.45: higher death/VT risk after PVR in repaired TOF'):AVP('ok','&lt;0.45'),'INDICATOR (Geva 2018, repaired TOF, n=452, HR 4.08); mixed pressure and volume load')}}
    else rows.push('<div class="rnote"><span class="ref"><b>Tricuspid stenosis:</b> no CMR validation exists (case reports only). Use echo: mean gradient ≥5 mmHg, area ≤1.0 cm², pressure half-time ≥190 ms. CMR can show leaflet morphology, RA size and carcinoid or rheumatic involvement.</span></div>');
  }else if(id==='pr-calc'){const dir=st.m==='direct';let rv=null,rf=null;
    if(dir){const f=n('fwd'),r=n('rev');if(f>0&&r>=0&&!isNaN(r)){rv=r;rf=r/f*100}}
@@ -587,19 +672,20 @@
 +   else{const g=rf>=50?AVP('hi','Highest-risk stratum (≥50%)'):rf>=40?AVP('hi','High risk (≥40%)'):rf>=20?AVP('lo','Elevated risk (20 to &lt;40%)'):AVP('ok','Below the 20% risk threshold');
 +    add('TR fraction','%',D(rf,1,VCUT['TR fraction']),g,rf>=50?'Zhan 2020 JACC (functional TR; highest-risk stratum)':rf>=20?'Margonato 2025 Circulation (hazard ratio &gt;1 from 20%, &gt;2 from 40%)':'Margonato 2025')}}
 +  if(rv!=null&&ind)add('TR volume','mL',D(rv,0,VCUT['TR volume']),rv>=45?AVP('hi','Highest risk (≥45 mL)'):rv>=35?AVP('lo','Elevated (35–44 mL)'):AVP('ok','&lt;35 mL'),'Zhan 2020 ≥45; Wang 2021 ≥35. TRF governs when they disagree');
-+  if(pf>0&&rvedv>0){const x=pf/rvedv*100;add('Effective RVEF (forward flow ÷ RVEDV)','%',D(x,0,VCUT['Effective RVEF (forward flow ÷ RVEDV)']),x<=25?AVP('hi','≤25%: higher mortality'):AVP('ok','&gt;25%'),'Zhang 2026, externally validated (Houston, Duke)')}
-+  if(pf>0&&rvesv>0){const x=pf/rvesv;add('Forward SV ÷ RVESV','',D(x,2,VCUT['Forward SV ÷ RVESV']),x<=0.57?AVP('hi','≤0.57: RV–PA uncoupling'):AVP('ok','&gt;0.57'),'Margonato 2026 (n=631, aHR 2.36)')}
-+  const bsa=n('bsa');if(bsa>0&&rvedv>0){const x=rvedv/bsa;add('RVEDV/BSA','mL/m²',D(x,0,VCUT['RVEDV/BSA']),x>150?AVP('hi','High risk (&gt;150)'):x>=100?AVP('lo','Intermediate (100–150)'):AVP('ok','&lt;100'),'Hinojar 2025 (severe TR, n=314)')}
-+  if(rvedv>0&&rvesv>0&&rvedv>rvesv){const x=(rvedv-rvesv)/rvedv*100;add('RVEF (total)','%',D(x,0,VCUT['RVEF (total)']),st.teer==='post'?AVP('na','Interpret with caution after T-TEER'):x<50?AVP('hi','High risk (&lt;50%)'):x<=60?AVP('lo','Intermediate (50–60%)'):AVP('ok','&gt;60%'),st.teer==='post'?'A rise in RVEF after T-TEER can mean residual/worse TR (Bombace 2025)':st.teer==='pre'&&x<=45?'Hinojar 2025. Before T-TEER, ≤45% high risk (Kresoja 2021, HR 6.6)':'Hinojar 2025. Volume loading inflates RVEF')}
++  if(pf>0&&rvedv>0){const x=pf/rvedv*100;add('Effective RVEF (forward flow ÷ RVEDV)','%',D(x,0,VCUT['Effective RVEF (forward flow ÷ RVEDV)']),x<=25?AVP('hi','≤25%: higher mortality in ≥moderate functional TR'):AVP('ok','&gt;25%'),'Zhang 2026 JACC CVI (derivation n=453; external validation in 2 cohorts)')}
++  if(pf>0&&rvesv>0){const x=pf/rvesv;add('Forward SV ÷ RVESV','',D(x,2,VCUT['Forward SV ÷ RVESV']),x<=0.57?AVP('hi','≤0.57: higher risk of death or HF hospitalisation in TR'):AVP('ok','&gt;0.57'),'Margonato 2026 Circ CV Imaging (n=631; CMR surrogate of RV–PA coupling; aHR 2.36)')}
++  const bsa=n('bsa');if(bsa>0&&rvedv>0){const x=rvedv/bsa;add('RVEDV/BSA','mL/m²',D(x,0,VCUT['RVEDV/BSA']),x>150?AVP('hi','High risk in severe TR (&gt;150)'):x>=100?AVP('lo','Intermediate risk in severe TR (100–150)'):AVP('ok','&lt;100'),'Hinojar 2025 (≥severe TR by echo, n=314; death or HF hospitalisation)')}
++  if(rvedv>0&&rvesv>0&&rvedv>rvesv){const x=(rvedv-rvesv)/rvedv*100;add('RVEF (total)','%',D(x,0,VCUT['RVEF (total)']),st.teer==='post'?AVP('na','Interpret with caution after T-TEER'):x<50?AVP('hi','High risk in severe TR (&lt;50%)'):x<=60?AVP('lo','Intermediate risk in severe TR (50–60%)'):AVP('ok','&gt;60%'),st.teer==='post'?'A rise in RVEF after T-TEER can mean residual/worse TR (Bombace 2025)':'Hinojar 2025. Volume loading inflates RVEF')}
 +  const lv=n('lvedv');if(rvedv>0&&lv>0){const x=rvedv/lv;add('RV/LV EDV ratio','',D(x,2,VCUT['RV/LV EDV ratio']),x>=1.27?AVP('lo','≥1.27 (weak, HR 1.47)'):AVP('ok','&lt;1.27'),'Zhang 2025, JACC Adv (n=949)')}
-+  const ra=n('ra');if(ra>0&&rvedv>0){const x=ra/rvedv;add('RACI (RA end-diastolic vol ÷ RVEDV)','',D(x,2,VCUT['RACI (RA end-diastolic vol ÷ RVEDV)']),x>=0.62?AVP('hi','≥0.62: higher risk'):AVP('ok','&lt;0.62'),'Zhang 2026, Circ CV Imaging (HR 2.06)')}
++  const ra=n('ra');if(ra>0&&rvedv>0){const x=ra/rvedv;add('RACI (RA end-diastolic vol ÷ RVEDV)','',D(x,2,VCUT['RACI (RA end-diastolic vol ÷ RVEDV)']),x>=0.62?AVP('hi','≥0.62: higher mortality in functional TR'):AVP('ok','&lt;0.62'),'Zhang 2026, Circ CV Imaging (n=633; Youden cut-off; HR 2.06)')}
 +  const le=n('lecv');if(le>0)add('Liver ECV','%',D(le,0,VCUT['Liver ECV']),le>=32?AVP('hi','≥32%: associated with right-sided HF and adverse outcomes in TR (source method: 1.5 T MOLLI)'):AVP('ok','&lt;32% (source method: 1.5 T MOLLI)'),'Margonato 2025 Circulation (n=371 with liver mapping; 1.5 T Siemens MOLLI inline ECV, same-day hematocrit; spline-derived, not externally validated). Applies only to a comparable liver ECV method');
 +  if(st.lge)add('Septal non-ischemic LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Associated with higher risk'):AVP('ok','None'),'Functional TR cohort, n=663 (single centre; presence only)');
   }else if(id==='mr-calc'){const fwd=n('fwd');const src=st.m==='std'?n('lvsv'):n('mi');let rv=null,rf=null;
    if(src>0&&fwd>0&&src>fwd){rv=src-fwd;rf=rv/src*100}
    const prim=st.t==='p',inflow=st.m==='inflow';
    if(rf!=null){let g,b;
-    if(!prim){g=rf>=35?AVP('hi','Severe (≥35%)'):rf>=20?AVP('lo','Moderate (20–34%)'):AVP('ok','Mild (&lt;20%)');b='Wang 2023 (1,414 ICM/NICM; death, transplant, LVAD). Houston: ≥30% (Tayal 2021). Read with scar'}
+-   if(!prim){g=rf>=35?AVP('hi','Severe (≥35%)'):rf>=20?AVP('lo','Moderate (20–34%)'):AVP('ok','Mild (&lt;20%)');b='Wang 2023 (1,414 ICM/NICM; death, transplant, LVAD). Houston: ≥30% (Tayal 2021). Read with scar'}
++   if(!prim){g=rf>=35?AVP('hi','Severe (≥35%; functional MR with LVEF &lt;50%)'):rf>=20?AVP('lo','Moderate (20–34%; functional MR with LVEF &lt;50%)'):AVP('ok','Mild (&lt;20%)');b='Wang 2023 Circ CV Imaging (1,414 ICM/NICM with LVEF &lt;50%; death, transplant, LVAD). Read with scar'}
     else if(inflow){g=rf>30?AVP('hi','Severe (&gt;30%, inflow method)'):AVP('ok','Not severe (≤30%)');b='Polte 2017: method-specific threshold for mitral inflow − aortic flow'}
 -   else{g=rf>40?AVP('hi','Severe (&gt;40%)'):rf>=30?AVP('lo','Moderate, borderline (30–40%)'):rf>=20?AVP('lo','Moderate (20–29%)'):AVP('ok','Mild (&lt;20%)');
 -    b=rf>40?'Myerson 2016 (&gt;40%; progression to surgery, circular)':rf>=20?'Between the mild (&lt;20%) and severe (&gt;40%) limits; not outcome-derived'+(rf>=30?'. 30–40%: check LV and LA remodeling':''):'Steeds & Myerson 2020 (CMR review: mild RF &lt;20%)'}
@@ -609,6 +695,9 @@
 -   else add('Regurgitant volume','mL',rv.toFixed(0),rv>=60?AVP('hi','Severe (≥60 mL: mortality)'):rv>55?AVP('hi','Severe (&gt;55 mL)'):AVP('ok','≤55 mL'),rv>=60?'Penicka 2018 (all-cause death, AUC 0.72; cutoff pre-set)':'Myerson 2016 (&gt;55 mL; circular endpoint)')}
 -  const bsa2=n('bsa'),edv=n('edv');if(prim&&bsa2>0&&edv>0){const x=edv/bsa2;add('LVEDV/BSA','mL/m²',x.toFixed(0),x>=100?AVP('hi','≥100'):AVP('ok','&lt;100'),'Myerson 2016 (primary MR). Kang tiers not used in MR')}
 -  const la=n('laef');if(la>0)add('LA emptying fraction','%',la.toFixed(0),la<30?AVP('hi','&lt;30%: higher risk after repair'):AVP('ok','≥30%'),'Altes 2025 (n=284, aHR 3.78)');
+-  if(st.lge&&!prim)add('Ventricular scar (LGE)','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','RF is prognostic with scar'):AVP('lo','RF prognostic weight lower without scar (ICM)'),'Cavalcante 2019; Wang 2023; Tayal 2021');
+-  if(st.mvp)add('LGE papillary muscle / inferolateral wall','',st.mvp==='y'?'Present':'Absent',st.mvp==='y'?AVP('hi','Arrhythmic risk marker'):AVP('ok','Absent'),'Constant Dit Beaufils 2021 (HR 2.6); Figliozzi 2022 (HR 4.2); EHRA 2022');
+-  if(st.mad)add('Mitral annular disjunction','',st.mad==='y'?'Present':'Absent',AVP('na','Descriptive only'),'Not prognostic in Figliozzi 2022; seen in 76% of UK Biobank');
 +   else{g=rf>40?AVP('hi','Severe (&gt;40%)'):rf>=20?AVP('lo','Intermediate (20–40%)'):AVP('ok','Mild (&lt;20%)');
 +    b=rf>40?'Myerson 2016 (&gt;40%; progression to symptoms or surgery)':rf>=20?'Between the published CMR mild limit (Steeds & Myerson 2020) and severe limit (Myerson 2016); not a separately derived grade':'Steeds & Myerson 2020, Heart (CMR row of Table 3: MR RF &lt;20%)'}
 +   add('Regurgitant fraction','%',D(rf,1,VCUT['Regurgitant fraction']),g,b)}
@@ -617,17 +706,17 @@
 +   else add('Regurgitant volume','mL',D(rv,0,VCUT['Regurgitant volume']),rv>=60?AVP('hi','Severe (≥60 mL: mortality)'):rv>55?AVP('hi','Severe (&gt;55 mL)'):AVP('ok','≤55 mL'),rv>=60?'Penicka 2018 (all-cause death, AUC 0.72; cutoff pre-set)':'Myerson 2016 (&gt;55 mL; circular endpoint)')}
 +  const bsa2=n('bsa'),edv=n('edv');if(prim&&bsa2>0&&edv>0){const x=edv/bsa2;add('LVEDV/BSA','mL/m²',D(x,0,VCUT['LVEDV/BSA']),x>=100?AVP('hi','≥100'):AVP('ok','&lt;100'),'Myerson 2016 (primary MR). Kang tiers not used in MR')}
 +  const la=n('laef');if(la>0)add('LA emptying fraction','%',D(la,0,VCUT['LA emptying fraction']),la<30?AVP('hi','&lt;30%: higher risk after repair'):AVP('ok','≥30%'),'Altes 2025 (n=284, aHR 3.78)');
-   if(st.lge&&!prim)add('Ventricular scar (LGE)','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','RF is prognostic with scar'):AVP('lo','RF prognostic weight lower without scar (ICM)'),'Cavalcante 2019; Wang 2023; Tayal 2021');
-   if(st.mvp)add('LGE papillary muscle / inferolateral wall','',st.mvp==='y'?'Present':'Absent',st.mvp==='y'?AVP('hi','Arrhythmic risk marker'):AVP('ok','Absent'),'Constant Dit Beaufils 2021 (HR 2.6); Figliozzi 2022 (HR 4.2); EHRA 2022');
-   if(st.mad)add('Mitral annular disjunction','',st.mad==='y'?'Present':'Absent',AVP('na','Descriptive only'),'Not prognostic in Figliozzi 2022; seen in 76% of UK Biobank');
++  if(st.lge&&!prim)add('Ventricular scar (LGE)','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','RF is prognostic with scar'):AVP('lo','RF prognostic weight lower without scar (ICM)'),'Wang 2023 (RF × LGE interaction in ICM, not NICM)');
++  if(st.mvp)add('LGE papillary muscle / inferolateral wall','',st.mvp==='y'?'Present':'Absent',st.mvp==='y'?AVP('hi','Arrhythmic risk marker'):AVP('ok','Absent'),'Figliozzi 2023 Radiology (any LGE; VT, SCD or unexplained syncope; HR 4.2); Constant Dit Beaufils 2021 (any LGE; CV events; HR 2.6)');
++  if(st.mad)add('Mitral annular disjunction','',st.mad==='y'?'Present':'Absent',AVP('na','Descriptive only'),'Not associated with outcome in Figliozzi 2023');
   }else if(id==='ar-calc'){let rv=null,rf=null;
    if(st.m==='direct'){const f=n('fwd'),r=n('rev');if(f>0&&r>=0&&!isNaN(r)){rv=r;rf=r/f*100}}
    else{const l=n('lvsv'),r=n('rvsv');if(l>0&&r>0&&l>r){rv=l-r;rf=(l-r)/l*100}}
 -  if(rf!=null){const g=rf>=32?AVP('hi','Severe (≥32%)'):rf>=15?AVP('lo','Moderate (15–31%)'):AVP('ok','Mild (&lt;15%)');
 -   add('Regurgitant fraction','%',rf.toFixed(0),g,rf>=32?'Hashimoto 2022 ≥32% (censored at surgery); Myerson 2012 &gt;33%':rf>=15?'Between CMR mild limit and Hashimoto/Myerson; not outcome-derived':'Steeds & Myerson 2020 (CMR review)')}
 -  if(rv!=null){const lim=st.m==='direct'?40:62;add('Regurgitant volume','mL',rv.toFixed(0),rv>lim?AVP('hi',`Severe range (&gt;${lim} mL)`):AVP('ok',`≤${lim} mL`),`Polte 2017 (${st.m==='direct'?'direct':'indirect'} method; surgical cohort, n=38). Supports RF only`)}
-+  if(rf!=null){const g=rf>=32?AVP('hi','Severe (≥32%)'):rf>=15?AVP('lo','Intermediate (15 to &lt;32%)'):AVP('ok','Mild (&lt;15%)');
-+   add('Regurgitant fraction','%',D(rf,1,VCUT['Regurgitant fraction']),g,rf>=32?'Hashimoto 2022 (≥32%, death or HF); Myerson 2012 &gt;33% (surgery)':rf>=15?'Between the published CMR mild limit (Steeds & Myerson 2020) and severe limit (Hashimoto 2022); not a separately derived grade':'Steeds & Myerson 2020, Heart (CMR row of Table 3: AR RF &lt;15%)')}
++  if(rf!=null){const g=rf>=32?AVP('hi','High risk (≥32%: death or HF events)'):rf>=15?AVP('lo','Intermediate (15 to &lt;32%)'):AVP('ok','Mild (&lt;15%)');
++   add('Regurgitant fraction','%',D(rf,1,VCUT['Regurgitant fraction']),g,rf>=32?'Hashimoto 2022 (≥32%, chronic ≥moderate AR with no or minimal symptoms; death, HF hospitalisation or NYHA progression). Myerson 2012: &gt;33% progression to surgery. Neither defines a severity grade':rf>=15?'Between the published CMR mild limit (Steeds & Myerson 2020) and severe limit (Hashimoto 2022); not a separately derived grade':'Steeds & Myerson 2020, Heart (CMR row of Table 3: AR RF &lt;15%)')}
 +  if(rv!=null){const lim=st.m==='direct'?40:62;add('Regurgitant volume','mL',D(rv,0,VCUT['Regurgitant volume']),rv>lim?AVP('hi',`Severe range (&gt;${lim} mL)`):AVP('ok',`≤${lim} mL`),`Polte 2017 (${st.m==='direct'?'direct':'indirect'} method; surgical cohort, n=38). Supports RF only`)}
    if(bsa>0){const e=n('edv'),es=n('esv');
 -   if(es>0){const x=es/bsa;add('LVESV/BSA','mL/m²',x.toFixed(0),x>=45?AVP('hi','At/above 45'):AVP('ok','Below 45'),'Hashimoto 2022 ≥45 (censored at surgery); matches ESC 2025 &gt;45')}}
@@ -635,7 +724,7 @@
 -  const ef=n('ef');if(ef>0)add('LVEF','%',ef.toFixed(0),ef<=55?AVP('hi','≤55%: guideline surgical trigger'):AVP('ok','&gt;55%'),'ACC/AHA 2020, ESC 2025 (echo-based)');
 -  if(st.hdr)add('Descending aorta holodiastolic reversal','',st.hdr==='y'?'Present':'Absent',st.hdr==='y'?AVP('hi','Supports severe AR'):AVP('na','Does not exclude'),'Bolen; Kammerlander 2019 (HR 2.77)');
 -  if(st.lge)add('LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Higher mortality'):AVP('ok','None'),'Malahfji 2020 (aHR 2.53)');
-+   if(es>0){const x=es/bsa;add('LVESV/BSA','mL/m²',D(x,0,VCUT['LVESV/BSA']),x>=45?AVP('hi','At/above 45'):AVP('ok','Below 45'),'Hashimoto 2022 ≥45 (censored at surgery); matches ESC 2025 &gt;45')}}
++   if(es>0){const x=es/bsa;add('LVESV/BSA','mL/m²',D(x,0,VCUT['LVESV/BSA']),x>=45?AVP('hi','≥45: higher risk in chronic ≥moderate AR, no or minimal symptoms'):AVP('ok','Below 45'),'Hashimoto 2022 ≥45 (death, HF hospitalisation or NYHA progression; censored at surgery)')}}
 +  {const e=n('edv');if(e>0)add('LVEDV','mL',D(e,0,VCUT['LVEDV']),e>246?AVP('hi','Above 246 mL'):AVP('ok','≤246 mL'),'Myerson 2012 (unindexed, AUC 0.88). Kang tiers not used in AR')}
 +  const ef=n('ef');if(ef>0)add('LVEF','%',D(ef,0,VCUT['LVEF']),ef<=55?AVP('hi','≤55%: meets the stage C2 LVEF criterion if AR is chronic and severe'):AVP('ok','&gt;55%'),'ACC/AHA 2020 valve guideline, Table 15 (stage C2: LVEF ≤55%). Echo-based; applies only to chronic severe AR. Not a recommendation');
 +  if(st.hdr)add('Descending aorta holodiastolic reversal','',st.hdr==='y'?'Present':'Absent',st.hdr==='y'?AVP('hi','Supports significant AR'):AVP('na','Absence does not exclude'),'Kammerlander 2019 (significant AR defined by holodiastolic reversal; HR 2.77)');
@@ -648,17 +737,18 @@
 -  const sv=n('sv');let svi=null;if(sv>0&&bsa>0){svi=sv/bsa;add('SV/BSA','mL/m²',svi.toFixed(0),svi<35?AVP('hi','Low flow (&lt;35)'):svi<45?AVP('lo','35–44: higher post-AVR mortality'):AVP('ok','≥45'),'&lt;35 echo-adopted; &lt;45 Thornton 2022 (risk, not diagnostic). CMR SV runs higher than echo')}
 +  const ava=n('ava');if(ava>0){add('Planimetric AVA','cm²',D(ava,2,VCUT['Planimetric AVA']),ava<=1?AVP('hi','Severe (≤1.0)'):AVP('na','&gt;1.0: does not exclude severe'),'SCMR 2025 Table 57 (≤1.0, adapted from echo). CMR planimetry overestimates TEE by about 15% (Debl 2005), so a value just above 1.0 can still be severe');
 +   if(bsa>0){const x=ava/bsa;add('AVA/BSA','cm²/m²',D(x,2,VCUT['AVA/BSA']),x<=0.6?AVP('hi','Severe (≤0.6)'):AVP('ok','&gt;0.6'),'Echo-adopted')}}
-+  const v=n('vmax');if(v>0)add('Peak velocity (PC)','m/s',D(v,1,VCUT['Peak velocity (PC)']),v>=5?AVP('hi','Very severe (≥5)'):v>=4?AVP('hi','Severe (≥4)'):v>1.65?AVP('lo','&lt;4: does not exclude severe'):AVP('ok','≤1.65: no AS'),v>1.65&&v<4?'Above Kany 2025 CMR mild-AS limit (&gt;1.65 m/s). Severe ≥4 echo-adopted; PC-MRI under-reads':'Severe ≥4 echo-adopted. Mild-AS limit 1.65 m/s from Kany 2025 (UK Biobank)');
-+  const mg=n('mg');if(mg>0)add('Mean gradient (PC)','mmHg',D(mg,0,VCUT['Mean gradient (PC)']),mg>=40?AVP('hi','Severe (≥40)'):mg>4.9?AVP('lo','&lt;40: does not exclude severe'):AVP('ok','≤4.9: no AS'),'Severe ≥40: ACC/AHA 2020 Table 13 (Doppler). PC-MRI reads lower than Doppler, so a CMR value below 40 does not exclude severe AS. Mild-AS limit 4.9 from Kany 2025');
-+  const sv=n('sv');let svi=null;if(sv>0&&bsa>0){svi=sv/bsa;add('SV/BSA','mL/m²',D(svi,0,VCUT['SV/BSA']),svi<35?AVP('hi','Low flow (&lt;35)'):svi<45?AVP('lo','35–44: higher post-AVR mortality'):AVP('ok','≥45'),'&lt;35 echo-adopted; &lt;45 Thornton 2022 (risk, not diagnostic). CMR SV runs higher than echo')}
++  const v=n('vmax');if(v>0)add('Peak velocity (PC)','m/s',D(v,1,VCUT['Peak velocity (PC)']),v>=5?AVP('hi','Very severe (≥5)'):v>=4?AVP('hi','Severe (≥4)'):v>1.65?AVP('lo','&lt;4: does not exclude severe'):AVP('ok','≤1.65: below the mild-AS limit'),v>1.65&&v<4?'Above Kany 2025 CMR mild-AS limit (&gt;1.65 m/s). Severe ≥4 echo-adopted; PC-MRI under-reads':'Severe ≥4 echo-adopted. Mild-AS limit 1.65 m/s from Kany 2025 (UK Biobank)');
++  const mg=n('mg');if(mg>0)add('Mean gradient (PC)','mmHg',D(mg,0,VCUT['Mean gradient (PC)']),mg>=40?AVP('hi','Severe (≥40)'):mg>4.9?AVP('lo','&lt;40: does not exclude severe'):AVP('ok','≤4.9: below the mild-AS limit'),'Severe ≥40: ACC/AHA 2020 Table 13 (Doppler). PC-MRI reads lower than Doppler, so a CMR value below 40 does not exclude severe AS. Mild-AS limit 4.9 from Kany 2025');
++  const sv=n('sv');let svi=null;if(sv>0&&bsa>0){svi=sv/bsa;add('SV/BSA','mL/m²',D(svi,0,VCUT['SV/BSA']),svi<35?AVP('hi','&lt;35: below the echo low-flow definition'):svi<45?AVP('lo','35–44: CV mortality after AVR rose more steeply below 45 (severe AS)'):AVP('ok','≥45'),'&lt;35 is the echo low-flow definition (CMR SV runs higher than echo); &lt;45 from Thornton 2022 JAMA Cardiol (n=674 severe AS undergoing AVR; risk, not diagnostic)')}
    if(ava>0&&ava<=1.3&&(mg>0&&mg<40)){rows.push(`<div class="rnote"><span class="ref"><b>Discordant grading:</b> small valve area with low gradient${svi!=null&&svi<35?' and low flow':''}. Consider CT calcium score (ESC 2025 tiebreaker).</span></div>`)}
-   if(st.lge)add('LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Higher mortality'):AVP('ok','None'),'Musa 2018 (aHR 2.39). Not an AVR trigger: EVOLVED neutral');
+-  if(st.lge)add('LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Higher mortality'):AVP('ok','None'),'Musa 2018 (aHR 2.39). Not an AVR trigger: EVOLVED neutral');
 -  const ecv=n('ecv');if(ecv>0){const post=st.post==='y';add('ECV','%',ecv.toFixed(0),post?AVP('na','Not graded after AVR'):ecv>=38?AVP('hi','Very high: consider amyloid'):ecv>27?AVP('hi','Higher risk (&gt;27%)'):AVP('ok','≤27%'),post?'ECV can rise after AVR':'Kwak 2021 &gt;27%; Lee 2024 &gt;28.6%. Method-dependent; amyloid flag is expert opinion')}
-+  const ecv=n('ecv');if(ecv>0){const post=st.post==='y';add('ECV','%',D(ecv,0,VCUT['ECV']),post?AVP('na','Not graded after AVR'):ecv>27?AVP('hi','Higher risk (&gt;27%)'):AVP('ok','≤27%'),post?'ECV can rise after AVR':'Kwak 2021 JACC (AS; mortality rose above 27%). Method- and sequence-dependent')}
++  if(st.lge)add('LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Higher mortality'):AVP('ok','None'),'Musa 2018 (severe AS listed for AVR; aHR 2.39). EVOLVED (JAMA 2025): early AVR for fibrosis did not reduce death or AS hospitalisation');
++  const ecv=n('ecv');if(ecv>0){const post=st.post==='y';add('ECV','%',D(ecv,0,VCUT['ECV']),post?AVP('na','Not graded after AVR'):ecv>27?AVP('hi','Higher post-AVR mortality in severe AS (&gt;27%)'):AVP('ok','≤27%'),post?'ECV can rise after AVR':'Kwak 2021 JACC (AS; mortality rose above 27%). Method- and sequence-dependent')}
   }
   let h='<h3>Results</h3>';if(!rows.length)return h+'<p class="empty">Enter any of the values above.</p>';
   return h+`<div class="rlist">${rows.join('')}</div>`}
-@@ -1047,7 +1077,7 @@
+@@ -1047,7 +1162,7 @@
    h+=`<div class="card"><h3>Grading (draft)</h3><div class="scroll"><table class="tbl"><thead><tr><th>Parameter</th><th>Mild</th><th>Moderate</th><th>Severe</th><th>Based on</th></tr></thead><tbody>
     <tr><th>PR fraction %</th><td>&lt;20</td><td>20–40</td><td>&gt;40</td><td><span class="ref">2022 CMR review (Frontiers CV Med). ≥20% is often used as "significant"</span></td></tr>
     <tr><th>PR volume mL</th><td colspan="3">No CMR cutoff defined</td><td><span class="ref">Same review</span></td></tr>
@@ -667,7 +757,7 @@
    <span class="ref"><b>Not outcome-derived:</b> these PR bands come from repaired-TOF practice, not from a mortality or event cohort. Severe PR in pulmonary hypertension behaves differently (normal leaflets, pressure-loaded RV).</span>
    <span class="ref"><b>Transcatheter valves:</b> lower thresholds may apply since percutaneous options appeared, but studies are lacking.</span>
    <span class="ref">Source: Frontiers in Cardiovascular Medicine 2022, doi 10.3389/fcvm.2022.881141 (CMR in native valvular regurgitation). Cutoffs were read from that review rather than from each primary study.</span></div>`;
-@@ -1055,11 +1085,11 @@
+@@ -1055,11 +1170,11 @@
    h+=`<div class="card">${sel('m','Quantification method',[['ind','Indirect: RV stroke volume − pulmonary forward flow'],['4d','4D flow / direct tricuspid inflow']])}
    ${f('rvsv','RV stroke volume (volumetric)','mL','120')}${f('pf','Pulmonary forward flow','mL','70')}
    <span class="ref">All outcome cutoffs used the indirect method. Invalid with significant pulmonic regurgitation or a shunt; RV basal slice and trabeculation handling drive error.</span>
@@ -681,7 +771,7 @@
     <tr><th>TR volume mL</th><td colspan="2">&lt;35 · elevated 35–44</td><td>≥45 highest risk</td><td><span class="ref">Wang 2021; Zhan 2020. Supportive only</span></td></tr>
     <tr><th>Effective RVEF %</th><td colspan="2">&gt;25</td><td>≤25</td><td><span class="ref">Zhang 2026, externally validated</span></td></tr>
     <tr><th>RVEDVi mL/m²</th><td>&lt;100</td><td>100–150</td><td>&gt;150</td><td><span class="ref">Hinojar 2025</span></td></tr>
-@@ -1109,7 +1139,7 @@
+@@ -1109,7 +1224,7 @@
    <h3>Myocardium</h3>${sel('lge','LGE (mid-wall or infarct)',yn)}${f('ecv','ECV','%','28')}${sel('post','Scan timing',[['','Before AVR'],['y','After AVR']])}</div>`;
    h+=`<div class="card" id="results">${avResults(it.id)}</div>`;
    h+=`<div class="card"><h3>Grading (draft)</h3><div class="scroll"><table class="tbl"><thead><tr><th>Parameter</th><th>Severe</th><th>Based on</th></tr></thead><tbody>
@@ -690,7 +780,7 @@
     <tr><th>AVAi cm²/m²</th><td>≤0.6</td><td><span class="ref">Echo-adopted</span></td></tr>
     <tr><th>Peak velocity m/s</th><td>≥4 (very severe ≥5)</td><td><span class="ref">Echo-adopted; PC-MRI underestimates</span></td></tr>
     <tr><th>Mean gradient mmHg</th><td>≥40</td><td><span class="ref">Echo-adopted; PC-MRI underestimates</span></td></tr>
-@@ -1131,7 +1161,7 @@
+@@ -1131,7 +1246,7 @@
    n:'262 isolated echo-severe TR, death',find:'Best cutoffs TRF ≥30% and TR volume ≥35 mL (indirect method).',lim:'Only echo-severe TR; surgery as covariate. Same group later used ≥50%/45 mL.',crit:'Letter by Kumar & Ahmad with author reply (not reviewed).'},
   {t:'RV volumes and function in severe TR',a:'Hinojar R, et al. Eur Heart J Cardiovasc Imaging 2025',doi:'10.1093/ehjci/jeaf097',tag:'Multicentre · used for RV tiers',
    n:'314 severe or worse TR, median 35 months',find:'RVEDVi 100–150 (aHR 1.72) and >150 mL/m² (5.42); RVEF 50–60% (1.59) and <50% (2.12).',lim:'Contouring and censoring not confirmed.',crit:'No editorial found.'},
@@ -699,7 +789,7 @@
    n:'453 derivation; Houston 239 and Duke 77 validation',find:'Forward flow ÷ RVEDV ≤25% predicted death (HR 2.66–2.86).',lim:'Included moderate TR.',crit:'—'},
   {t:'CMR RVEF before transcatheter tricuspid repair',a:'Kresoja KP, et al. JACC Cardiovasc Interv 2021',doi:'10.1016/j.jcin.2021.05.005',tag:'Leipzig',
    n:'79 T-TEER patients, 22 events',find:'CMR RVEF ≤45%: HR 6.62 for death or HF hospitalisation; echo TAPSE did not predict.',lim:'Small; cutoff pre-set.',crit:'Editorial by Karam & Hausleiter (not reviewed).'},
-@@ -1201,28 +1231,15 @@
+@@ -1201,28 +1316,15 @@
  ];
  
  const RAP=(c,l)=>`<span class="pill ${c}">${l}</span>`;
@@ -736,7 +826,7 @@
   return h}
  const LA_EV=[
   {t:'Outcome-based LA volume severity grading by CMR',a:'Khan MA, et al. J Cardiovasc Magn Reson 2019;21:4',doi:'10.1186/s12968-018-0517-0',tag:'Retrospective · 3 US centres · used for biplane grades',
-@@ -1332,18 +1349,33 @@
+@@ -1332,18 +1434,33 @@
  
  let current=null;
  // ---------- Report: findings built from the values entered on each page ----------
@@ -773,7 +863,7 @@
     refs:td.length>2?[td[1].textContent.trim()]:[],cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}});
   return trs.concat([...d.querySelectorAll('.rrow')].map(r=>{const q=x=>r.querySelector(x);const pills=[...r.querySelectorAll('.pill')];
    const small=q('.rl small')?q('.rl small').textContent.trim():'';const parts=small.split(' · ').filter(Boolean);
-@@ -1352,12 +1384,12 @@
+@@ -1352,12 +1469,12 @@
     pills:pills.map(pOut),grades:pills.map(x=>x.textContent.trim()),refs:[...r.querySelectorAll('.rs .ref')].map(x=>x.textContent.trim()).filter(Boolean),
     cls:pills.length?(pills.some(x=>x.classList.contains('hi'))?'hi':pills.some(x=>x.classList.contains('lo'))?'lo':'ok'):''}}))}
  function buildReport(){const out=[];
@@ -788,7 +878,7 @@
   add('Aortic valve: regurgitation','ar-calc','',avResults('ar-calc'));
   add('Aortic valve: stenosis','as-calc','',avResults('as-calc'));
   add('Mitral valve: regurgitation','mr-calc','',avResults('mr-calc'));
-@@ -1369,20 +1401,22 @@
+@@ -1369,20 +1486,22 @@
   add('ECV and native T1','ecv','Field strength '+ecvState.f+' T',ecvResults(),r=>!/^(Partition|ΔR1)/.test(r.lab));
   add('Iron (T2*)','iron','',ironResults());
   return out}
@@ -817,7 +907,7 @@
  function reportBody(){const secs=buildReport();
   if(!secs.length)return `<div class="card"><p class="empty">No findings yet. Enter measurements on any chamber, valve or mapping page.</p></div>`;
   let h='<div class="card rcompact">';
-@@ -1396,7 +1430,7 @@
+@@ -1396,7 +1515,7 @@
  function reportView(){
   let h=header()+'<div class="wrap">';
   h+=scanHTML();
@@ -826,7 +916,7 @@
   h+=`<div id="rbody">${reportBody()}</div>`;
   h+=`<span class="ref">Findings only, no impression. Verify before use. Nothing is saved or sent; no patient identifiers.</span>`;
   return h+'</div>'}
-@@ -1504,7 +1538,7 @@
+@@ -1504,7 +1623,7 @@
     logger:m=>{if(m.status)prog((m.status==='recognizing text'?'Reading text… ':m.status.charAt(0).toUpperCase()+m.status.slice(1)+'… ')+(m.progress!=null&&m.status==='recognizing text'?Math.round(m.progress*100)+'%':''))}});
    await worker.setParameters({tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'});
    const r=await worker.recognize(c);const P=parseReport(r.data.text);
@@ -835,7 +925,7 @@
   catch(e){if(scan){scan.stage='err';scan.msg=(e&&e.message)||'Could not read the image.'}}
   finally{if(worker)try{await worker.terminate()}catch(x){}if(c){c.width=c.height=0}}
   render()}
-@@ -1517,7 +1551,6 @@
+@@ -1517,7 +1636,6 @@
   for(const it of scan.items){if(!it.inc)continue;const v=parseFloat(it.v);if(!(v>=0))continue;const s=String(v);
    if(it.k==='bsa'){setCase('bsa',s);continue}
    for(const t of CANON[it.k].to){set(t[0],t[1],t[2],s);scan.wrote.push(t);if(!scan.opens.includes(t[1]))scan.opens.push(t[1])}}
@@ -843,7 +933,7 @@
   for(const id of scan.opens){const st=id==='ar-calc'||id==='as-calc'||id==='mr-calc'||id==='tr-calc'||id==='pr-calc'||id==='sten-calc'?avState[id]:null;if(st)st.example=false;else{const it=ITEMS.find(i=>i.id===id);if(it)getState(it).example=false}}}
  const SN={'lv-vol':'LV','rv-vol':'RV','la-vol':'LA','ra-vol':'RA','ar-calc':'Aortic regurgitation','as-calc':'Aortic stenosis','mr-calc':'Mitral regurgitation','tr-calc':'Tricuspid regurgitation','pr-calc':'Pulmonic regurgitation','sten-calc':'Mitral / pulmonic stenosis'};
  function scanHTML(){
-@@ -1531,11 +1564,11 @@
+@@ -1531,11 +1649,11 @@
   else if(scan.stage==='err')h+=`<h3>Could not read the image</h3><p class="ref">${esc(scan.msg)}</p><div class="rbtns"><button class="primary" data-scan="start">Try again</button><button data-scan="cancel">Close</button></div>`;
   else{h+=`<h3>Check the values</h3>`;
    if(scan.phi)h+=`<div class="phi"><b>This image may contain patient identifiers.</b> Possible identifiers were detected in the text. Discard it, crop or cover them, and scan again. Nothing has been stored or sent.</div>`;
@@ -858,7 +948,7 @@
   return h+'</div>'}
  function copyText(txt,btn,done){const o=btn.textContent;const ok=()=>{btn.textContent='Copied ✓';setTimeout(()=>{btn.textContent=o},1600)};
   const fb=()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){btn.textContent='Copy failed'}ta.remove()};
-@@ -1544,7 +1577,7 @@
+@@ -1544,7 +1662,7 @@
   if(!res||res.classList.contains('held')){const o=btn.textContent;btn.textContent='Fix highlighted values first';setTimeout(()=>{btn.textContent=o},1800);return}
   const rows=rowsOf(res.innerHTML);if(!rows.length){const o=btn.textContent;btn.textContent='Nothing to copy yet';setTimeout(()=>{btn.textContent=o},1800);return}
   const nm=current==='sten-calc'?({ms:'Mitral valve: stenosis',ts:'Tricuspid valve: stenosis',ps:'Pulmonic valve: stenosis'})[avState['sten-calc'].v]||it.title:it.title;
@@ -867,7 +957,7 @@
  function resetCurrent(){const it=ITEMS.find(i=>i.id===current);if(!it)return;const o=JSON.parse(INIT);const clr=(dst,src)=>{for(const k in src)if(src[k]==='')dst[k]=''};
   if(it.methods){const st=getState(it);for(const k of ['a','b','c','lv','area','rv','str','h','w'])if(k in st)st[k]='';for(const k of Object.keys(st))if(k.startsWith('v_'))delete st[k];st.example=false}
   else if(it.kind==='aocalc'){aoState.d='';aoState.age=''}
-@@ -1581,7 +1614,7 @@
+@@ -1581,7 +1699,7 @@
   if(window.__stripUpd)window.__stripUpd()}
  function postUI(){const res=document.getElementById('results');document.body.classList.toggle('calcpage',!!res);app.classList.toggle('calc',!!res);
   if(res){const wrap=res.parentElement;if(wrap&&wrap.classList.contains('wrap')){let p=res.previousElementSibling;while(p&&!p.classList.contains('card'))p=p.previousElementSibling;
@@ -876,7 +966,7 @@
   validate()}
  app.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('.row input'));clearTimeout(vtimer);vtimer=setTimeout(validate,650)});
  app.addEventListener('change',()=>validate());
-@@ -1593,6 +1626,8 @@
+@@ -1593,6 +1711,8 @@
   enhance();
   setupStrip();
   postUI();
@@ -885,7 +975,7 @@
   renderSide();
   if(!app.querySelector('.disc')){const d=document.createElement('p');d.className='foot disc';d.textContent='Educational reference only. Not medical advice. Independent project, not endorsed by OSU or SCMR.';app.appendChild(d)}
   ['home','fav','report','search'].forEach(t=>document.getElementById('nav-'+t).classList.toggle('on',!current&&tab===t));
-@@ -1608,11 +1643,12 @@
+@@ -1608,11 +1728,12 @@
   const o=e.target.closest('[data-open]');if(o){openItem(o.dataset.open);return}
   if(e.target.closest('[data-back]')){goBack();return}
   const sc=e.target.closest('[data-scan]');if(sc){const a=sc.dataset.scan;
@@ -900,7 +990,7 @@
   const rc=e.target.closest('[data-rcopy]');if(rc){const t=document.getElementById('rtext'),m=document.getElementById('rmsg');const txt=rc.dataset.rcopy==='ab'?t.dataset.ab:t.dataset.all;t.textContent=txt;
    const fb=()=>{const r=document.createRange();r.selectNodeContents(t);const sl=getSelection();sl.removeAllRanges();sl.addRange(r);m.textContent='Text selected. Press copy.'};
    try{navigator.clipboard.writeText(txt).then(()=>{m.textContent='Copied.';const o=rc.textContent;rc.textContent='Copied ✓';setTimeout(()=>{rc.textContent=o},1600)},fb)}catch(x){fb()}return}
-@@ -1641,7 +1677,7 @@
+@@ -1641,7 +1762,7 @@
  });
  app.addEventListener('input',e=>{
   if(e.target.dataset.lr!=null){const f=ecvState.f;(LOCAL[f]=LOCAL[f]||{})[e.target.dataset.lr]=e.target.value;saveLocal();const r=document.getElementById('results');if(r)r.innerHTML=ecvResults();const sm=document.getElementById('lrsum');if(sm)sm.textContent=lrSummary(f);const nt=document.getElementById('lrnote');if(nt)nt.textContent=lrNote(f);return}

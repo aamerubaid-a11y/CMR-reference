@@ -95,7 +95,7 @@
   "input": "Male, EDV 100, ESV 60 (EF 40%)",
   "expect": "/Reduced \\(≤40/",
   "prov": "App HF categories (≤40, 41–49) + SCMR LL",
-  "actual": "40.0 Below reference | HF category: reduced EF (≤40%) [% · normal 53–79]",
+  "actual": "40.0 Below reference | HFrEF range if clinical HF (≤40%) [% · normal 53–79]",
   "pass": false
  },
  {
@@ -104,7 +104,7 @@
   "input": "Male, EDV 100, ESV 59 (EF 41%)",
   "expect": "/Mildly reduced/",
   "prov": "App HF categories (≤40, 41–49) + SCMR LL",
-  "actual": "41.0 Below reference | HF category: mildly reduced EF (41–49%) [% · normal 53–79]",
+  "actual": "41.0 Below reference | HFmrEF range if clinical HF (41–49%) [% · normal 53–79]",
   "pass": false
  },
  {
@@ -113,7 +113,7 @@
   "input": "Male, EDV 100, ESV 51 (EF 49%)",
   "expect": "/Mildly reduced/",
   "prov": "App HF categories (≤40, 41–49) + SCMR LL",
-  "actual": "49.0 Below reference | HF category: mildly reduced EF (41–49%) [% · normal 53–79]",
+  "actual": "49.0 Below reference | HFmrEF range if clinical HF (41–49%) [% · normal 53–79]",
   "pass": false
  },
  {
@@ -284,7 +284,7 @@
   "input": "Female, method mass, copy result",
   "expect": "copied text names sex, contouring method and reference",
   "prov": "Self-contained report expectation",
-  "actual": "LV volumes, EF and mass [Adult female · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 150.0 mL (within reference); EDV idx 78.9 (within reference); ESV 60.0 mL (within reference); ESV idx 31.6 (within reference); SV 90.0 mL (within reference); SV idx 47.4 (within reference); EF 60.0% (within reference); mass 100.0 g (within reference); mass idx 52.6 (within reference)\n— CMR Reference 2026.11-rc2 (release candidate, not deployed); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against the source before reporting.",
+  "actual": "LV volumes, EF and mass [Adult female · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 150.0 mL (within reference); EDV idx 78.9 (within reference); ESV 60.0 mL (within reference); ESV idx 31.6 (within reference); SV 90.0 mL (within reference); SV idx 47.4 (within reference); EF 60.0% (within reference); mass 100.0 g (within reference); mass idx 52.6 (within reference)\n— CMR Reference 2026.11-rc3 (release candidate: evaluation use; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against the source before reporting.",
   "pass": true
  },
  {
@@ -428,8 +428,8 @@
   "input": "Direct, fwd 100, rev 32",
   "expect": "/Severe/",
   "prov": "Implemented bands: <15 / 15–31 / ≥32 (Hashimoto 2022, Steeds & Myerson 2020)",
-  "actual": "32.0 Severe (≥32%)",
-  "pass": true
+  "actual": "32.0 High risk (≥32%: death or HF events)",
+  "pass": false
  },
  {
   "id": "MRp-19.9",
@@ -482,7 +482,7 @@
   "input": "Secondary, LVSV 100, Ao fwd 80",
   "expect": "/Moderate/",
   "prov": "Wang 2023: ≥20 moderate, ≥35 severe",
-  "actual": "20.0 Moderate (20–34%)",
+  "actual": "20.0 Moderate (20–34%; functional MR with LVEF <50%)",
   "pass": true
  },
  {
@@ -491,7 +491,7 @@
   "input": "Secondary, LVSV 100, Ao fwd 65.1",
   "expect": "/Moderate/",
   "prov": "Wang 2023: ≥20 moderate, ≥35 severe",
-  "actual": "34.9 Moderate (20–34%)",
+  "actual": "34.9 Moderate (20–34%; functional MR with LVEF <50%)",
   "pass": true
  },
  {
@@ -500,7 +500,7 @@
   "input": "Secondary, LVSV 100, Ao fwd 65",
   "expect": "/Severe/",
   "prov": "Wang 2023: ≥20 moderate, ≥35 severe",
-  "actual": "35.0 Severe (≥35%)",
+  "actual": "35.0 Severe (≥35%; functional MR with LVEF <50%)",
   "pass": true
  },
  {

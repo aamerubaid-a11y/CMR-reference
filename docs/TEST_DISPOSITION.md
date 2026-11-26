@@ -1,6 +1,6 @@
-# Disposition of the 77 original audit tests on 2026.11-rc2
+# Disposition of the 77 original audit tests on 2026.11-rc3
 
-Run: `node tests/suite_original.js` (original assertions unchanged; one harness line changed because the population buttons moved out of Settings). Chromium, Playwright 1.63, code commit c68d431, build `cmr-ref-af44e7d671`. Raw output: `tests/results/final-original-suite.json`. Result: 26 pass, 51 fail, all classified below with `tests/dispo.py` and checked by hand against each test's assertion and the RC output. No test is in "Valid and exposing an unresolved defect" or "Not executed".
+Run: `node tests/suite_original.js` (original assertions unchanged; one harness line changed because the population buttons moved out of Settings). Chromium, Playwright 1.63, code commit 442a377, build `cmr-ref-c9f86960bf`. Raw output: `tests/results/final-original-suite.json`. Result: 25 pass, 52 fail, all classified below with `tests/dispo.py` and checked by hand. Change from rc2: AR-32 now fails because AR RF ≥32% is labelled a prognostic threshold, not "Severe". No test is in "Valid and exposing an unresolved defect" or "Not executed".
 
 | Original test | Disposition | Reason | Evidence (RC output) | Replacement / covering test |
 |---|---|---|---|---|
@@ -14,9 +14,9 @@ Run: `node tests/suite_original.js` (original assertions unchanged; one harness 
 | LV-Kang-150 | Superseded by sourced behaviour change | Kang grades are derived in DCM/ICM and are now shown only in that context; the original test ran in the general context, where they are withheld. | `Above reference` | KANG-m-100 … KANG-m-200, KANG-f-* (DCM/ICM context); KANG-general (withheld) |
 | LV-Kang-199 | Superseded by sourced behaviour change | Kang grades are derived in DCM/ICM and are now shown only in that context; the original test ran in the general context, where they are withheld. | `Above reference` | KANG-m-100 … KANG-m-200, KANG-f-* (DCM/ICM context); KANG-general (withheld) |
 | LV-Kang-200 | Superseded by sourced behaviour change | Kang grades are derived in DCM/ICM and are now shown only in that context; the original test ran in the general context, where they are withheld. | `Above reference` | KANG-m-100 … KANG-m-200, KANG-f-* (DCM/ICM context); KANG-general (withheld) |
-| LV-EF-40 | Presentation-only change | HF category still shown (output contains "HF category: reduced/mildly reduced EF"); old regex is case-sensitive and read the pill first. | `40.0 Below reference / HF category: reduced EF (≤40%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
-| LV-EF-41 | Presentation-only change | HF category still shown (output contains "HF category: reduced/mildly reduced EF"); old regex is case-sensitive and read the pill first. | `41.0 Below reference / HF category: mildly reduced EF (41–49%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
-| LV-EF-49 | Presentation-only change | HF category still shown (output contains "HF category: reduced/mildly reduced EF"); old regex is case-sensitive and read the pill first. | `49.0 Below reference / HF category: mildly reduced EF (41–49%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
+| LV-EF-40 | Presentation-only change | HF category still shown, now worded "HFrEF/HFmrEF range if clinical HF" (Bozkurt 2021 defines these for symptomatic HF). | `40.0 Below reference / HFrEF range if clinical HF (≤40%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
+| LV-EF-41 | Presentation-only change | HF category still shown, now worded "HFrEF/HFmrEF range if clinical HF" (Bozkurt 2021 defines these for symptomatic HF). | `41.0 Below reference / HFmrEF range if clinical HF (41–49%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
+| LV-EF-49 | Presentation-only change | HF category still shown, now worded "HFrEF/HFmrEF range if clinical HF" (Bozkurt 2021 defines these for symptomatic HF). | `49.0 Below reference / HFmrEF range if clinical HF (41–49%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
 | LV-EF-50 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `50.0 Below reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
 | LV-EF-52 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `52.0 Below reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
 | LV-EF-53 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `53.0 Within reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
@@ -51,15 +51,15 @@ Run: `node tests/suite_original.js` (original assertions unchanged; one harness 
 | AR-14.9 | Still valid and passing | Passes unchanged on the RC. | `14.9 Mild (<15%)` | retained as-is |
 | AR-15 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `15.0 Intermediate (15 to <32%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
 | AR-31.9 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `31.9 Intermediate (15 to <32%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
-| AR-32 | Still valid and passing | Passes unchanged on the RC. | `32.0 Severe (≥32%)` | retained as-is |
+| AR-32 | Superseded by sourced behaviour change | rc3: AR RF ≥32% relabelled "High risk (≥32%: death or HF events)" — Hashimoto 2022 reports a prognostic threshold, not a severity grade. | `32.0 High risk (≥32%: death or HF events)` | ar-calc RF {fwd:100,rev:32} |
 | MRp-19.9 | Still valid and passing | Passes unchanged on the RC. | `19.9 Mild (<20%)` | retained as-is |
 | MRp-20.0 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `20.0 Intermediate (20–40%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
 | MRp-40.0 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `40.0 Intermediate (20–40%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
 | MRp-40.1 | Still valid and passing | Passes unchanged on the RC. | `40.1 Severe (>40%)` | retained as-is |
 | MRs-19.9 | Still valid and passing | Passes unchanged on the RC. | `19.9 Mild (<20%)` | retained as-is |
-| MRs-20.0 | Still valid and passing | Passes unchanged on the RC. | `20.0 Moderate (20–34%)` | retained as-is |
-| MRs-34.9 | Still valid and passing | Passes unchanged on the RC. | `34.9 Moderate (20–34%)` | retained as-is |
-| MRs-35.0 | Still valid and passing | Passes unchanged on the RC. | `35.0 Severe (≥35%)` | retained as-is |
+| MRs-20.0 | Still valid and passing | Passes unchanged on the RC. | `20.0 Moderate (20–34%; functional MR with LVEF <50%)` | retained as-is |
+| MRs-34.9 | Still valid and passing | Passes unchanged on the RC. | `34.9 Moderate (20–34%; functional MR with LVEF <50%)` | retained as-is |
+| MRs-35.0 | Still valid and passing | Passes unchanged on the RC. | `35.0 Severe (≥35%; functional MR with LVEF <50%)` | retained as-is |
 | TR-19.9 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `19.9 Below the 20% risk threshold` | tr-calc-TR fraction (all pf values) |
 | TR-20.0 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `20.0 Elevated risk (20 to <40%)` | tr-calc-TR fraction (all pf values) |
 | TR-39.9 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `39.9 Elevated risk (20 to <40%)` | tr-calc-TR fraction (all pf values) |
@@ -82,4 +82,4 @@ Run: `node tests/suite_original.js` (original assertions unchanged; one harness 
 | FE-10 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 10 ms — Select the field strength Cardiac iron` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
 | FE-9.9 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 9.9 ms — Select the field strength Cardiac iro` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
 
-**Counts:** Presentation-only change: 32; Superseded by sourced behaviour change: 18; Still valid and passing: 26; Based on an incorrect original expectation: 1; total 77
+**Counts:** Presentation-only change: 32; Superseded by sourced behaviour change: 19; Still valid and passing: 25; Based on an incorrect original expectation: 1; total 77

@@ -1,26 +1,30 @@
-# Validation report: 2026.11-rc2 (branch remediation/audit-2026-11)
+# Validation report: 2026.11-rc3 (branch remediation/audit-2026-11)
 
-## Final run (after the last code change)
+## Tested artifact
 
-- **Tested code commit:** `c68d431`. Root `index.html` is byte-identical to the build output (sha256 `df3d263ec250d7d3…`); `sw.js` reads `CACHE='cmr-ref-af44e7d671'`; About shows `2026.11-rc2 (release candidate, not deployed)`. Later commits change documentation, test results, and the output file name in `tests/owner_cases.js` only.
-- **Environment:** Linux 6.18 sandbox, Node 22.23.4, Playwright 1.63.0, **Chromium only** (Firefox/WebKit downloads blocked here, 403). Desktop 1280×900 and phone 360/390/320 px viewports. Local files (`file://`) and `http://localhost:8765`. Run on 26 Nov 2026 (UTC ≈ 20:30–20:50).
-- **Not tested:** real iPhone Safari, real Android Chrome, desktop Safari/Firefox, any screen reader, the live GitHub Pages site (unreachable from here), installed-app and offline behaviour on a device.
+- **App code commit:** `442a377`. All application and build files were tested exactly as committed there: `index.html` (sha256 `ca7e011c075cde40…`), `sw.js` (`8ebd14486ec57b12…`, `CACHE='cmr-ref-c9f86960bf'`), `THIRD_PARTY_NOTICES.txt` (`4c2fbecc376fe89d…`), `manifest.webmanifest`, `ocr/`, icons, and `src/index.html`. The root files were byte-compared with the build output before testing.
+- **Version shown in About and copied text:** `2026.11-rc3 (release candidate: evaluation use; validation incomplete)`.
+- **Documentation commit:** the later commit adds this report, the other docs and the result files. It was written after the test run and is **not** part of the software under test. It changes no application or build file (check: `git diff --stat 442a377 HEAD -- index.html sw.js THIRD_PARTY_NOTICES.txt manifest.webmanifest ocr src build icon-192.png icon-512.png icon-maskable.png apple-touch-icon.png CMR-Reference-PWA.zip` prints nothing).
+- **Environment:** Linux 6.18 sandbox, Node 22.23.4, Playwright 1.63.0, **Chromium only** (Firefox and WebKit downloads are blocked here). Runs used `file://` and `http://localhost:8765` (a local server on the repository root). Run on 26 Nov 2026, 22:11–22:20 UTC.
+- **Not tested:** real iPhone Safari or Android Chrome; desktop Safari or Firefox; any screen reader; the live GitHub Pages site; installed-app behaviour on a phone.
 
 | Command (from `tests/`) | Result | Skips | Failures |
 |---|---|---|---|
-| `CMR_URL=file://…/index.html node suite2.js chromium` | 184 run (40 Layer 1 software, 144 Layer 2 evidence boundaries) | 0 | 0 |
-| `node owner_cases.js` | 23 owner cases executed; screen and copy recorded in `results/final-owner-cases.txt` | 0 | n/a (record, not assertions) |
+| `CMR_URL=file://…/index.html node suite2.js chromium` | 190 run (42 Layer 1, 148 Layer 2) | 0 | 0 |
+| `node owner_cases.js` | 23 owner cases recorded (screen and copy) in `results/final-owner-cases.txt` | 0 | n/a (record only) |
+| `node sw_offline.js` (localhost) | Service worker active; cache `cmr-ref-c9f86960bf` holds the page, manifest, icons and notices; page and notices load with the network off | 0 | 0 |
 | `node aorta_sweep.js ../src/index.html` | 580 cases | 0 | 0 |
-| `python3 aorta_transcription.py ../src/index.html <SCMR 2025 text>` | 132 values (116 mean/SD pairs + 16 percentiles) | "All" rows not compared | 0 mismatches |
-| `node scan_gate.js` (real OCR) | Before Apply: fields empty. After Apply: 1.92/182/74/128. Population not applied | 0 | 0 |
-| `node axe.js` (axe-core 4.10.2; home, LV, ECV, PR, report × light/dark) | No violations (the earlier `nested-interactive` is fixed) | — | 0 |
-| `node suite_original.js` | 77 run: 26 pass, 51 fail; all 51 classified in `TEST_DISPOSITION.md` (unchanged from rc1) | 0 | 51 (expected) |
+| `python3 aorta_transcription.py ../src/index.html <SCMR text>` | 132 values | "All" rows not compared | 0 mismatches |
+| `node scan_gate.js` (real OCR via localhost) | Before Apply: empty. After Apply: 1.92/182/74/128. Population not applied | 0 | 0 |
+| `node axe.js` (axe-core 4.10.2; 5 pages × 2 themes) | No violations. This is not a compliance claim | — | 0 |
+| `node suite_original.js` | 77 run: 25 pass, 52 fail, all classified in `TEST_DISPOSITION.md` | 0 | 52 (expected) |
 
-Raw outputs are in `tests/results/final-*`.
+rc3 tests added: XU-both, WANG-pop, TR-wording, KANY-wording, NO-UNVERIFIED, ABOUT-notices. Six existing boundary
+tests were updated to the new evidence-based wording (HF ×3, ARVC strain, AR RF 32, AS SVi, AS ECV).
 
 ### Screen, copy and report agreement
 Checked by COPY, COPY-stale, PREC-COPY, LR-copy, LECV-label, HCT-fraction, HCT-switch, HCT-report, COPY-iron15,
-COPY-iron3, COPY-liver, COPY-aorta and COPY-checkinputs, and by the screen/copy pairs in the owner-case record.
+COPY-iron3, COPY-liver, COPY-aorta, COPY-checkinputs and WANG-pop, and by the screen/copy pairs in the owner-case record.
 Fixed in rc2 after this check exposed them: acronyms lowercased in copied text; iron and aortic copies missing the
 measured T2*/diameter; the "Check inputs" note missing from copies.
 

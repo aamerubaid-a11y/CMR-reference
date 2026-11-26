@@ -15,7 +15,7 @@ Before you start:
 - Do not enter patient identifiers. Enter measurements only.
 - Every result shows which reference population, method and table it uses. Several interpretations are deliberately withheld where the evidence does not support them.
 
-Link: [preview or live link, once approved]. Version: 2026.11-rc2 (shown in About).
+Link: [preview or live link, once approved]. Version: 2026.11-rc3 (shown in About).
 
 Please send feedback using the short form below. One message per issue is ideal.
 

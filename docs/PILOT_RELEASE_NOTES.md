@@ -1,4 +1,4 @@
-# CMR Reference 2026.11-rc2: draft pilot release notes
+# CMR Reference 2026.11-rc3: draft pilot release notes
 
 **Status: draft.** This is for a limited pilot with named CMR readers who are told that the app is not
 validated. It is not for public release. The app is an educational and reference aid. It has not been
@@ -25,7 +25,8 @@ clinically validated and is not a medical device. Always check against the prima
 - Some thresholds were verified only from abstracts (see `EVIDENCE.md`, status column).
 - Center-specific ranges have no author or date fields.
 - No in-app prompt when an update is available. Reload once while online after an update.
-- Third-party licence notices (tesseract.js Apache-2.0, fonts OFL-1.1) are not yet shipped, and permission to reuse the SCMR tables is not established (see OWNER_CHECKLIST).
+- Third-party notices are shipped (THIRD_PARTY_NOTICES.txt). The SCMR article states CC BY 4.0, but PubMed metadata says "All rights reserved"; this conflict is unresolved (LICENSING.md).
+- Several labels describe prognostic thresholds from single studies in specific populations (named in each label); they are not severity grades.
 - Hematocrit must be entered as a percentage (15–65). Anything else gives no ECV.
 - Liver ECV ≥32% comes from one network's 1.5 T MOLLI method and is not externally validated. It may not apply to other sequences.
 
