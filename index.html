@@ -274,11 +274,7 @@ input.bad{border-color:var(--warn-solid)!important;box-shadow:0 0 0 3px var(--wa
 #side .sidenav button.on{box-shadow:none}
 :root{--aw:620px}
 .app{max-width:var(--aw)}
-@media (min-width:1400px){body.calcpage{--aw:min(1080px,calc(100vw - 600px))}
- .wrap.two{display:grid;grid-template-columns:minmax(330px,400px) minmax(0,1fr);align-items:start;gap:14px}
- .wrap.two>*{grid-column:1/-1}
- .wrap.two>.incard{grid-column:1}
- .wrap.two>#results{grid-column:2;position:sticky;top:calc(var(--dh,56px) + 70px)}}
+#results{border-left:4px solid var(--accent,var(--ink))}
 @media (min-width:1100px){.bar{display:none}.app{padding-bottom:28px}}
 </style>
 
@@ -1438,11 +1434,9 @@ function stripHTML(){const res=document.getElementById('results');if(!res||res.c
  const abn=r=>/class="pill (?!ok|na)/.test(r.pills[0]||'');pick=pick.slice().sort((x,y)=>abn(y)-abn(x));
  return pick.slice(0,2).map(r=>`<span class="si"><b>${esc(r.lab)}</b><span class="v">${esc(r.val)}${r.unit&&r.unit.length<8?' '+esc(r.unit):''}</span>${(r.pills[0]||'').replace(/\s*\([^)]*\)(?=<\/span>$)/,'')}</span>`).join('')}
 function setupStrip(){if(stripObs){stripObs.disconnect();stripObs=null}
- const res=document.getElementById('results'),hd=app.querySelector('.dhead');if(!res||!hd)return;
+ const res=document.getElementById('results'),hd=app.querySelector('.dhead');window.__stripUpd=()=>{};if(!res||!hd)return;
  document.documentElement.style.setProperty('--dh',hd.getBoundingClientRect().height+'px');
- const st=document.createElement('div');st.className='rstrip';st.setAttribute('aria-live','polite');hd.insertAdjacentElement('afterend',st);
- const upd=()=>{const h=stripHTML();st.innerHTML=h;st.hidden=!h};window.__stripUpd=upd;upd();
- stripObs=new MutationObserver(upd);stripObs.observe(res,{childList:true,subtree:true})}
+}
 addEventListener('resize',()=>{const hd=app.querySelector('.dhead');if(hd)document.documentElement.style.setProperty('--dh',hd.getBoundingClientRect().height+'px')});
 
 // ---------- desktop sidebar: every calculator and reference, always visible ----------
