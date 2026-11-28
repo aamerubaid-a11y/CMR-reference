@@ -1,3 +1,44 @@
+# Final evaluation release: 2026.11-eval2 (interface update of 2026.11-eval1)
+
+## 2026.11-eval2: approved interface update (27 Nov 2026)
+
+**Version:** `2026.11-eval2 (evaluation release; validation incomplete)`. **Application commit:** `65b4b94`.
+**Build cache:** `cmr-ref-cfb3425f0d`. `index.html` sha256 `dcae6c8155348fbb…`, `sw.js` `2135da345623d18e…`,
+`src/index.html` `53d062996d474990…`. Production (`main`, 0af7de5) unchanged; nothing merged or deployed.
+
+The owner approved the interface proposal ("CMR Reference: interface and workflow proposal"). This update changes
+presentation only: no formula, threshold, reference value, clinical label wording, withheld interpretation, or
+rounding/classification rule changed.
+
+**Implemented:** calculator order Context → Inputs → Results → action bar → collapsed detail; key-first result
+order (also in copied text); reference status as text with icon; clinical markers as separate "Clinical marker"
+blocks; range bars off by default (toggle); action bar (Copy result primary; Clear page; New patient with a second
+tap to confirm); chamber reference line showing the SCMR table; ECV reference sets, center ranges and short labels at
+the top, intermediate values and center-range explanation collapsed; tabs Calculate | Evidence (mapping:
+Calculate | Reference tables) with the valve lesion as a control under Calculate; stacked iron/aorta result tables
+and a wrapping Report row on phones; sticky result summary above the bottom bar when results are off screen
+(hidden while typing); named favorite toggles with pressed state and 44 px targets; hidden number spinners;
+sentence-case labels; home shortcut names match the tools, a Favorites row, credits moved into About.
+
+**Adjusted from the proposal, to keep copied text and clinical context unchanged:** the status keeps its existing
+words ("Within reference") with the range once under the value name, rather than "Within 53–79"; markers stay under
+the value they belong to instead of one block below all rows; the mapping second tab is "Reference tables", because
+it holds tables, not evidence.
+
+**Not done:** home accordion not regrouped into one-line groups; helper-text collapsing only on the ECV page;
+the population and BSA carried between calculators within a session are still shown only as filled fields, without
+a "from this patient" note; no real-phone, VoiceOver or TalkBack check.
+
+**Checks run (not the test suites; the owner elected no further testing):** JavaScript parse check; phone-width
+screenshots of home, LV, LA, ECV, iron, aortic valve and Report in light and dark themes; axe-core on 10 page states
+× 2 themes (no violations; no 320 px sideways scroll); and a comparison of the 23 owner cases between eval1 and
+eval2 (`tests/results/owner-cases-eval1.json`, `-eval2.json`). In that comparison every value and label is identical.
+The only differences are the key-first row order in copied text (9 cases) and the new "Show range bars" button text
+in the recorded screen text. The revised suite (215 tests) was **not** rerun; several of its tests target eval1
+wording and pre-update selectors and would need updating.
+
+---
+
 # Final evaluation release: 2026.11-eval1
 
 **Version shown in About and copied text:** `2026.11-eval1 (evaluation release; validation incomplete)`

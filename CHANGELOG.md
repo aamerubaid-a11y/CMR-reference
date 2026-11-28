@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026.11-eval2 (interface update; code commit 65b4b94; build cmr-ref-cfb3425f0d)
+- Presentation only, approved by the owner: calculator page order, key-first results, text status with icons, separate clinical-marker blocks, range bars on request, action bar, visible reference line, ECV context grouping, unified tabs, phone layout fixes, sticky result summary, accessibility names and target sizes. No clinical logic or wording changed. See docs/FINAL_RELEASE.md.
+
 ## 2026.11-eval1 (final evaluation release; branch remediation/audit-2026-11; code commit 466ac23; build cmr-ref-f576bb84fe)
 - Functionality frozen at the owner's request; iterative audit ended. Not tested: the owner elected no further testing.
 - Withheld (numbers kept): HF category label; liver iron severity bands; ECV/T1 summary across unmatched SCMR sets; aortic status where rounding crosses the limit. See docs/FINAL_RELEASE.md.
