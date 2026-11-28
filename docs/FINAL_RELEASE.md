@@ -1,3 +1,12 @@
+# Final evaluation release: 2026.11-eval3
+
+**Shareable for colleague evaluation** as described in RELEASE_NOTES_2026.11-eval3.md. Branch
+`release/2026.11-eval3`; application commit `ce1bdf9`; cache `cmr-ref-bc8b4440f1`; version `2026.11-eval3
+(evaluation release; validation incomplete)`. Verification: VALIDATION.md. Not merged, not deployed.
+Package `CMR-Reference-2026.11-eval3.zip`; its SHA-256 is recorded in RELEASE_NOTES (package section).
+
+---
+
 # Final evaluation release: 2026.11-eval2 (interface update of 2026.11-eval1)
 
 ## 2026.11-eval2: approved interface update (27 Nov 2026)

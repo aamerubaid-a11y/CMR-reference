@@ -1,4 +1,4 @@
-# Release checklist and merge / deploy / rollback instructions (2026.11-rc4)
+# Release checklist and merge / deploy / rollback instructions (2026.11-eval3)
 
 Proposed sequence only. Nothing here has been done: no merge, deploy or publish. Use it only after your explicit approval.
 
@@ -10,45 +10,42 @@ Proposed sequence only. Nothing here has been done: no merge, deploy or publish.
 
 ## A/B. Gates
 
-Use `OWNER_CHECKLIST.md`. It replaces the earlier gate lists. Merge only after you have completed sections A–D
-there and given explicit approval.
-
-## Version label
-
-Resolved in rc3 (unchanged in rc4): the label is deployment-neutral and stays accurate after a merge.
+Merge only after your explicit approval. The application files to publish are those of commit `ce1bdf9` on
+branch `release/2026.11-eval3` (cache `cmr-ref-bc8b4440f1`); later commits on that branch change documentation,
+tests, `README.txt` and the ZIP only.
 
 ## C. Merge (owner)
 
 ```
 git fetch origin
 git checkout main && git pull
-git tag pre-rc4-main            # rollback point (currently 0af7de5)
-git merge --no-ff remediation/audit-2026-11 -m "Release 2026.11-rc4 (limited pilot)"
-git push origin main pre-rc4-main
+git tag pre-eval3-main          # rollback point (currently 0af7de5)
+git merge --no-ff origin/release/2026.11-eval3 -m "Release 2026.11-eval3 (evaluation release)"
+git push origin main pre-eval3-main
 ```
-Or open a pull request from `remediation/audit-2026-11` into `main` and merge it there.
+Or open a pull request from `release/2026.11-eval3` into `main` and merge it there.
 
-Before merging, confirm that the app files at the branch head equal the tested commit:
-`git diff --stat 442a377 origin/remediation/audit-2026-11 -- index.html sw.js THIRD_PARTY_NOTICES.txt src/ build/ manifest.webmanifest ocr/ CMR-Reference-PWA.zip`
+Before merging, confirm the app files at the branch head equal the tested commit:
+`git diff --stat ce1bdf9 origin/release/2026.11-eval3 -- index.html sw.js THIRD_PARTY_NOTICES.txt src/ manifest.webmanifest ocr/ icon-192.png icon-512.png icon-maskable.png apple-touch-icon.png`
 must print nothing.
 
-## D. Deployment verification (after Pages finishes; check the Actions tab for "pages-build-deployment")
+## D. Deployment verification (after Pages finishes; Actions tab, "pages-build-deployment")
 
-1. Open `https://aamerubaid-a11y.github.io/CMR-reference/sw.js`. Line 2 must read `const CACHE='cmr-ref-c9f86960bf';`.
-2. Open the site and go to About. The version must read `2026.11-rc4 (release candidate: evaluation use; validation incomplete)`. Edit this string, then rebuild and retest, if you want a different label for the live release.
-3. In the LV calculator, "Reference population required" is visible and nothing is selected.
-4. Run case P1 (Adult male, LVEF 52.6): it should show "Below reference". Copy it and confirm the copied text contains `2026.11-rc4`.
-5. Iron → Liver: the result should say "Liver iron concentration withheld".
+1. `https://aamerubaid-a11y.github.io/CMR-reference/sw.js` line 2 reads `const CACHE='cmr-ref-bc8b4440f1';`.
+2. About shows `2026.11-eval3 (evaluation release; validation incomplete)`.
+3. LV calculator: "Reference population required", nothing selected. Adult male, EDV 100, ESV 47.4 → LVEF 52.6 · Below reference; Copy result contains `2026.11-eval3`.
+4. Iron → liver T2* 8 ms at 1.5 T → 3.4 mg/g · 60 µmol/g, "Severity not graded: band source not verified".
+5. Report → scan button present (HTTPS only).
 
 ## E. Detecting an old cached version (service worker)
 
-The service worker uses `skipWaiting` and `clients.claim`, loads the page network-first, and deletes old caches
-on activation. An online visit therefore normally picks up the new version, but an installed app that is opened
-offline, or opened before the browser has re-checked `sw.js`, can still show the old one.
-
-- **On any device:** About shows the version. Anything other than `2026.11-rc4` means a stale copy. Copied results also carry the version line, so pilot reports show which version produced them.
-- **Fix on the device:** open the site once while online, close all of its tabs and the installed app, then reopen. If it is still stale: iOS Settings → Safari → Advanced → Website Data → delete the `github.io` entry (or remove and re-add the Home Screen app). Android Chrome: Site settings → Storage → Clear. Desktop: DevTools → Application → Service workers → Unregister, then Clear storage.
-- **Desktop check:** DevTools → Application → Cache Storage should list only `cmr-ref-c9f86960bf`. An older name means the previous worker is still active.
+The worker uses `skipWaiting` and `clients.claim`, loads the page network-first and deletes old caches on
+activation (checked by `tests/sw_update.js`: eval2 → eval3 on reload). An installed app opened offline, or before
+the browser re-checks `sw.js` (GitHub Pages caches for up to 10 minutes), can still show the previous version.
+- About and every copied result show the version.
+- Fix on a device: open the site online, close all its tabs and the installed app, reopen. Still stale: clear the
+  site's data (iOS Settings → Safari → Advanced → Website Data; Chrome site settings → Clear data).
+- Desktop: DevTools → Application → Cache Storage lists only `cmr-ref-bc8b4440f1`.
 
 ## F. Rollback
 
@@ -57,9 +54,6 @@ git checkout main
 git revert -m 1 <merge-commit>   # preferred: keeps history
 git push origin main
 ```
-Or, if nothing else has been merged since: `git reset --hard pre-rc4-main && git push --force-with-lease origin main`.
-
-The reverted build has a different `sw.js` cache name (the current live main, 0af7de5, is `cmr-ref-ab54ebbf36`),
-so clients replace the RC on their next online visit. Verify with step D.1 that the old cache name is being
-served, and that About no longer shows `2026.11-rc4`. 0af7de5 has no version line in About, so after a rollback
-check that "Reference population required" is absent.
+Or, if nothing else has been merged since: `git reset --hard pre-eval3-main && git push --force-with-lease origin main`.
+The previous live build (0af7de5) uses cache `cmr-ref-ab54ebbf36` and has no version line in About; after a
+rollback confirm D.1 shows that name and that "Reference population required" is absent.

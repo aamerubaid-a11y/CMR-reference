@@ -1,5 +1,7 @@
 # Disposition of the 77 original audit tests on 2026.11-rc3
 
+**eval3 (ce1bdf9):** 25 pass / 52 fail, the same pass/fail set as rc3 and rc4 (`tests/results/original-suite-on-eval3.json`). From eval1 the LVEF heart-failure label is withheld, so LV-EF-40/41/49 now show only the reference comparison; their disposition (presentation change, still failing the original assertion) is unchanged.
+
 **rc4 (66b1c15, build `cmr-ref-df1f2551d3`):** rerun gives 25 pass / 52 fail with the **same pass/fail set** as rc3 (`tests/results/original-suite-on-rc4.json`). Wording in some evidence cells below changed in rc4: the HF label is now "HFrEF range if clinical HF (LVEF <50%; ESC 2026)" for EF 40, 41 and 49, and AR RF 32 shows "≥32%: associated with death or HF events". The dispositions are unchanged.
 
 Run: `node tests/suite_original.js` (original assertions unchanged; one harness line changed because the population buttons moved out of Settings). Chromium, Playwright 1.63, code commit 442a377, build `cmr-ref-c9f86960bf`. Raw output: `tests/results/final-original-suite.json`. Result: 25 pass, 52 fail, all classified below with `tests/dispo.py` and checked by hand. Change from rc2: AR-32 now fails because AR RF ≥32% is labelled a prognostic threshold, not "Severe". No test is in "Valid and exposing an unresolved defect" or "Not executed".

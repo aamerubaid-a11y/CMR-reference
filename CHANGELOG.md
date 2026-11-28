@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026.11-eval3 (branch release/2026.11-eval3; code commit ce1bdf9; build cmr-ref-bc8b4440f1)
+- Final evaluation release. Home grouped calculator index; carried population/BSA labelled as shared for this patient; example placeholders; notices header names the release; home chip wrapping fixed.
+- Tests refreshed (suite2 219/0) and a full end-to-end sweep added (119/0); service-worker update check added. Package README rewritten.
+
 ## 2026.11-eval2 (interface update; code commit 65b4b94; build cmr-ref-cfb3425f0d)
 - Presentation only, approved by the owner: calculator page order, key-first results, text status with icons, separate clinical-marker blocks, range bars on request, action bar, visible reference line, ECV context grouping, unified tabs, phone layout fixes, sticky result summary, accessibility names and target sizes. No clinical logic or wording changed. See docs/FINAL_RELEASE.md.
 

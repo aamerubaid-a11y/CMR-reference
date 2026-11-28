@@ -1,0 +1,117 @@
+[
+ {
+  "id": "P1",
+  "screen": "52.6 | Below reference",
+  "copy": "LV volumes, EF and mass [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EF 52.6% (below reference); EDV 100.0 mL (within reference); ESV 47.4 mL (within reference); SV 52.6 mL (below reference) — CMR Reference 2026.11-eval3 (evaluation "
+ },
+ {
+  "id": "P2",
+  "screen": "53.0 | Within reference",
+  "copy": "LV volumes, EF and mass [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EF 53.0% (within reference); EDV 100.0 mL (within reference); ESV 47.0 mL (within reference); SV 53.0 mL (within reference) — CMR Reference 2026.11-eval3 (evaluatio"
+ },
+ {
+  "id": "P3",
+  "screen": "40.0 | Below reference",
+  "copy": "LV volumes, EF and mass [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EF 40.0% (below reference); EDV 100.0 mL (within reference); ESV 60.0 mL (within reference); SV 40.0 mL (below reference) — CMR Reference 2026.11-eval3 (evaluation "
+ },
+ {
+  "id": "P4",
+  "screen": "150.0 | Above reference | Kang: moderate dilation (150–199)",
+  "copy": "LV volumes, EF and mass [Adult male · Papillary in volume · context: DCM / ICM · SCMR 2025 Table 3]: EDV idx 150.0 (above reference; Kang: moderate dilation (150–199)); EDV 150.0 mL (within reference) — CMR Reference 2026.11-eval3 (evaluation release; validati"
+ },
+ {
+  "id": "P5",
+  "screen": "120.0 | Select the reference population",
+  "copy": "LV volumes, EF and mass [Sex not selected · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV idx 120.0 (select the reference population); EDV 120.0 mL (select the reference population) — CMR Reference 2026.11-eval3 (evaluation release; validation "
+ },
+ {
+  "id": "P6",
+  "screen": "120.0 | Reference interpretation unavailable under 18 y",
+  "copy": "LV volumes, EF and mass [Under 18 y (no adult reference) · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV idx 120.0 (reference interpretation unavailable under 18 y); EDV 120.0 mL (reference interpretation unavailable under 18 y) — CMR Reference"
+ },
+ {
+  "id": "P7",
+  "screen": "RESULTS Show range bars Compared with: Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2 Check inputs: end-systolic volume is not smaller than end-diastolic volume, so stroke volume and EF are not calc",
+  "copy": "LV volumes, EF and mass [Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EDV 100.0 mL (within reference); ESV 120.0 mL (above reference). Check inputs: end-systolic volume is not smaller than end-diastolic volume, so stroke volume and EF"
+ },
+ {
+  "id": "P8",
+  "screen": "56.1 | Above reference | Khan: mild enlargement (52–62)",
+  "copy": "LA volumes and function [Adult male · Biplane area-length · SCMR 2025 Table 13]: Max vol idx 56.1 (above reference; Khan: mild enlargement (52–62)); Max vol 56.1 mL (within reference) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); S"
+ },
+ {
+  "id": "P9",
+  "screen": "62.1 | Above reference | Khan: mild enlargement (52–62)",
+  "copy": "LA volumes and function [Adult male · Biplane area-length · SCMR 2025 Table 13]: Max vol idx 62.1 (above reference; Khan: mild enlargement (52–62)); Max vol 62.1 mL (within reference) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); S"
+ },
+ {
+  "id": "P10",
+  "screen": "32.0 | ≥32%: associated with death or HF events",
+  "copy": "Aortic regurgitation calculator [direct aortic phase contrast]: RF 32.0% (≥32%: associated with death or HF events); RVol 32.0 mL (≤40 mL) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:10185"
+ },
+ {
+  "id": "P11",
+  "screen": "55.0 | ≤55%: meets the stage C2 LVEF criterion if AR is chronic and severe",
+  "copy": "Aortic regurgitation calculator [direct aortic phase contrast]: EF 55.0% (≤55%: meets the stage C2 LVEF criterion if AR is chronic and severe) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:1"
+ },
+ {
+  "id": "P12",
+  "screen": "40.0 | High risk (≥40%)",
+  "copy": "Tricuspid regurgitation calculator [RV stroke volume − pulmonary forward flow]: TR fraction 40.0% (high risk (≥40%)); TR vol 40.0 mL (elevated (35 to <45 mL)) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference values"
+ },
+ {
+  "id": "P13",
+  "screen": "40.1 | Severe (>40%)",
+  "copy": "Pulmonic regurgitation calculator [direct pulmonary phase contrast]: PR fraction 40.1% (severe (>40%)); PR vol 40.1 mL (not graded) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:101853. Veri"
+ },
+ {
+  "id": "P14",
+  "screen": "1.00 | Severe (≤1.0)",
+  "copy": "Aortic stenosis calculator : AVA 1.00 cm² (severe (≤1.0)) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against the source before reporting."
+ },
+ {
+  "id": "P15",
+  "screen": "40.0 | Severe (≥40 mmHg)",
+  "copy": "Aortic stenosis calculator : Mean gradient 40.0 mmHg (severe (≥40 mmHg)) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against the source before reporting."
+ },
+ {
+  "id": "P16",
+  "screen": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 1.5 T T2* 9.9 ms · R2* 101 s⁻¹ 2.74 mg/g Severe iron overload (<10 ms) Cardiac iron in mg/g dry weight (1.5 T only). Liver iron concentration in mg/g dry weight and µmol/g (Wo",
+  "copy": "Iron overload calculator [cardiac T2* at 1.5 T · SCMR 2025 Table 100]: Cardiac T2*, 1.5 T T2* 9.9 ms · R2* 101 s⁻¹; iron 2.74 mg/g (severe iron overload (<10 ms)) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference va"
+ },
+ {
+  "id": "P17",
+  "screen": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 3 T T2* 5.4 ms · R2* 185 s⁻¹ — (equation calibrated at 1.5 T) Severe iron overload (<5.5 ms) Cardiac iron in mg/g dry weight (1.5 T only). Liver iron concentration in mg/g dry",
+  "copy": "Iron overload calculator [cardiac T2* at 3 T · SCMR 2025 Table 100]: Cardiac T2*, 3 T T2* 5.4 ms · R2* 185 s⁻¹ (severe iron overload (<5.5 ms)) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 reference values, JCMR 2025;27:"
+ },
+ {
+  "id": "P18",
+  "screen": "RESULTS ORGAN INPUT IRON STATUS Liver, 1.5T T2* 8 ms · R2* 125 s⁻¹ 3.4 mg/g · 60 µmol/g Severity not graded: band source not verified Cardiac iron in mg/g dry weight (1.5 T only). Liver iron concentration in mg/g dry wei",
+  "copy": "Iron overload calculator [cardiac T2* at field strength not selected · SCMR 2025 Table 100]: Liver, 1.5T T2* 8 ms · R2* 125 s⁻¹; iron 3.4 mg/g · 60 µmol/g (severity not graded: band source not verified) — CMR Reference 2026.11-eval3 (evaluation release; valida"
+ },
+ {
+  "id": "P19",
+  "screen": "RESULTS Compared with: Adult male · Sinus of Valsalva · age 25 y · LVOT view, diastole · SCMR 2025 Table 67 VALUE AGE GROUP REFERENCE Z STATUS Absolute 36.2 mm 20–29 · 30.1 ± 3.0 +2.0 Not graded: at the limit after round",
+  "copy": "Aortic size calculator [Adult male · Sinus of Valsalva · age 25 y · LVOT view, diastole · SCMR 2025 Table 67]: Absolute 36.2 mm; z +2.0 (not graded: at the limit after rounding) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 20"
+ },
+ {
+  "id": "P20",
+  "screen": "RESULTS Compared with: Adult male · Sinus of Valsalva · age 19.9 y · LVOT view, diastole · SCMR 2025 Table 67 VALUE AGE GROUP REFERENCE Z STATUS Absolute 30.0 mm — — Reference interpretation unavailable SCMR 2025 aortic ",
+  "copy": "Aortic size calculator [Adult male · Sinus of Valsalva · age 19.9 y · LVOT view, diastole · SCMR 2025 Table 67]: Absolute 30.0 mm (reference interpretation unavailable) — CMR Reference 2026.11-eval3 (evaluation release; validation incomplete); SCMR 2025 refere"
+ },
+ {
+  "id": "P21",
+  "screen": "32.0 | ≥32%: associated with right-sided HF and adverse outcomes in TR (source method: 1.5 T MOLLI)",
+  "copy": "Tricuspid regurgitation calculator [RV stroke volume − pulmonary forward flow]: Liver ECV 32.0% (≥32%: associated with right-sided HF and adverse outcomes in TR (source method: 1.5 T MOLLI)) — CMR Reference 2026.11-eval3 (evaluation release; validation incompl"
+ },
+ {
+  "id": "P22",
+  "screen": "— | Not calculated: hematocrit must be a percentage between 15 and 65 (for example 42, not 0.42)",
+  "copy": "(nothing copied)"
+ },
+ {
+  "id": "P23",
+  "screen": "26.2 | Not interpreted: choose a sequence-matched SCMR 2025 set or enter your center range",
+  "copy": "ECV calculator [1.5 T · no center range · no sequence-matched SCMR set]: ECV 26.2% (not interpreted: choose a sequence-matched SCMR 2025 set or enter your center range); Partition coefficient λ 0.451; ΔR1 myocardium 1.222; ΔR1 blood 2.708; native T1 1000 ms (n"
+ }
+]
