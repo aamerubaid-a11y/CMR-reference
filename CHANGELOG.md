@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026.11-rc4 (branch remediation/audit-2026-11; code commit 66b1c15; build cmr-ref-df1f2551d3)
+Owner case-review decisions (OWNER_CHECKLIST §C2):
+- P2 precision: one decimal (two for ratios and valve areas), rounded once; the displayed value is what is copied and graded, everywhere (chambers, valve calculators, aortic diameter and z, ECV/T1/T2). Adaptive extra decimals removed. Example: 52.96 → 53.0 · Within reference. Side effect: aortic case P19 (36.22 mm, z 2.04) now shows +2.0 · Within ±2 SD.
+- P3 HF: LVEF <50% → "HFrEF range if clinical HF (LVEF <50%; ESC 2026)"; HFmrEF removed.
+- P7 Check inputs: prominent alert at the top of the results; the fields involved are outlined and set `aria-invalid`.
+- P9 Khan: graded on the whole-number LAVi (62.4 mild, 62.5 moderate); the source line says which value was graded.
+- P10 AR RF ≥32%: "≥32%: associated with death or HF events", with the source; "not a severity grade" wording removed from the label, source line and valve table.
+- P15 AS PC mean gradient ≥40: "Severe (≥40 mmHg)", ACC/AHA 2020 Table 13; note that PC-MRI can underestimate.
+- P18 liver iron: concentration calculated (Wood 2005, 1.5 T; 3 T via Storey 2007, labelled preliminary), in mg/g and µmol/g, with severity bands as shown on the Columbia T2* calculator.
+- P23 ECV/T1: with no center range and no sequence chosen, compared with every SCMR 2025 Table 90/89 set at the field strength ("Within k of n"), labelled not sequence-matched with a center range preferred. New optional native T1 sequence selector (Table 89).
+- Iron results table scroll region focusable (axe). Mild wording: "35 to <45" style bands where values now carry one decimal.
+- Tests: suite2 215 (see VALIDATION.md for replaced, moved and new tests); axe_extra_rc4.js; aorta sweep compares z with the displayed diameter.
+
 ## 2026.11-rc3 (branch remediation/audit-2026-11; code commit 442a377; build cmr-ref-c9f86960bf)
 - Evidence: 30 abstract-dependent markers (17 class 1, 13 class 2) plus 8 removed secondary claims (MARKER_INVENTORY.md). Labels narrowed to their source population or endpoint where needed: HF categories (clinical HF), AR LVESVi and AR RF ≥32% (prognostic "High risk", not "Severe"), Hinojar (severe TR), Xu ARVC (both thresholds; LV-involvement caveat), secondary MR (LVEF <50%), effective RVEF, forward SV ÷ RVESV, Kany ("below the mild-AS limit"), Thornton, Kwak, Geva, RACI. Unverified secondary claims removed.
 - Licensing: THIRD_PARTY_NOTICES.txt (tesseract.js stack, compiled libraries, English model, fonts) shipped and cached offline. About adds the CC BY 4.0 attribution for the SCMR values, the font OFL text, and the notices pointer (LICENSING.md).

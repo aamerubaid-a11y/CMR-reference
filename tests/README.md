@@ -9,3 +9,4 @@
 - `axe.js`: axe-core accessibility scan (paths inside need editing).
 - `suite_original.js` + `harness_original.js`: the original audit suite, kept unchanged for comparison.
 - `results/`: results from the remediation (r1) and release-candidate (rc1) runs.
+- `axe_extra_rc4.js`: axe-core scan of rc4 states (Check-inputs alert, iron with liver LIC, ECV/T1 fallback, AR, AS) in both themes.

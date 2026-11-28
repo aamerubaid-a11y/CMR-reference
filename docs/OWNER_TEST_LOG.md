@@ -1,4 +1,4 @@
-# Owner device-test log (2026.11-rc3)
+# Owner device-test log (2026.11-rc3, then rc4)
 
 Results the owner reported in chat. This is a record of observations, **not** an approval: the approval record
 (OWNER_CHECKLIST §D) stays blank until the owner fills it in.
@@ -26,3 +26,11 @@ context. Device model and iOS version were not recorded; add them in §D.
 - Android (no device; pending a colleague's real phone).
 - Section C cases.
 - Decisions A1–A5e.
+
+## Session 2 (pending): rc4 retest on iPhone Safari
+
+rc4 (commit 66b1c15, cache `cmr-ref-df1f2551d3`) implements the owner's P1–P23 decisions (OWNER_CHECKLIST §C2).
+Because the application changed, the rc3 results above do not carry over automatically. Suggested short retest:
+smoke test with `2026.11-rc4` in About, then P2, P3, P7, P9, P10, P15, P18, P19 and P23 from §C2, plus B13
+(landscape and largest text) on the iron and ECV pages. Nothing recorded yet.
+

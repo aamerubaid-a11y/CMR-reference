@@ -1,4 +1,6 @@
-# Marker inventory: 2026.11-rc3 (authoritative)
+# Marker inventory: 2026.11-rc4 (authoritative)
+
+**rc4 update (owner decisions, 27 Nov 2026):** M01 now follows the ESC 2026 HF guideline (owner decision P3); M26 states its source only (P10). Wording columns below show rc4. Line numbers are from rc3 (442a377) and have shifted in rc4 (66b1c15); search for the wording instead. Counts are unchanged. Also changed in rc4 but outside this abstract-marker inventory: Khan grades use whole-number values (P9), AS PC mean gradient ≥40 is "Severe (≥40 mmHg)" (P15), liver iron concentration is calculated (P18), and ECV/T1 are compared with all SCMR 2025 sets when no center range is entered (P23).
 
 Generated from `docs/EVIDENCE.md` (abstract-dependent marker table) and checked against the rc3 implementation
 (`src/index.html` at commit 442a377, identical in 41a2b8f). Every active wording below was found verbatim in the code. Line numbers are
@@ -14,7 +16,7 @@ Applicability to a given centre or patient is a separate question (OWNER_CHECKLI
 
 | ID | EVIDENCE.md row | Marker (where shown) | Class | Active wording (rc3) | Source (PMID) | Implementation |
 |---|---|---|---|---|---|---|
-| M01 | 1 | HF LVEF categories (LV page) | 2 | HFrEF range if clinical HF (≤40%) / HFmrEF range if clinical HF (41–49%) | Bozkurt 2021 (PMID 33605000) | src/index.html:804 (markers()) |
+| M01 | 1 | HF LVEF category (LV page) | 2 | HFrEF range if clinical HF (LVEF <50%; ESC 2026) | ESC 2026 HF guideline, Eur Heart J (owner decision P3; verified from the ESC press release of 28 Aug 2026, full text not read). rc3: Bozkurt 2021 (PMID 33605000) | src/index.html:804 (markers()) |
 | M02 | 2 | LVESVi ≥45 in AR (LV page AR context; AR calculator) | 2 | ≥45 mL/m²: higher risk in chronic ≥moderate AR with no or minimal symptoms / ≥45: higher risk in chronic ≥moderate AR, no or minimal symptoms | Hashimoto 2022 (35857306) | src/index.html:1117 (avResults()); src/index.html:807 (markers()) |
 | M03 | 3 | LVEDV >246 mL in AR (LV page; AR calculator) | 1 | >246 mL: progression to surgery in AR / Above 246 mL | Myerson 2012 (22879371) | src/index.html:1118 (avResults()); src/index.html:808 (markers()) |
 | M04 | 4 | RV/LV EDV ratio ≥1.27 in TR (RV page; TR calculator) | 1 | ≥1.27: higher mortality in TR / ≥1.27 (weak, HR 1.47) | Zhang RS 2025 (40614565) | src/index.html:1089 (avResults()); src/index.html:812 (markers()) |
@@ -39,7 +41,7 @@ Applicability to a given centre or patient is a separate question (OWNER_CHECKLI
 | M23 | 22 | RVOT conduit <18 mm (stenosis calculator) | 1 | <18 mm: obstruction likely | Martinez 1992 (1634669) | src/index.html:1063 (avResults()) |
 | M24 | 23 | RV mass/volume ≥0.45 in repaired TOF (stenosis calculator) | 2 | ≥0.45: higher death/VT risk after PVR in repaired TOF | Geva 2018 (30030416) | src/index.html:1064 (avResults()) |
 | M25 | 24 | Cardiac iron equation 45.0·T2*^−1.22, 1.5 T only (iron calculator) | 1 | mg/g dry weight (1.5 T only) | Carpenter 2011 (21444881; full text) | src/index.html:671 (tableView()) |
-| M26 | 25 | AR RF ≥32% (AR calculator) | 2 | High risk (≥32%: death or HF events) | Hashimoto 2022 (35857306) | src/index.html:1113 (avResults()) |
+| M26 | 25 | AR RF ≥32% (AR calculator) | 2 | ≥32%: associated with death or HF events (source line: Hashimoto 2022, chronic ≥moderate AR) | Hashimoto 2022 (35857306) | src/index.html:1113 (avResults()) |
 | M27 | 26 | AR holodiastolic flow reversal (AR calculator) | 1 | Supports significant AR / Absence does not exclude | Kammerlander 2019 (30448117) | src/index.html:1120 (avResults()) |
 | M28 | 27 | Primary MR RVol ≥60 mL (MR calculator) | 1 | Severe (≥60 mL: mortality) | Penicka 2018 (29269390) | src/index.html:1104 (avResults()) |
 | M29 | 28 | TR fraction ≥50% (TR calculator) | 1 | Highest-risk stratum (≥50%) | Zhan 2020 (32912443) | src/index.html:1082 (avResults()) |

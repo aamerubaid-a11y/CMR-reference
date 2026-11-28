@@ -55,6 +55,12 @@ The app cites single thresholds from many papers (EVIDENCE.md). Each is stated a
 tables, figures or text are reproduced. Kang 2026 (Fig 1C cut-points) and Khan 2019 (Table 2 bands) are
 numerical thresholds only. No permission question was identified, but none was investigated beyond this.
 
+rc4: the liver iron severity bands (normal <37, mild 37–150, moderate 151–300, severe >300 µmol/g) are taken as
+shown on the Columbia T2* calculator (columbia.edu/~sj2532/t2_star.html), which is credited in the iron page
+sources with the four papers it cites (Anderson 2011, Carpenter 2011, Wood 2005, Storey 2007). Only four
+numerical cut-points and two published equations are used; no page text, layout or code from the site is copied.
+SCMR 2025 Table 89 (already listed above) is now also used as a native T1 reference set, under the same CC BY 4.0 attribution.
+
 ## 5. Distribution blockers
 
 | Item | Pilot | Public release |

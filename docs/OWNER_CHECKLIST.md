@@ -1,7 +1,8 @@
-# Owner checklist: CMR Reference 2026.11-rc3 (remaining actions only)
+# Owner checklist: CMR Reference 2026.11-rc4 (remaining actions only)
 
-**Candidate:** branch `remediation/audit-2026-11`. App code is commit **442a377**, build cache
-`cmr-ref-c9f86960bf`, version `2026.11-rc3 (release candidate: evaluation use; validation incomplete)`. Later
+**Candidate:** branch `remediation/audit-2026-11`. App code is commit **66b1c15**, build cache
+`cmr-ref-df1f2551d3`, version `2026.11-rc4 (release candidate: evaluation use; validation incomplete)`.
+rc4 implements the owner's P1–P23 decisions (section C2). rc3 (442a377) device results are in OWNER_TEST_LOG.md. Later
 commits change documentation and test results only. Production (`main`, 0af7de5) is unchanged.
 
 Each item is tagged:
@@ -15,21 +16,21 @@ No approval below is filled in.
 
 ## 0. Smoke test first (about 10 minutes, one phone; it does not replace B–D)
 
-1. About shows `2026.11-rc3 (release candidate: evaluation use; validation incomplete)`.
+1. About shows `2026.11-rc4 (release candidate: evaluation use; validation incomplete)`.
 2. LV volumes, EF and mass: enter EDV 100 and ESV 47.4. You should see EF **52.6** with "Select the reference population". Tap **Adult male**: **52.6 · Below reference**.
 3. Change ESV to 40: **60.0 · Within reference**.
-4. Copy result and paste into Notes: it includes "Adult male", "SCMR 2025 Table 2", "EF 60.0% (within reference)" and "2026.11-rc3".
+4. Copy result and paste into Notes: it includes "Adult male", "SCMR 2025 Table 2", "EF 60.0% (within reference)" and "2026.11-rc4".
 5. New patient: all fields are empty and no population is selected.
 
 ## A. Clinical applicability decisions [CLIN]
 
 The evidence for each feature is checked (MARKER_INVENTORY.md). These rows are only about fit to your patients
 and methods. You have not yet given your acquisition method, strain software or pilot population, so
-applicability is **unconfirmed** for every row. Every feature below is enabled in rc3. No decision blocks the
+applicability is **unconfirmed** for every row. Every feature below is enabled in rc4. No decision blocks the
 pilot. Any label you do not approve before the pilot is withheld: the number is still shown, without the label.
 That is a small change, followed by a retest and a new candidate ID.
 
-| # | Feature | Current behaviour (rc3) | Evidence population / method | Decision needed | Fallback if not approved |
+| # | Feature | Current behaviour (rc4) | Evidence population / method | Decision needed | Fallback if not approved |
 |---|---|---|---|---|---|
 | A1 | Khan LA grades (full-text source; outside the 30-marker abstract inventory) | Mild/moderate/severe shown beside the SCMR comparison, including "mild" while "Within reference" | 10,890 CMR referrals; biplane, appendage excluded; mild not independently prognostic | Show "mild"? Keep the >62 → moderate convention? | Khan moderate/severe only |
 | A2 | Kang LVEDVi grades (full-text source) | DCM/ICM context only; note if contouring differs | DCM derivation, DCM/ICM validation; papillary muscles in blood pool | Keep enabled in DCM/ICM? | Withhold Kang grades |
@@ -49,7 +50,7 @@ Run these on iPhone Safari and Android Chrome (see **P** for how). Record pass o
 
 | # | Action | Expected |
 |---|---|---|
-| B1 | Home → About and disclaimer | rc3 wording; attribution and licence notices visible |
+| B1 | Home → About and disclaimer | rc4 wording; attribution and licence notices visible |
 | B2 | LV: population buttons | "Reference population required"; none selected |
 | B3 | EDV 100, ESV 47.4, then tap Adult male | 52.6 with "Select…", then 52.6 · Below reference |
 | B4 | Change ESV to 40 | 60.0 · Within reference, updates immediately; no overlapping text |
@@ -62,14 +63,14 @@ Run these on iPhone Safari and Android Chrome (see **P** for how). Record pass o
 | B11 | Iron: cardiac T2* 9.9 with no field strength, then choose 1.5 T | No category, then "Severe iron overload (<10 ms)", 2.74 mg/g; the copy includes T2* 9.9 ms |
 | B12 | VoiceOver or TalkBack on a home row | Item and "Favorite: <name>" announced as separate controls; pressed state announced |
 | B13 | Landscape; largest text size | No horizontal scroll |
-| B14 *(HTTPS or localhost only)* | Install to the home screen | Opens full screen; About shows rc3 |
+| B14 *(HTTPS or localhost only)* | Install to the home screen | Opens full screen; About shows rc4 |
 | B15 *(HTTPS or localhost only)* | Airplane mode, then reopen | Works offline; THIRD_PARTY_NOTICES.txt opens |
-| B16 *(HTTPS or localhost only)* | Back online, reopen | Still rc3 (stale-cache check: RELEASE_CHECKLIST §E) |
+| B16 *(HTTPS or localhost only)* | Back online, reopen | Still rc4 (stale-cache check: RELEASE_CHECKLIST §E) |
 
 ## C. Cases to review [CLIN]
 
-Expected outputs below are what this build shows, recorded by `tests/owner_cases.js`
-(`tests/results/final-owner-cases.txt`). They are **not** clinician-verified. Record what you see and whether
+Expected outputs below are what the **rc3** build showed, recorded by `tests/owner_cases.js`
+(`tests/results/final-owner-cases.txt`). For rc4 see C2. They are **not** clinician-verified. Record what you see and whether
 you agree. Population is Adult male unless stated; leave BSA blank unless given.
 
 | Case | Inputs and reference configuration | Expected number (how it is computed) | Reference comparison | Separate clinical interpretation (source) | Your judgment needed on |
@@ -103,6 +104,45 @@ For each case, also press Copy result and confirm the copied text agrees with th
 | Case | What you saw (screen) | Copy agrees? | Agree with output? | Note |
 |---|---|---|---|---|
 | P1–P23 | | | | |
+
+
+### C2. Owner decisions on P1–P23 (owner, 27 Nov 2026) and what rc4 shows
+
+Recorded from the owner's messages in the review session. These are case-review decisions, **not** the approval
+record in D, which stays blank. "rc4 change" = the decision required an application change. Screen output recorded
+by `tests/owner_cases.js` on rc4 (`tests/results/owner-cases-rc4.json`); still not clinician-verified.
+
+| Case | Owner decision | rc4 change | rc4 screen (value / labels) |
+|---|---|---|---|
+| P1 | Agree, no change | No | 52.6 / Below reference |
+| P2 | Round to one decimal; label by the displayed value (Option A) | Yes | 53.0 / Within reference |
+| P3 | EF <50% = HFrEF (ESC 2026) | Yes | 40.0 / Below reference / HFrEF range if clinical HF (LVEF <50%; ESC 2026) |
+| P4 | Keep Kang lines separate, with source notes; physician decides (A2) | No | 150.0 / Above reference / Kang: moderate dilation (150–199) |
+| P5 | Agree | No | 120.0 / Select the reference population |
+| P6 | Agree: no adult reference under 18 | No | 120.0 / Reference interpretation unavailable under 18 y |
+| P7 | Highlight the inputs more prominently | Yes | Alert at the top of results: "Check inputs: end-systolic volume is not smaller than end-diastolic volume…"; EDV and ESV fields outlined in red (aria-invalid); no SV or EF |
+| P8 | Keep Khan mild label (A1); use the papers for grading | No | 56.1 / Above reference / Khan: mild enlargement (52–62) |
+| P9 | Use the paper; whole-number bands (62.4 mild, 62.5 moderate) | Yes | 62.1 / Above reference / Khan: mild enlargement (52–62) |
+| P10 | Keep prognostic wording; state the source; drop "not a severity grade" | Yes | 32.0 / ≥32%: associated with death or HF events |
+| P11 | Agree with wording | No | 55.0 / ≤55%: meets the stage C2 LVEF criterion if AR is chronic and severe |
+| P12 | Agree with stratification | No | 40.0 / High risk (≥40%) |
+| P13 | Acceptable | No | 40.1 / Severe (>40%) |
+| P14 | Agree | No | 1.00 / Severe (≤1.0) |
+| P15 | PC-MRI mean gradient ≥40 = severe range | Yes | 40.0 / Severe (≥40 mmHg) |
+| P16 | Agree | No | R2* 101 s⁻¹ · 2.74 mg/g / Severe iron overload (<10 ms) |
+| P17 | Agree | No | R2* 185 s⁻¹ · no mg/g (equation calibrated at 1.5 T) / Severe iron overload (<5.5 ms) |
+| P18 | Calculate LIC (Columbia calculator, Wood 2005, Storey 2007) | Yes | R2* 125 s⁻¹ · 3.4 mg/g · 60 µmol/g / Mild (37–150 µmol/g) |
+| P19 | Agree | No | 36.2 mm · z +2.0 / **Within ±2 SD** (rc3: z +2.04, Above +2 SD). Consequence of P2: the diameter and z are rounded before grading |
+| P20 | Agree | No | 30.0 mm · no z / Reference interpretation unavailable |
+| P21 | Agree | No | 32.0 / ≥32%: associated with right-sided HF and adverse outcomes in TR (source method: 1.5 T MOLLI) |
+| P22 | Agree | No | No ECV / Not calculated: hematocrit must be a percentage between 15 and 65; copy refused |
+| P23 | Without a center range, use the SCMR normal values | Yes | 26.2% / Within all 5 SCMR 2025 ranges at 1.5 T (not sequence-matched; center range preferred). Native T1 1000 ms: within 7 of 9 Table 89 ranges |
+
+Notes for the rc4 retest:
+- **P19 changed outcome** because of P2: 36.22 mm displays as 36.2 and z as +2.0, so it is graded Within ±2 SD. Please confirm this is acceptable, or say if the aorta should be graded on the unrounded z.
+- **P18 sources:** Wood 2005 Eq 2 (owner-confirmed from a screenshot; the primary full text was not readable here), Storey 2007 (3 T, preliminary, n=34), and the severity bands as shown on the Columbia T2* calculator (columbia.edu/~sj2532/t2_star.html), which cites Anderson 2011, Carpenter 2011, Wood 2005 and Storey 2007. The primary source of the bands themselves is not stated on the site.
+- **P23:** SCMR 2025 gives T1 and ECV ranges only per vendor and sequence (Tables 89 and 90) and says site-specific ranges must be established. With no center range and no sequence chosen, the app reports how many of the listed sets the value falls within. A native T1 sequence selector was added (Table 89).
+- **P3:** ESC 2026 HF guideline (Eur Heart J, Aug 2026). ACC/AHA 2022 still uses ≤40 / 41–49; the app now shows only the ESC category.
 
 ---
 
@@ -144,9 +184,8 @@ These stay withheld unless you decide otherwise:
 - supranormal LVEF (ADJUDICATION Q1);
 - repaired-TOF RV labels and the Geva count (Q2);
 - echo-derived tiers (Q3);
-- liver iron concentration;
 - AS grey zone;
-- generic ECV tiers;
+- generic ECV tiers (rc4 compares ECV/T1 with the SCMR 2025 sets instead, P23);
 - borderline LV mass;
 - EACVI Simpson LA tiers.
 
