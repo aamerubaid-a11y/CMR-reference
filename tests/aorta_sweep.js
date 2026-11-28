@@ -1,5 +1,5 @@
 const fs=require('fs');const src=fs.readFileSync(process.argv[2]||'/home/claude/work/cmr-ref/index.html','utf8');
-const dsrc=src.slice(src.indexOf('function D(x,dp,cuts)'),src.indexOf('function fmt(x,k,cuts)'));const code=dsrc+src.slice(src.indexOf('const DEC='),src.indexOf('function aoView'));
+const dsrc=src.slice(src.indexOf('function Q(x,d)'),src.indexOf('const DP='));const code=dsrc+src.slice(src.indexOf('const DEC='),src.indexOf('function aoView'));
 const {AO,aoState,aoResults}=new Function('esc','REF','sexLabel',code+';return {AO,aoState,aoResults}')(x=>x,'',x=>x==='m'?'Adult male':x==='f'?'Adult female':'');
 const strip=h=>h.replace(/<tr><td>/g,'\n@@').replace(/<[^>]+>/g,'|').replace(/\|+/g,'|');
 // 1. exact boundary + idx sweep
@@ -15,7 +15,9 @@ for(const lvl of Object.keys(AO)){const A=AO[lvl];if(A.pct)continue;for(const sx
    const want=z>2-1e-9&&z>2?'Above +2 SD':(z<-2?'Below −2 SD':'Within ±2 SD');
    // exact ±2 may differ by rounding of v to 3 decimals; allow only within-boundary
    const okp=(Math.abs(z)===2)?true:pill===want;
-   if(Math.abs(zz-z)>0.06||!okp){bad++;console.log('BAD',lvl,sx,kind,A.groups[i],nm,v,t)}}})}}}
+   // rc4: diameter rounded to its display precision and z to 1 dp before classification (owner P2), so allow 0.1
+   const zd=(parseFloat(t[1])-m)/s;
+   if(Math.abs(zz-zd)>0.051||Math.abs(zz-z)>0.15||!okp){bad++;console.log('BAD',lvl,sx,kind,A.groups[i],nm,v,t)}}})}}}
 console.log('sweep',tot,'bad',bad);
 // 2. age edge cases
 for(const [lvl,ages] of [['sinus',[19,19.9,20,29.9,30,79.9,80,95]],['annulus',[69.9,70,75]],['asc',[44,45,54.9,55,84.9,85,90]]]){
