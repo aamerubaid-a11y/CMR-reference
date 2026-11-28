@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026.11-eval4 (code commit 8372877; build cmr-ref-e89599153d)
+- Removed the "Under 18 y" population option from the chamber calculators and the Report page (no validated pediatric reference data); an "Adults only (18 y and older)" note is shown instead. No other change.
+
 ## 2026.11-eval3 (branch release/2026.11-eval3; code commit ce1bdf9; build cmr-ref-bc8b4440f1)
 - Final evaluation release. Home grouped calculator index; carried population/BSA labelled as shared for this patient; example placeholders; notices header names the release; home chip wrapping fixed.
 - Tests refreshed (suite2 219/0) and a full end-to-end sweep added (119/0); service-worker update check added. Package README rewritten.

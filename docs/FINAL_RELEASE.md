@@ -1,9 +1,9 @@
-# Final evaluation release: 2026.11-eval3
+# Final evaluation release: 2026.11-eval4
 
-**Shareable for colleague evaluation** as described in RELEASE_NOTES_2026.11-eval3.md. Branch
-`release/2026.11-eval3`; application commit `ce1bdf9`; cache `cmr-ref-bc8b4440f1`; version `2026.11-eval3
-(evaluation release; validation incomplete)`. Verification: VALIDATION.md. Not merged, not deployed.
-Package `CMR-Reference-2026.11-eval3.zip`; its SHA-256 is recorded in RELEASE_NOTES (package section).
+**Shareable for colleague evaluation** as described in RELEASE_NOTES_2026.11-eval4.md. Branch
+`release/2026.11-eval4`; application commit `8372877`; cache `cmr-ref-e89599153d`; version `2026.11-eval4
+(evaluation release; validation incomplete)`. Verification: VALIDATION.md. eval3 was deployed to GitHub Pages on 28 Nov 2026 (main bd8ae97, owner-approved); eval4 is not deployed.
+Package `CMR-Reference-2026.11-eval4.zip`; its SHA-256 is recorded in RELEASE_NOTES (package section).
 
 ---
 

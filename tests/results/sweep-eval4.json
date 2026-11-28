@@ -1,0 +1,597 @@
+[
+ {
+  "id": "PAGES-listed",
+  "pass": true,
+  "detail": "32 pages: lv-vol,lv-dia,lv-wall,rv-vol,la-vol,ra-vol,ao-calc,ao-root,ao-sinus,ao-asc,ao-thor,valves,aortic-valve,mitral-valve,tricuspid-valve,pulmonic-valve,ecv,iron,lv-ev,rv-ev,la-ev,ar-calc,av-ev,as-calc,mr-calc,mr-ev,sten-calc,tr-calc,tr-ev,pr-calc,t1,t2s"
+ },
+ {
+  "id": "FILL-lv-vol",
+  "pass": true,
+  "detail": "RESULTS Show range bars Compared with: Sex not selected · Papillary in mass · all ages pooled · SCMR 2025 Table 2 LVEF % 50.0 Select the reference population LV"
+ },
+ {
+  "id": "OPTIONS-lv-vol",
+  "pass": true,
+  "detail": "3 segment buttons, 0 selectors exercised"
+ },
+ {
+  "id": "COPY-lv-vol",
+  "pass": true,
+  "detail": "LV volumes, EF and mass [Adult female · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EF 50.0% (below reference); EDV idx 52.6 (within reference); E"
+ },
+ {
+  "id": "CLEAR-lv-vol",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-lv-vol",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "PAGE-lv-dia",
+  "pass": true,
+  "detail": "LV diameters DIAMETER MEN LL–UL WOMEN LL–UL End-diastolic, 4ch (mm) 39–59 36–56 End-diastolic, 4ch/BSA (mm/m²) 18–34 19–"
+ },
+ {
+  "id": "PAGE-lv-wall",
+  "pass": true,
+  "detail": "LV wall thickness by segment SEGMENT MEN LL–UL (MM) WOMEN LL–UL (MM) BASAL 1 Anterior 5–11 4–9 2 Anteroseptal 6–12 5–10 "
+ },
+ {
+  "id": "FILL-rv-vol",
+  "pass": true,
+  "detail": "RESULTS Show range bars Compared with: Sex not selected · Trabeculae in volume · SCMR 2025 Table 9 RVEF % 50.0 Select the reference population RVEDV/BSA mL/m² 5"
+ },
+ {
+  "id": "OPTIONS-rv-vol",
+  "pass": true,
+  "detail": "3 segment buttons, 0 selectors exercised"
+ },
+ {
+  "id": "COPY-rv-vol",
+  "pass": true,
+  "detail": "RV volumes, EF and mass [Adult female · Trabeculae in volume · SCMR 2025 Table 9]: EF 50.0% (within reference); EDV idx 52.6 (within reference); ESV idx 26.3 (w"
+ },
+ {
+  "id": "CLEAR-rv-vol",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-rv-vol",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-la-vol",
+  "pass": true,
+  "detail": "RESULTS Show range bars Compared with: Sex not selected · Biplane area-length · SCMR 2025 Table 13 Max LA volume/BSA mL/m² 52.6 Select the reference population "
+ },
+ {
+  "id": "OPTIONS-la-vol",
+  "pass": true,
+  "detail": "3 segment buttons, 0 selectors exercised"
+ },
+ {
+  "id": "COPY-la-vol",
+  "pass": true,
+  "detail": "LA volumes and function [Adult female · Biplane area-length · SCMR 2025 Table 13]: Max vol idx 52.6 (within reference; Khan: mild enlargement (52–62)); ejection"
+ },
+ {
+  "id": "CLEAR-la-vol",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-la-vol",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-ra-vol",
+  "pass": true,
+  "detail": "RESULTS Show range bars Compared with: Sex not selected · Single-plane (4ch) · SCMR 2025 Table 18 Max RA volume/BSA mL/m² 52.6 Select the reference population R"
+ },
+ {
+  "id": "OPTIONS-ra-vol",
+  "pass": true,
+  "detail": "3 segment buttons, 0 selectors exercised"
+ },
+ {
+  "id": "COPY-ra-vol",
+  "pass": true,
+  "detail": "RA volumes and function [Adult female · Single-plane (4ch) · SCMR 2025 Table 18]: Max vol idx 52.6 (within reference); ejection fraction 50.0% (within reference"
+ },
+ {
+  "id": "CLEAR-ra-vol",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-ra-vol",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-ao-calc",
+  "pass": true,
+  "detail": "RESULTS Compared with: Sex not selected · Sinus of Valsalva · age 50 y · LVOT view, diastole · SCMR 2025 Table 67 VALUE AGE GROUP REFERENCE Z STATUS Absolute 32"
+ },
+ {
+  "id": "OPTIONS-ao-calc",
+  "pass": true,
+  "detail": "2 segment buttons, 1 selectors exercised"
+ },
+ {
+  "id": "COPY-ao-calc",
+  "pass": true,
+  "detail": "Aortic size calculator [Adult female · Ascending aorta (MESA) · age 50 y · Axial phase-contrast magnitude, at the right PA · SCMR 2025 Table 65]: Absolute 32.0 "
+ },
+ {
+  "id": "CLEAR-ao-calc",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-ao-calc",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "PAGE-ao-root",
+  "pass": true,
+  "detail": "Aortic root by age and sex AGE (YEARS) MEN MEAN ± SD WOMEN MEAN ± SD ANNULUS (MM) 20–29 22.3 ± 2.2 19.1 ± 1.7 30–39 21.9"
+ },
+ {
+  "id": "PAGE-ao-sinus",
+  "pass": true,
+  "detail": "Aortic sinus, cross-sectional, by age AGE (YEARS) MEN MEAN ± SD WOMEN MEAN ± SD CUSP–COMMISSURE (MM) 20–29 30.4 ± 3.3 26"
+ },
+ {
+  "id": "PAGE-ao-asc",
+  "pass": true,
+  "detail": "Ascending aorta by age (MESA) AGE (YEARS) MEN MEDIAN (5TH–95TH) WOMEN MEDIAN (5TH–95TH) ASCENDING AORTA (MM) 45–54 32 (2"
+ },
+ {
+  "id": "PAGE-ao-thor",
+  "pass": true,
+  "detail": "Thoracic aorta levels LEVEL MEN WOMEN ALL AGES, CROSS-SECTIONAL BSSFP (TABLE 64) Ascending aorta (mm) 26.7 ± 3.9 (19–35)"
+ },
+ {
+  "id": "PAGE-valves",
+  "pass": true,
+  "detail": "Valve disease grading PARAMETER MILD / MODERATE SEVERE AORTIC STENOSIS Peak velocity, PC (m/s) Mild >1.65 (CMR, Kany 202"
+ },
+ {
+  "id": "FILL-aortic-valve",
+  "pass": true,
+  "detail": "RESULTS Regurgitant fraction % 50.0 ≥32%: associated with death or HF events Hashimoto 2022 (≥32%, chronic ≥moderate AR with no or minimal symptoms; death, HF h"
+ },
+ {
+  "id": "OPTIONS-aortic-valve",
+  "pass": true,
+  "detail": "0 segment buttons, 3 selectors exercised"
+ },
+ {
+  "id": "COPY-aortic-valve",
+  "pass": true,
+  "detail": "Aortic regurgitation calculator [LV stroke volume − pulmonary forward flow]: ESV idx 26.3 (below 45); EDV 100.0 mL (≤246 mL); EF 40.0% (≤55%: meets the stage C2"
+ },
+ {
+  "id": "CLEAR-aortic-valve",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-aortic-valve",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-mitral-valve",
+  "pass": true,
+  "detail": "RESULTS LVEDV/BSA mL/m² 52.6 <100 Myerson 2016 (primary MR). Kang tiers not used in MR LA emptying fraction % 40.0 ≥30% Altes 2025 (n=284, aHR 3.78)"
+ },
+ {
+  "id": "OPTIONS-mitral-valve",
+  "pass": true,
+  "detail": "0 segment buttons, 4 selectors exercised"
+ },
+ {
+  "id": "COPY-mitral-valve",
+  "pass": true,
+  "detail": "Mitral regurgitation calculator [secondary MR · mitral inflow − aortic forward flow]: emptying fraction 40.0% (≥30%); LGE papillary muscle / inferolateral wall "
+ },
+ {
+  "id": "CLEAR-mitral-valve",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-mitral-valve",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-tricuspid-valve",
+  "pass": true,
+  "detail": "RESULTS Effective RVEF (forward flow ÷ RVEDV) % 50.0 >25% Zhang 2026 JACC CVI (derivation n=453; external validation in 2 cohorts) Forward SV ÷ RVESV 1.00 >0.57"
+ },
+ {
+  "id": "OPTIONS-tricuspid-valve",
+  "pass": true,
+  "detail": "0 segment buttons, 3 selectors exercised"
+ },
+ {
+  "id": "COPY-tricuspid-valve",
+  "pass": true,
+  "detail": "Tricuspid regurgitation calculator [4D flow / direct (not graded)]: Effective RVEF 50.0% (>25%); Forward SV ÷ RVESV 1.00 (>0.57); EDV idx 52.6 (<100); EF 50.0% "
+ },
+ {
+  "id": "CLEAR-tricuspid-valve",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-tricuspid-valve",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-pulmonic-valve",
+  "pass": true,
+  "detail": "RESULTS PR fraction % 50.0 Severe (>40%) Grading bands from the 2022 CMR native-regurgitation review (Frontiers CV Med): mild <20, moderate 20–40, severe >40. C"
+ },
+ {
+  "id": "OPTIONS-pulmonic-valve",
+  "pass": true,
+  "detail": "0 segment buttons, 1 selectors exercised"
+ },
+ {
+  "id": "COPY-pulmonic-valve",
+  "pass": true,
+  "detail": "Pulmonic regurgitation calculator [RV stroke volume − LV stroke volume]: EDV idx 52.6 (not interpreted: repaired-TOF thresholds awaiting adjudication); ESV idx "
+ },
+ {
+  "id": "CLEAR-pulmonic-valve",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-pulmonic-valve",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-ecv",
+  "pass": true,
+  "detail": "RESULTS Show range bars ECV % 26.2 Not interpreted: choose a sequence-matched SCMR 2025 set or enter your center range SCMR 2025 Table 90 gives ranges per vendo"
+ },
+ {
+  "id": "OPTIONS-ecv",
+  "pass": true,
+  "detail": "0 segment buttons, 3 selectors exercised"
+ },
+ {
+  "id": "COPY-ecv",
+  "pass": true,
+  "detail": "ECV calculator [3 T · no center range · SCMR 2025 Table 90: Siemens · SASHA]: ECV 26.2% (above reference (>23.4%)); Partition coefficient λ 0.451; ΔR1 myocardiu"
+ },
+ {
+  "id": "CLEAR-ecv",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-ecv",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-iron",
+  "pass": true,
+  "detail": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 1000 ms — Select the field strength Liver, 1.5T T2* 1000 ms · R2* 1 s⁻¹ 0.2 mg/g · 4 µmol/g Severity not graded: ban"
+ },
+ {
+  "id": "OPTIONS-iron",
+  "pass": true,
+  "detail": "2 segment buttons, 0 selectors exercised"
+ },
+ {
+  "id": "COPY-iron",
+  "pass": true,
+  "detail": "Iron overload calculator [cardiac T2* at 3 T · SCMR 2025 Table 100]: Cardiac T2*, 3 T T2* 1000 ms · R2* 1 s⁻¹ (normal (>12 ms)); Liver, 1.5T T2* 1000 ms · R2* 1"
+ },
+ {
+  "id": "CLEAR-iron",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-iron",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "PAGE-lv-ev",
+  "pass": true,
+  "detail": "LV severity: evidence Calculate Evidence Draft for review. Studies chosen for size, prospective outcome data and CMR-bas"
+ },
+ {
+  "id": "PAGE-rv-ev",
+  "pass": true,
+  "detail": "RV severity: evidence Calculate Evidence Draft for review. Studies chosen for size, prospective outcome data and CMR-bas"
+ },
+ {
+  "id": "PAGE-la-ev",
+  "pass": true,
+  "detail": "LA severity: evidence Calculate Evidence Draft for review. Studies chosen for size, prospective outcome data and CMR-bas"
+ },
+ {
+  "id": "FILL-ar-calc",
+  "pass": true,
+  "detail": "RESULTS Regurgitant fraction % 50.0 ≥32%: associated with death or HF events Hashimoto 2022 (≥32%, chronic ≥moderate AR with no or minimal symptoms; death, HF h"
+ },
+ {
+  "id": "OPTIONS-ar-calc",
+  "pass": true,
+  "detail": "0 segment buttons, 3 selectors exercised"
+ },
+ {
+  "id": "COPY-ar-calc",
+  "pass": true,
+  "detail": "Aortic regurgitation calculator [LV stroke volume − pulmonary forward flow]: ESV idx 26.3 (below 45); EDV 100.0 mL (≤246 mL); EF 40.0% (≤55%: meets the stage C2"
+ },
+ {
+  "id": "CLEAR-ar-calc",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-ar-calc",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "PAGE-av-ev",
+  "pass": true,
+  "detail": "Aortic valve Calculate Evidence Draft for review. Studies chosen for size, prospective outcome data and CMR-based measur"
+ },
+ {
+  "id": "FILL-as-calc",
+  "pass": true,
+  "detail": "RESULTS Planimetric AVA cm² 1.50 >1.0: does not exclude severe SCMR 2025 Table 57 (≤1.0, adapted from echo). CMR planimetry overestimates TEE by about 15% (Debl"
+ },
+ {
+  "id": "OPTIONS-as-calc",
+  "pass": true,
+  "detail": "0 segment buttons, 2 selectors exercised"
+ },
+ {
+  "id": "COPY-as-calc",
+  "pass": true,
+  "detail": "Aortic stenosis calculator : AVA 1.50 cm² (>1.0: does not exclude severe); AVA idx 0.79 (>0.6); Vmax 2.0 m/s (<4: does not exclude severe); Mean gradient 20.0 m"
+ },
+ {
+  "id": "CLEAR-as-calc",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-as-calc",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-mr-calc",
+  "pass": true,
+  "detail": "RESULTS LVEDV/BSA mL/m² 52.6 <100 Myerson 2016 (primary MR). Kang tiers not used in MR LA emptying fraction % 40.0 ≥30% Altes 2025 (n=284, aHR 3.78)"
+ },
+ {
+  "id": "OPTIONS-mr-calc",
+  "pass": true,
+  "detail": "0 segment buttons, 4 selectors exercised"
+ },
+ {
+  "id": "COPY-mr-calc",
+  "pass": true,
+  "detail": "Mitral regurgitation calculator [secondary MR · mitral inflow − aortic forward flow]: emptying fraction 40.0% (≥30%); LGE papillary muscle / inferolateral wall "
+ },
+ {
+  "id": "CLEAR-mr-calc",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-mr-calc",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "PAGE-mr-ev",
+  "pass": true,
+  "detail": "Mitral valve Calculate Evidence Draft for review. Studies chosen for size, prospective outcome data and CMR-based measur"
+ },
+ {
+  "id": "FILL-sten-calc",
+  "pass": true,
+  "detail": "RESULTS Planimetric MVA (cine) cm² 1.50 <1.65: corresponds to cath MVA ≤1.5 Djavidani 2005 JACC (n=22; sens 89%, spec 75%). CMR reads about 5% larger than cath "
+ },
+ {
+  "id": "OPTIONS-sten-calc",
+  "pass": true,
+  "detail": "0 segment buttons, 0 selectors exercised"
+ },
+ {
+  "id": "COPY-sten-calc",
+  "pass": true,
+  "detail": "Mitral valve: stenosis : MVA 1.50 cm² (<1.65: corresponds to cath MVA ≤1.5); Pressure half-time 1000.0 ms (not graded on CMR); Mean gradient 20.0 mmHg (not grad"
+ },
+ {
+  "id": "CLEAR-sten-calc",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-sten-calc",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "FILL-tr-calc",
+  "pass": true,
+  "detail": "RESULTS Effective RVEF (forward flow ÷ RVEDV) % 50.0 >25% Zhang 2026 JACC CVI (derivation n=453; external validation in 2 cohorts) Forward SV ÷ RVESV 1.00 >0.57"
+ },
+ {
+  "id": "OPTIONS-tr-calc",
+  "pass": true,
+  "detail": "0 segment buttons, 3 selectors exercised"
+ },
+ {
+  "id": "COPY-tr-calc",
+  "pass": true,
+  "detail": "Tricuspid regurgitation calculator [4D flow / direct (not graded)]: Effective RVEF 50.0% (>25%); Forward SV ÷ RVESV 1.00 (>0.57); EDV idx 52.6 (<100); EF 50.0% "
+ },
+ {
+  "id": "CLEAR-tr-calc",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-tr-calc",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "PAGE-tr-ev",
+  "pass": true,
+  "detail": "Tricuspid valve Calculate Evidence Draft for review. Studies chosen for size, prospective outcome data and CMR-based mea"
+ },
+ {
+  "id": "FILL-pr-calc",
+  "pass": true,
+  "detail": "RESULTS PR fraction % 50.0 Severe (>40%) Grading bands from the 2022 CMR native-regurgitation review (Frontiers CV Med): mild <20, moderate 20–40, severe >40. C"
+ },
+ {
+  "id": "OPTIONS-pr-calc",
+  "pass": true,
+  "detail": "0 segment buttons, 1 selectors exercised"
+ },
+ {
+  "id": "COPY-pr-calc",
+  "pass": true,
+  "detail": "Pulmonic regurgitation calculator [RV stroke volume − LV stroke volume]: EDV idx 52.6 (not interpreted: repaired-TOF thresholds awaiting adjudication); ESV idx "
+ },
+ {
+  "id": "CLEAR-pr-calc",
+  "pass": true,
+  "detail": "all measurement fields empty"
+ },
+ {
+  "id": "NEWPT-pr-calc",
+  "pass": true,
+  "detail": "armed=\"Tap again to clear all\" valuesKeptAfterFirstTap=true after=empty popSelected=0"
+ },
+ {
+  "id": "PAGE-t1",
+  "pass": true,
+  "detail": "Native T1 and ECV Calculate Reference tables FIELD · VENDOR · SEQUENCE NATIVE T1 LL–UL (MS) ECV LL–UL (%) 1.5T GE · MOLL"
+ },
+ {
+  "id": "PAGE-t2s",
+  "pass": true,
+  "detail": "T2* and iron overload Calculate Reference tables IRON LOAD T2* AT 1.5T (MS) T2* AT 3T (MS) Normal >20 >12 Iron overload "
+ },
+ {
+  "id": "INVALID-negative",
+  "pass": true,
+  "detail": "[true,true,\"true\"] copy:SENTINEL"
+ },
+ {
+  "id": "INVALID-implausible",
+  "pass": true,
+  "detail": "EDV 5000 flagged=true"
+ },
+ {
+  "id": "MISSING-empty",
+  "pass": true,
+  "detail": "RESULTS\nShow range bars\n\nCompared with: Adult male · Papillary in mass · all ages pooled · SCMR 2025"
+ },
+ {
+  "id": "STALE-copy-after-edit",
+  "pass": true,
+  "detail": "e 2]: EF 60.0% (within reference); EDV 150.0 mL (within reference); ESV 60.0 mL (within reference); SV 90.0 mL || e 2]: EF 40.0% (below reference); EDV 150.0 mL (within reference); ESV 90.0 mL (above reference); SV 60.0 mL ("
+ },
+ {
+  "id": "STALE-strip",
+  "pass": true,
+  "detail": "LVEF40.0 %Below reference"
+ },
+ {
+  "id": "BARS-persist",
+  "pass": true,
+  "detail": "bars-on after reload=true"
+ },
+ {
+  "id": "FAV-persist",
+  "pass": true,
+  "detail": "[\"true\",\"Favorite: ECV calculator\"] CMR Reference NORMAL VALUES · GRADING · SOURCES RECENT T1, T2 and ECV FAVORITES T1, T2 and ECV CALCULATORS Chambers LV volumes RV volumes LA volumes RA volumes Valves Aortic Mitral Tricuspid Pulmoni"
+ },
+ {
+  "id": "SEARCH-ecv",
+  "pass": true,
+  "detail": "CMR Reference NORMAL VALUES · GRADING · SOURCES ECV calculator 0.55, 1.5 and 3 T · measured hematocrit CALC Aortic valve Regurgitation · stenosis · evidence CAL"
+ },
+ {
+  "id": "REPORT-build",
+  "pass": true,
+  "detail": "CMR Reference NORMAL VALUES · GRADING · SOURCES SCAN A REPORT IMAGE Read measurements from a screenshot or photo of a report and fill the ca || LV [Adult female · Papillary in mass · all ages pooled · SCMR 2025 Table 2]: EF 57.1% (within reference); EDV idx 77.8 ("
+ },
+ {
+  "id": "KEYBOARD-order-LV",
+  "pass": true,
+  "detail": "Back@249 > Favorite: LV volumes, EF@249 > Calculate@87 > Evidence@87 > Adult male@198 > Adult female@198 > ReferenceAll ages · Papi@360 > bsa-lv-vol@431 > Calculate BSA from heigh@485 > a-lv-vol@517 > b-lv-vol@571 > c-lv-vol@625 > Show range bars@713 > Copy result@885 > Clear the values on this@885 "
+ },
+ {
+  "id": "KEYBOARD-focus-visible",
+  "pass": true,
+  "detail": "all visible"
+ },
+ {
+  "id": "OVERFLOW-phone-320",
+  "pass": true,
+  "detail": "none"
+ },
+ {
+  "id": "OVERFLOW-phone-390",
+  "pass": true,
+  "detail": "none"
+ },
+ {
+  "id": "OVERFLOW-landscape-844",
+  "pass": true,
+  "detail": "none"
+ },
+ {
+  "id": "OVERFLOW-tablet-768",
+  "pass": true,
+  "detail": "none"
+ },
+ {
+  "id": "OVERFLOW-desktop-1280",
+  "pass": true,
+  "detail": "none"
+ },
+ {
+  "id": "ZOOM150-390",
+  "pass": true,
+  "detail": "none"
+ },
+ {
+  "id": "NO-FAILED-REQUESTS",
+  "pass": true,
+  "detail": "none"
+ }
+]

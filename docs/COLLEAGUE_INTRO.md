@@ -10,7 +10,7 @@ Several interpretations are deliberately withheld where the evidence was not sec
 shown. Check anything you would put in a report against the cited source.
 
 **How to open it**
-- Web link: https://aamerubaid-a11y.github.io/CMR-reference/ (allow a few minutes after release for the newest version; About should show 2026.11-eval3).
+- Web link: https://aamerubaid-a11y.github.io/CMR-reference/ (allow a few minutes after release for the newest version; About should show 2026.11-eval4).
 - Or, from the ZIP: unzip, then in the `app` folder run `python -m http.server 8080` and open http://localhost:8080.
 - On a phone you can add it to the home screen (Safari: Share → Add to Home Screen; Chrome: Install app). After the
   first online visit it works offline. About shows the version you are using.

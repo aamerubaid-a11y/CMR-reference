@@ -141,7 +141,7 @@ await H.ctx.grantPermissions(['clipboard-read','clipboard-write']).catch(()=>{})
 
 for(const [ef,exp] of [[55,/stage C2/],[55.04,/stage C2/],[55.1,/>55%/]]){const rs=await av('ar-calc',{ef});const r=R(rs,'LVEF');rec(2,`AR-LVEF-${ef}`,'ar-calc',`LVEF ${ef}`,String(exp),'ACC/AHA 2020 Table 15 (C2 LVEF ≤55%)',r.val+' '+r.pills.join('|'),has(r.pills,exp))}
 for(const [mg,exp] of [[39.94,/does not exclude/],[39.95,/^Severe \(≥40 mmHg\)$/],[40,/^Severe \(≥40 mmHg\)$/]]){const rs=await av('as-calc',{mg});const r=R(rs,'Mean gradient (PC)');rec(2,`AS-MG-${mg}`,'as-calc',`MG ${mg}`,String(exp),'ACC/AHA 2020 Table 13 (mean ΔP ≥40)',r.val+' '+r.pills.join('|'),has(r.pills,exp))}
-{await H.open('');await p.click('#nav-report');await p.waitForTimeout(400);const b=await p.$$eval('[data-csex]',a=>a.map(x=>x.textContent));rec(1,'ADULT-ONLY-report','report','Report population choices','Adult male and Adult female only','owner request 28 Nov 2026',b.join('|'),b.join('|')==='Adult male|Adult female')}
+{await H.open('');await p.evaluate(()=>document.getElementById('nav-report').click());await p.waitForTimeout(400);const b=await p.$$eval('[data-csex]',a=>a.map(x=>x.textContent));rec(1,'ADULT-ONLY-report','report','Report population choices','Adult male and Adult female only','owner request 28 Nov 2026',b.join('|'),b.join('|')==='Adult male|Adult female')}
 // ===== rc2 additions =====
 const clip=async()=>{await p.evaluate(()=>navigator.clipboard.writeText('SENTINEL')).catch(()=>{});await p.click('[data-copyres]');await p.waitForTimeout(300);try{return await p.evaluate(()=>navigator.clipboard.readText())}catch(e){return 'ERR'}};
 // liver ECV label and copy carry source method

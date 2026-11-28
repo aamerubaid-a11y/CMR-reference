@@ -1,3 +1,11 @@
+# Validation report: 2026.11-eval4 (branch release/2026.11-eval3)
+
+eval4 = eval3 with the "Under 18 y" population option removed (owner request, 28 Nov 2026); adult-only note shown.
+- **Application commit:** `8372877`; cache `cmr-ref-e89599153d`; version `2026.11-eval4 (evaluation release; validation incomplete)`.
+- **Run 28 Nov 2026, Chromium only, same environment as below:** suite2 222/0 (PEDS-LV/LA replaced by ADULT-ONLY tests on LV, RV, LA, RA and Report); sweep_e2e 119/0; owner cases recorded (P6 now records the no-population state); aorta sweep 580/0; transcription 132/0; sw_offline pass; sw_update eval3 → eval4 pass; http console 18 pages clean; axe 20 page states, no violations. Results in `tests/results/*-eval4*`.
+
+---
+
 # Validation report: 2026.11-eval3 (branch release/2026.11-eval3)
 
 ## Tested artifact
