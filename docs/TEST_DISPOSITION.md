@@ -1,0 +1,89 @@
+# Disposition of the 77 original audit tests on 2026.11-rc3
+
+**eval3 (ce1bdf9):** 25 pass / 52 fail, the same pass/fail set as rc3 and rc4 (`tests/results/original-suite-on-eval3.json`). From eval1 the LVEF heart-failure label is withheld, so LV-EF-40/41/49 now show only the reference comparison; their disposition (presentation change, still failing the original assertion) is unchanged.
+
+**rc4 (66b1c15, build `cmr-ref-df1f2551d3`):** rerun gives 25 pass / 52 fail with the **same pass/fail set** as rc3 (`tests/results/original-suite-on-rc4.json`). Wording in some evidence cells below changed in rc4: the HF label is now "HFrEF range if clinical HF (LVEF <50%; ESC 2026)" for EF 40, 41 and 49, and AR RF 32 shows "≥32%: associated with death or HF events". The dispositions are unchanged.
+
+Run: `node tests/suite_original.js` (original assertions unchanged; one harness line changed because the population buttons moved out of Settings). Chromium, Playwright 1.63, code commit 442a377, build `cmr-ref-c9f86960bf`. Raw output: `tests/results/final-original-suite.json`. Result: 25 pass, 52 fail, all classified below with `tests/dispo.py` and checked by hand. Change from rc2: AR-32 now fails because AR RF ≥32% is labelled a prognostic threshold, not "Severe". No test is in "Valid and exposing an unresolved defect" or "Not executed".
+
+| Original test | Disposition | Reason | Evidence (RC output) | Replacement / covering test |
+|---|---|---|---|---|
+| LV-EDVi-100 | Presentation-only change | Pill wording changed from "Normal/dilation" to SCMR reference wording; same 46–104 (age-band 48–108) interval and same side of it. | `Within reference [mL/m² · normal 46–104]` | REF-lv-vol-LVEDV/BSA-104, -104.1, -108, -108.1 |
+| LV-EDVi-101 | Presentation-only change | Pill wording changed from "Normal/dilation" to SCMR reference wording; same 46–104 (age-band 48–108) interval and same side of it. | `Within reference [mL/m² · normal 46–104]` | REF-lv-vol-LVEDV/BSA-104, -104.1, -108, -108.1 |
+| LV-EDVi-104 | Presentation-only change | Pill wording changed from "Normal/dilation" to SCMR reference wording; same 46–104 (age-band 48–108) interval and same side of it. | `Within reference [mL/m² · normal 46–104]` | REF-lv-vol-LVEDV/BSA-104, -104.1, -108, -108.1 |
+| LV-EDVi-105 | Superseded by sourced behaviour change | "Dilation" grade came from Kang tiers, now shown only in the DCM/ICM context; general context shows "Above reference" only. | `Above reference [mL/m² · normal 46–104]` | REF-lv-vol-LVEDV/BSA-104.1, KANG-general |
+| LV-EDVi-age | Presentation-only change | Pill wording changed from "Normal/dilation" to SCMR reference wording; same 46–104 (age-band 48–108) interval and same side of it. | `Within reference [mL/m² · normal 48–108]` | REF-lv-vol-LVEDV/BSA-104, -104.1, -108, -108.1 |
+| LV-EDVi-F91 | Presentation-only change | Female UL 91: wording only; classification unchanged. | `Within reference` | REF-lv-vol-LVEDV/BSA-91, -91.1 |
+| LV-Kang-149 | Superseded by sourced behaviour change | Kang grades are derived in DCM/ICM and are now shown only in that context; the original test ran in the general context, where they are withheld. | `Above reference` | KANG-m-100 … KANG-m-200, KANG-f-* (DCM/ICM context); KANG-general (withheld) |
+| LV-Kang-150 | Superseded by sourced behaviour change | Kang grades are derived in DCM/ICM and are now shown only in that context; the original test ran in the general context, where they are withheld. | `Above reference` | KANG-m-100 … KANG-m-200, KANG-f-* (DCM/ICM context); KANG-general (withheld) |
+| LV-Kang-199 | Superseded by sourced behaviour change | Kang grades are derived in DCM/ICM and are now shown only in that context; the original test ran in the general context, where they are withheld. | `Above reference` | KANG-m-100 … KANG-m-200, KANG-f-* (DCM/ICM context); KANG-general (withheld) |
+| LV-Kang-200 | Superseded by sourced behaviour change | Kang grades are derived in DCM/ICM and are now shown only in that context; the original test ran in the general context, where they are withheld. | `Above reference` | KANG-m-100 … KANG-m-200, KANG-f-* (DCM/ICM context); KANG-general (withheld) |
+| LV-EF-40 | Presentation-only change | HF category still shown, now worded "HFrEF/HFmrEF range if clinical HF" (Bozkurt 2021 defines these for symptomatic HF). | `40.0 Below reference / HFrEF range if clinical HF (≤40%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
+| LV-EF-41 | Presentation-only change | HF category still shown, now worded "HFrEF/HFmrEF range if clinical HF" (Bozkurt 2021 defines these for symptomatic HF). | `41.0 Below reference / HFmrEF range if clinical HF (41–49%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
+| LV-EF-49 | Presentation-only change | HF category still shown, now worded "HFrEF/HFmrEF range if clinical HF" (Bozkurt 2021 defines these for symptomatic HF). | `49.0 Below reference / HFmrEF range if clinical HF (41–49%) [% · normal 53–79]` | HF-40.0, HF-40.1, HF-49.9, HF-50.0 |
+| LV-EF-50 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `50.0 Below reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
+| LV-EF-52 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `52.0 Below reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
+| LV-EF-53 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `53.0 Within reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
+| LV-EF-70 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `70.0 Within reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
+| LV-EF-71 | Superseded by sourced behaviour change | "Supranormal" 71–79 tier removed: not in SCMR 2025; 71 is within the 53–79 reference. | `71.0 Within reference [% · normal 53–79]` | REF-lv-vol-EF-79, -79.1 |
+| LV-EF-79 | Presentation-only change | "Below normal"/"Normal" relabelled "Below/Within reference"; same 53–79 interval. | `79.0 Within reference [% · normal 53–79]` | REF-lv-vol-EF-53, -52.9, -79, -79.1 |
+| LV-EF-80 | Still valid and passing | Passes unchanged on the RC. | `80.0 Above reference [% · normal 53–79]` | retained as-is |
+| LV-EF-round | Still valid and passing | Passes unchanged on the RC. | `52.6% · Below reference` | ROUND, PREC-LVEF |
+| LV-M-147 | Presentation-only change | Wording only; same 78–169 interval and side. | `Within reference [g · normal 78–169]` | REF-lv-vol-LV mass-169, -169.1 |
+| LV-M-148 | Superseded by sourced behaviour change | "Borderline" mass tier removed: no source; values within 78–169 reference. | `Within reference [g · normal 78–169]` | REF-lv-vol-LV mass-169, -169.1 |
+| LV-M-169 | Superseded by sourced behaviour change | "Borderline" mass tier removed: no source; values within 78–169 reference. | `Within reference [g · normal 78–169]` | REF-lv-vol-LV mass-169, -169.1 |
+| LV-M-170 | Still valid and passing | Passes unchanged on the RC. | `Above reference [g · normal 78–169]` | retained as-is |
+| LV-M-171 | Presentation-only change | Wording only; same 78–169 interval and side. | `Above reference [g · normal 78–169]` | REF-lv-vol-LV mass-169, -169.1 |
+| LV-ESV>EDV | Superseded by sourced behaviour change | App now shows "Check inputs" in the results card; original harness looks only in the old warning element. Behaviour verified in new test. | `no EF row · warn: none ` | ESV>EDV |
+| LV-neg | Still valid and passing | Passes unchanged on the RC. | `[] · held true Volume looks too large for mL; check the value.` | retained as-is |
+| LV-BSA0 | Still valid and passing | Passes unchanged on the RC. | `LVEDV,LVESV,LVSV,LVEF · BSA is usually 0.5–3.5 m².` | retained as-is |
+| DEF-sex | Still valid and passing | Passes unchanged on the RC. | `Settings summary: All ages · Papillary in mass` | NOSEX |
+| RESET | Superseded by sourced behaviour change | Reset split into "Clear this page (keeps population and BSA)" and "New patient (clears everything)"; original clicked the first and expected the second. | `BSA after reset "1.95", All ages · Papillary in mass` | RESET |
+| COPY | Still valid and passing | Passes unchanged on the RC. | `LV volumes, EF and mass [Adult female · Papillary in mass · all ages pooled · SCMR 2025 Ta` | COPY, PREC-COPY |
+| XFER | Still valid and passing | Passes unchanged on the RC. | `RV opens with BSA "?", All ages · Papillary in mass` | XFER |
+| RV-EF-F-47 | Presentation-only change | Wording only ("Within/Below reference"); same 47–75 interval. | `Within reference [% · normal 47–75]` | REF-rv-vol-EF-47, -46.9 |
+| RV-EF-F-46 | Still valid and passing | Passes unchanged on the RC. | `Below reference [% · normal 47–75]` | retained as-is |
+| RV-EF-F-45 | Still valid and passing | Passes unchanged on the RC. | `Below reference [% · normal 47–75]` | retained as-is |
+| RV-EF-F-44 | Superseded by sourced behaviour change | "Reduced" tier came from 3D-echo partitions (Muraru 2020); withheld for CMR. Value still flagged "Below reference". | `Below reference [% · normal 47–75]` | REF-rv-vol-EF-46.9 (+ ADJUDICATION Q3) |
+| RV-EF-F-mass-48 | Still valid and passing | Passes unchanged on the RC. | `Below reference [% · normal 49–77]` | retained as-is |
+| LA-56 | Presentation-only change | Khan tiers now a separate marker line ("Khan: mild enlargement (52–62)" etc.); SCMR reference pill shown independently. Old test expected one combined label. | `Within reference / Khan: mild enlargement (52–62)` | KHAN-51.9 … KHAN-73.1 |
+| LA-57 | Presentation-only change | Khan tiers now a separate marker line ("Khan: mild enlargement (52–62)" etc.); SCMR reference pill shown independently. Old test expected one combined label. | `Above reference / Khan: mild enlargement (52–62)` | KHAN-51.9 … KHAN-73.1 |
+| LA-62 | Presentation-only change | Khan tiers now a separate marker line ("Khan: mild enlargement (52–62)" etc.); SCMR reference pill shown independently. Old test expected one combined label. | `Above reference / Khan: mild enlargement (52–62)` | KHAN-51.9 … KHAN-73.1 |
+| LA-63 | Presentation-only change | Khan tiers now a separate marker line ("Khan: mild enlargement (52–62)" etc.); SCMR reference pill shown independently. Old test expected one combined label. | `Above reference / Khan: moderate enlargement (63–73)` | KHAN-51.9 … KHAN-73.1 |
+| LA-73 | Presentation-only change | Khan tiers now a separate marker line ("Khan: mild enlargement (52–62)" etc.); SCMR reference pill shown independently. Old test expected one combined label. | `Above reference / Khan: moderate enlargement (63–73)` | KHAN-51.9 … KHAN-73.1 |
+| LA-74 | Presentation-only change | Khan tiers now a separate marker line ("Khan: mild enlargement (52–62)" etc.); SCMR reference pill shown independently. Old test expected one combined label. | `Above reference / Khan: severe enlargement (>73)` | KHAN-51.9 … KHAN-73.1 |
+| AR-14.9 | Still valid and passing | Passes unchanged on the RC. | `14.9 Mild (<15%)` | retained as-is |
+| AR-15 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `15.0 Intermediate (15 to <32%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
+| AR-31.9 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `31.9 Intermediate (15 to <32%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
+| AR-32 | Superseded by sourced behaviour change | rc3: AR RF ≥32% relabelled "High risk (≥32%: death or HF events)" — Hashimoto 2022 reports a prognostic threshold, not a severity grade. | `32.0 High risk (≥32%: death or HF events)` | ar-calc RF {fwd:100,rev:32} |
+| MRp-19.9 | Still valid and passing | Passes unchanged on the RC. | `19.9 Mild (<20%)` | retained as-is |
+| MRp-20.0 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `20.0 Intermediate (20–40%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
+| MRp-40.0 | Presentation-only change | "Moderate" relabelled "Intermediate", matching the source wording; same cut-points. | `40.0 Intermediate (20–40%)` | ar-calc RF 15/31.9; mr-calc RF primary 20/40 |
+| MRp-40.1 | Still valid and passing | Passes unchanged on the RC. | `40.1 Severe (>40%)` | retained as-is |
+| MRs-19.9 | Still valid and passing | Passes unchanged on the RC. | `19.9 Mild (<20%)` | retained as-is |
+| MRs-20.0 | Still valid and passing | Passes unchanged on the RC. | `20.0 Moderate (20–34%; functional MR with LVEF <50%)` | retained as-is |
+| MRs-34.9 | Still valid and passing | Passes unchanged on the RC. | `34.9 Moderate (20–34%; functional MR with LVEF <50%)` | retained as-is |
+| MRs-35.0 | Still valid and passing | Passes unchanged on the RC. | `35.0 Severe (≥35%; functional MR with LVEF <50%)` | retained as-is |
+| TR-19.9 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `19.9 Below the 20% risk threshold` | tr-calc-TR fraction (all pf values) |
+| TR-20.0 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `20.0 Elevated risk (20 to <40%)` | tr-calc-TR fraction (all pf values) |
+| TR-39.9 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `39.9 Elevated risk (20 to <40%)` | tr-calc-TR fraction (all pf values) |
+| TR-40.0 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `40.0 High risk (≥40%)` | tr-calc-TR fraction (all pf values) |
+| TR-49.9 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `49.9 High risk (≥40%)` | tr-calc-TR fraction (all pf values) |
+| TR-50.0 | Presentation-only change | TR fraction now labelled by the outcome-risk strata it comes from (20/40/50 %), not severity grades; same cut-points. TR-50 fails on capitalisation only. | `50.0 Highest-risk stratum (≥50%)` | tr-calc-TR fraction (all pf values) |
+| PR-19.9 | Still valid and passing | Passes unchanged on the RC. | `19.9 Mild (<20%)` | retained as-is |
+| PR-20 | Still valid and passing | Passes unchanged on the RC. | `20.0 Moderate (20–40%)` | retained as-is |
+| PR-40 | Still valid and passing | Passes unchanged on the RC. | `40.0 Moderate (20–40%)` | retained as-is |
+| PR-40.1 | Still valid and passing | Passes unchanged on the RC. | `40.1 Severe (>40%)` | retained as-is |
+| PR-indirect-neg | Superseded by sourced behaviour change | Same as above: explicit "Check inputs" message is shown where the old harness does not look. | `Empty results, no message` | PR-indirect-neg |
+| AS-AVA-0.99 | Still valid and passing | Passes unchanged on the RC. | `Severe (≤1.0)` | retained as-is |
+| AS-AVA-1 | Based on an incorrect original expectation | Original expected AVA 1.0 to be grey zone; ACC/AHA 2020 defines severe as AVA ≤1.0 cm². App is correct. | `Severe (≤1.0)` | as-calc-Planimetric AVA {ava:1} |
+| AS-AVA-1.3 | Superseded by sourced behaviour change | Grey-zone/"unlikely" tiers (1.0–1.3) not supported for CMR planimetry; app now says ">1.0: does not exclude severe". | `>1.0: does not exclude severe` | as-calc-Planimetric AVA {ava:1.01} |
+| AS-AVA-1.31 | Superseded by sourced behaviour change | Grey-zone/"unlikely" tiers (1.0–1.3) not supported for CMR planimetry; app now says ">1.0: does not exclude severe". | `>1.0: does not exclude severe` | as-calc-Planimetric AVA {ava:1.01} |
+| ECV-calc | Still valid and passing | Passes unchanged on the RC. | `26.2 Not interpreted: choose a sequence-matched reference set or enter your center range` | retained as-is |
+| ECV-hctfrac | Still valid and passing | Passes unchanged on the RC. | `— · held true · Hematocrit is usually 15–65 %.` | HCT-fraction, HCT-switch, HCT-report (fraction now gives no ECV; percentage required) |
+| FE-20.1 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20.1 ms — Select the field strength Cardiac ir` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
+| FE-20 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20 ms — Select the field strength Cardiac iron` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
+| FE-10 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 10 ms — Select the field strength Cardiac iron` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
+| FE-9.9 | Superseded by sourced behaviour change | Iron grading now requires choosing 1.5 T or 3 T before any category is shown (3 T cut-offs differ). | `RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 9.9 ms — Select the field strength Cardiac iro` | FE-1.5-20.1, -20, -10, -9.9; FE-3-*; FE-none-25 |
+
+**Counts:** Presentation-only change: 32; Superseded by sourced behaviour change: 19; Still valid and passing: 25; Based on an incorrect original expectation: 1; total 77

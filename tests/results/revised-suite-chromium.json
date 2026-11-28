@@ -1,0 +1,1582 @@
+[
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-104",
+  "mod": "lv-vol",
+  "input": "m {} LVEDV/BSA 104",
+  "expect": "/^Within reference$/",
+  "prov": "SCMR 2025 T2 male UL 104 (inclusive)",
+  "actual": "104.0 Within reference [mL/m² · normal 46–104]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-104.1",
+  "mod": "lv-vol",
+  "input": "m {} LVEDV/BSA 104.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T2 male UL 104",
+  "actual": "104.1 Above reference [mL/m² · normal 46–104]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-45.9",
+  "mod": "lv-vol",
+  "input": "m {} LVEDV/BSA 45.9",
+  "expect": "/^Below reference$/",
+  "prov": "SCMR 2025 T2 male LL 46",
+  "actual": "45.9 Below reference [mL/m² · normal 46–104]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-91",
+  "mod": "lv-vol",
+  "input": "f {} LVEDV/BSA 91",
+  "expect": "/^Within reference$/",
+  "prov": "SCMR 2025 T2 female UL 91",
+  "actual": "91.0 Within reference [mL/m² · normal 46–91]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-91.1",
+  "mod": "lv-vol",
+  "input": "f {} LVEDV/BSA 91.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T2 female UL 91",
+  "actual": "91.1 Above reference [mL/m² · normal 46–91]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-108",
+  "mod": "lv-vol",
+  "input": "m {\"age\":0} LVEDV/BSA 108",
+  "expect": "/^Within reference$/",
+  "prov": "SCMR 2025 T5 male 20–29 UL 108",
+  "actual": "108.0 Within reference [mL/m² · normal 48–108]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-108.1",
+  "mod": "lv-vol",
+  "input": "m {\"age\":0} LVEDV/BSA 108.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T5 male 20–29 UL 108",
+  "actual": "108.1 Above reference [mL/m² · normal 48–108]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LVEDV/BSA-90.1",
+  "mod": "lv-vol",
+  "input": "f {\"method\":\"vol\"} LVEDV/BSA 90.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T3 female UL 90",
+  "actual": "90.1 Above reference [mL/m² · normal 46–90]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LV mass-169",
+  "mod": "lv-vol",
+  "input": "m {} LV mass 169",
+  "expect": "/^Within reference$/",
+  "prov": "SCMR 2025 T2 male mass UL 169",
+  "actual": "169.0 Within reference [g · normal 78–169]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-LV mass-169.1",
+  "mod": "lv-vol",
+  "input": "m {} LV mass 169.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T2 male mass UL 169",
+  "actual": "169.1 Above reference [g · normal 78–169]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-rv-vol-RVEDV/BSA-99.1",
+  "mod": "rv-vol",
+  "input": "f {\"method\":\"vol\"} RVEDV/BSA 99.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T9 female UL 99",
+  "actual": "99.1 Above reference [mL/m² · normal 44–99]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-la-vol-Max LA volume/BSA-56.1",
+  "mod": "la-vol",
+  "input": "m {} Max LA volume/BSA 56.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T13 biplane male UL 56",
+  "actual": "56.1 Above reference | Khan: mild enlargement (52–62) [mL/m² · normal 16–56]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-la-vol-Max LA volume/BSA-56",
+  "mod": "la-vol",
+  "input": "f {\"method\":\"simpson\"} Max LA volume/BSA 56",
+  "expect": "/^Within reference$/",
+  "prov": "SCMR 2025 T13 Simpson female UL 56",
+  "actual": "56.0 Within reference [mL/m² · normal 25–56]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-ra-vol-Max RA volume/BSA-56.1",
+  "mod": "ra-vol",
+  "input": "f {} Max RA volume/BSA 56.1",
+  "expect": "/^Above reference$/",
+  "prov": "SCMR 2025 T18 single-plane female UL 56",
+  "actual": "56.1 Above reference [mL/m² · normal 15–56]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-ra-vol-Max RA volume/BSA-78",
+  "mod": "ra-vol",
+  "input": "m {\"method\":\"simpson\"} Max RA volume/BSA 78",
+  "expect": "/^Within reference$/",
+  "prov": "SCMR 2025 T18 Simpson male UL 78",
+  "actual": "78.0 Within reference [mL/m² · normal 31–78]",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-EF-53",
+  "mod": "lv-vol",
+  "input": "m EDV 100 ESV 47",
+  "expect": "/^Within/",
+  "prov": "SCMR 2025 T2 male LVEF LL 53",
+  "actual": "53.0 Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-EF-52.9",
+  "mod": "lv-vol",
+  "input": "m EDV 100 ESV 47.1",
+  "expect": "/^Below/",
+  "prov": "SCMR 2025 T2 male LL 53",
+  "actual": "52.9 Below reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-EF-79",
+  "mod": "lv-vol",
+  "input": "m EDV 100 ESV 21",
+  "expect": "/^Within/",
+  "prov": "SCMR 2025 T2 male UL 79 (no supranormal label)",
+  "actual": "79.0 Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-lv-vol-EF-79.1",
+  "mod": "lv-vol",
+  "input": "m EDV 100 ESV 20.9",
+  "expect": "/^Above/",
+  "prov": "SCMR 2025 T2 male UL 79",
+  "actual": "79.1 Above reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-rv-vol-EF-47",
+  "mod": "rv-vol",
+  "input": "f EDV 100 ESV 53",
+  "expect": "/^Within/",
+  "prov": "SCMR 2025 T9 female RVEF LL 47",
+  "actual": "47.0 Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-rv-vol-EF-46.9",
+  "mod": "rv-vol",
+  "input": "f EDV 100 ESV 53.1",
+  "expect": "/^Below/",
+  "prov": "SCMR 2025 T9 female LL 47",
+  "actual": "46.9 Below reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-rv-vol-EF-49",
+  "mod": "rv-vol",
+  "input": "f EDV 100 ESV 51",
+  "expect": "/^Within/",
+  "prov": "SCMR 2025 T8 female LL 49",
+  "actual": "49.0 Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "REF-rv-vol-EF-48.9",
+  "mod": "rv-vol",
+  "input": "f EDV 100 ESV 51.1",
+  "expect": "/^Below/",
+  "prov": "SCMR 2025 T8 female LL 49",
+  "actual": "48.9 Below reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "HF-40.0",
+  "mod": "lv-vol",
+  "input": "LVEF 40.0",
+  "expect": "/reduced EF \\(≤40/",
+  "prov": "Bozkurt 2021 Universal Definition",
+  "actual": "Below reference | HF category: reduced EF (≤40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "HF-40.1",
+  "mod": "lv-vol",
+  "input": "LVEF 40.1",
+  "expect": "/mildly reduced/",
+  "prov": "Bozkurt 2021 Universal Definition",
+  "actual": "Below reference | HF category: mildly reduced EF (41–49%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "HF-49.9",
+  "mod": "lv-vol",
+  "input": "LVEF 49.9",
+  "expect": "/mildly reduced/",
+  "prov": "Bozkurt 2021 Universal Definition",
+  "actual": "Below reference | HF category: mildly reduced EF (41–49%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "HF-50.0",
+  "mod": "lv-vol",
+  "input": "LVEF 50.0",
+  "expect": "no HF category",
+  "prov": "Bozkurt 2021 Universal Definition",
+  "actual": "Below reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-m-100",
+  "mod": "lv-vol",
+  "input": "DCM/ICM m LVEDVi 100",
+  "expect": "no Kang label",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-m-100.1",
+  "mod": "lv-vol",
+  "input": "DCM/ICM m LVEDVi 100.1",
+  "expect": "Kang mild",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Within reference | Kang: mild dilation (100–149)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-m-149.9",
+  "mod": "lv-vol",
+  "input": "DCM/ICM m LVEDVi 149.9",
+  "expect": "Kang mild",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Above reference | Kang: mild dilation (100–149)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-m-150",
+  "mod": "lv-vol",
+  "input": "DCM/ICM m LVEDVi 150",
+  "expect": "Kang moderate",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Above reference | Kang: moderate dilation (150–199)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-m-199.9",
+  "mod": "lv-vol",
+  "input": "DCM/ICM m LVEDVi 199.9",
+  "expect": "Kang moderate",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Above reference | Kang: moderate dilation (150–199)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-m-200",
+  "mod": "lv-vol",
+  "input": "DCM/ICM m LVEDVi 200",
+  "expect": "Kang severe",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Above reference | Kang: severe dilation (≥200)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-f-90",
+  "mod": "lv-vol",
+  "input": "DCM/ICM f LVEDVi 90",
+  "expect": "no Kang label",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-f-90.1",
+  "mod": "lv-vol",
+  "input": "DCM/ICM f LVEDVi 90.1",
+  "expect": "Kang mild",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Above reference | Kang: mild dilation (90–129)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-f-130",
+  "mod": "lv-vol",
+  "input": "DCM/ICM f LVEDVi 130",
+  "expect": "Kang moderate",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Above reference | Kang: moderate dilation (130–169)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-f-170",
+  "mod": "lv-vol",
+  "input": "DCM/ICM f LVEDVi 170",
+  "expect": "Kang severe",
+  "prov": "Kang 2026 JACC Fig 1C",
+  "actual": "Above reference | Kang: severe dilation (≥170)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KANG-general",
+  "mod": "lv-vol",
+  "input": "General context, male LVEDVi 160",
+  "expect": "no Kang grade outside DCM/ICM",
+  "prov": "Kang 2026 population = DCM/ICM",
+  "actual": "Above reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KHAN-51.9",
+  "mod": "la-vol",
+  "input": "biplane LAVi 51.9",
+  "expect": "no Khan label",
+  "prov": "Khan 2019 JCMR Table 2",
+  "actual": "Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KHAN-52",
+  "mod": "la-vol",
+  "input": "biplane LAVi 52",
+  "expect": "Khan mild",
+  "prov": "Khan 2019 JCMR Table 2",
+  "actual": "Within reference | Khan: mild enlargement (52–62)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KHAN-62",
+  "mod": "la-vol",
+  "input": "biplane LAVi 62",
+  "expect": "Khan mild",
+  "prov": "Khan 2019 JCMR Table 2",
+  "actual": "Above reference | Khan: mild enlargement (52–62)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KHAN-62.1",
+  "mod": "la-vol",
+  "input": "biplane LAVi 62.1",
+  "expect": "Khan moderate",
+  "prov": "Khan 2019 JCMR Table 2",
+  "actual": "Above reference | Khan: moderate enlargement (63–73)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KHAN-73",
+  "mod": "la-vol",
+  "input": "biplane LAVi 73",
+  "expect": "Khan moderate",
+  "prov": "Khan 2019 JCMR Table 2",
+  "actual": "Above reference | Khan: moderate enlargement (63–73)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "KHAN-73.1",
+  "mod": "la-vol",
+  "input": "biplane LAVi 73.1",
+  "expect": "Khan severe",
+  "prov": "Khan 2019 JCMR Table 2",
+  "actual": "Above reference | Khan: severe enlargement (>73)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "LA-simpson-noTier",
+  "mod": "la-vol",
+  "input": "Simpson LAVi 80",
+  "expect": "reference only, no tier",
+  "prov": "EACVI SD bands withheld",
+  "actual": "Above reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "LACI-25",
+  "mod": "la-vol",
+  "input": "LACI 25%",
+  "expect": "/25% or less/",
+  "prov": "Pezel 2022 MESA (>25%)",
+  "actual": "25% or less",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "LACI-25.1",
+  "mod": "la-vol",
+  "input": "LACI 25.1%",
+  "expect": "/Above 25%/",
+  "prov": "Pezel 2022 MESA (>25%)",
+  "actual": "Above 25% (MESA risk threshold)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVLV-gen-1.2690000000000001",
+  "mod": "rv-vol",
+  "input": "gen ratio 1.2690000000000001",
+  "expect": "/Below 1.27/",
+  "prov": "Altmayer 2018 (normal limit ≥1.27 from Han controls; PH severe ≥2.30)",
+  "actual": "1.27 Below 1.27",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVLV-gen-1.27",
+  "mod": "rv-vol",
+  "input": "gen ratio 1.27",
+  "expect": "/Above published normal/",
+  "prov": "Altmayer 2018 (normal limit ≥1.27 from Han controls; PH severe ≥2.30)",
+  "actual": "1.27 Above published normal limit (≥1.27)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVLV-pah-2.29",
+  "mod": "rv-vol",
+  "input": "pah ratio 2.29",
+  "expect": "no severe label",
+  "prov": "Altmayer 2018 (normal limit ≥1.27 from Han controls; PH severe ≥2.30)",
+  "actual": "2.29 Above published normal limit (≥1.27)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVLV-pah-2.3",
+  "mod": "rv-vol",
+  "input": "pah ratio 2.3",
+  "expect": "/severe RV dilation in PH/",
+  "prov": "Altmayer 2018 (normal limit ≥1.27 from Han controls; PH severe ≥2.30)",
+  "actual": "2.30 Above published normal limit (≥1.27) | ≥2.30: severe RV dilation in PH",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-tr-49.9",
+  "mod": "rv-vol",
+  "input": "tr RVEF 49.9",
+  "expect": "/High risk in severe TR/",
+  "prov": "Hinojar <50",
+  "actual": "Within reference | High risk in severe TR (<50%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-tr-50.0",
+  "mod": "rv-vol",
+  "input": "tr RVEF 50.0",
+  "expect": "/Intermediate risk in severe TR/",
+  "prov": "Hinojar 50–60",
+  "actual": "Within reference | Intermediate risk in severe TR (50–60%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-tr-60.0",
+  "mod": "rv-vol",
+  "input": "tr RVEF 60.0",
+  "expect": "/Intermediate/",
+  "prov": "Hinojar 60 inclusive",
+  "actual": "Within reference | Intermediate risk in severe TR (50–60%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-tr-60.1",
+  "mod": "rv-vol",
+  "input": "tr RVEF 60.1",
+  "expect": "/Lower risk/",
+  "prov": "Hinojar >60",
+  "actual": "Within reference | Lower risk in severe TR (>60%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-pah-36.9",
+  "mod": "rv-vol",
+  "input": "pah RVEF 36.9",
+  "expect": "/High 1-year risk/",
+  "prov": "ASPIRE <37",
+  "actual": "Below reference | High 1-year risk in PAH (<37%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-pah-37.0",
+  "mod": "rv-vol",
+  "input": "pah RVEF 37.0",
+  "expect": "/Intermediate risk in PAH/",
+  "prov": "ASPIRE 37",
+  "actual": "Below reference | Intermediate risk in PAH (37–54%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-pah-54.0",
+  "mod": "rv-vol",
+  "input": "pah RVEF 54.0",
+  "expect": "/Intermediate/",
+  "prov": "ASPIRE 54",
+  "actual": "Within reference | Intermediate risk in PAH (37–54%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-pah-54.1",
+  "mod": "rv-vol",
+  "input": "pah RVEF 54.1",
+  "expect": "/Low risk in PAH/",
+  "prov": "ASPIRE >54",
+  "actual": "Within reference | Low risk in PAH (>54%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-tof-30.0",
+  "mod": "rv-vol",
+  "input": "tof RVEF 30.0",
+  "expect": "/withheld/",
+  "prov": "TOF awaiting adjudication",
+  "actual": "Below reference | Repaired-TOF thresholds withheld",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RVEF-gen-30.0",
+  "mod": "rv-vol",
+  "input": "gen RVEF 30.0",
+  "expect": "reference only",
+  "prov": "general: no RVEF severity",
+  "actual": "Below reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-pah-Max RA volume/BSA-{\"bsa\":1,\"a\":74}",
+  "mod": "ra-vol",
+  "input": "pah {\"bsa\":1,\"a\":74}",
+  "expect": "no marker",
+  "prov": "Bredfelt >74",
+  "actual": "74.0 Within reference",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-pah-Max RA volume/BSA-{\"bsa\":1,\"a\":74.1}",
+  "mod": "ra-vol",
+  "input": "pah {\"bsa\":1,\"a\":74.1}",
+  "expect": "/pre-capillary PH/",
+  "prov": "Bredfelt >74",
+  "actual": "74.1 Within reference | >74 mL/m²: worse outcome in pre-capillary PH",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-tr-RACI (RA min vol ÷ RVEDV)-{\"a\":80,\"b\":61.9,\"rv\":100}",
+  "mod": "ra-vol",
+  "input": "tr {\"a\":80,\"b\":61.9,\"rv\":100}",
+  "expect": "/<0.62/",
+  "prov": "Zhang 2026 RACI (min ÷ RVEDV)",
+  "actual": "0.62 <0.62",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-tr-RACI (RA min vol ÷ RVEDV)-{\"a\":80,\"b\":62,\"rv\":100}",
+  "mod": "ra-vol",
+  "input": "tr {\"a\":80,\"b\":62,\"rv\":100}",
+  "expect": "/≥0.62/",
+  "prov": "Zhang 2026",
+  "actual": "0.62 ≥0.62: higher mortality in functional TR",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-pah-RA reservoir strain-{\"str\":16}",
+  "mod": "ra-vol",
+  "input": "pah {\"str\":16}",
+  "expect": "/High risk in PAH/",
+  "prov": "Guo 2026 <16.1",
+  "actual": "16.0 High risk in PAH (<16.1%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-pah-RA reservoir strain-{\"str\":16.1}",
+  "mod": "ra-vol",
+  "input": "pah {\"str\":16.1}",
+  "expect": "/Intermediate risk in PAH/",
+  "prov": "Guo 2026",
+  "actual": "16.1 Intermediate risk in PAH (16.1–36.8%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-pah-RA reservoir strain-{\"str\":36.9}",
+  "mod": "ra-vol",
+  "input": "pah {\"str\":36.9}",
+  "expect": "/Low risk in PAH/",
+  "prov": "Guo 2026 >36.8",
+  "actual": "36.9 Low risk in PAH (>36.8%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-tr-RA reservoir strain-{\"str\":6.5}",
+  "mod": "ra-vol",
+  "input": "tr {\"str\":6.5}",
+  "expect": "/<6.6%/",
+  "prov": "Kim 2026 <6.6",
+  "actual": "6.5 <6.6% longitudinal strain: RA pressure likely >10 mmHg",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-tr-RA reservoir strain-{\"str\":6.6}",
+  "mod": "ra-vol",
+  "input": "tr {\"str\":6.6}",
+  "expect": "/≥6.6%/",
+  "prov": "Kim 2026 ≥6.6",
+  "actual": "6.6 ≥6.6%",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-arvc-RA reservoir strain-{\"str\":18.5}",
+  "mod": "ra-vol",
+  "input": "arvc {\"str\":18.5}",
+  "expect": "/end-stage/",
+  "prov": "Xu 2026 <18.6",
+  "actual": "18.5 <18.6%: end-stage HF risk in ARVC",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-arvc-RA reservoir strain-{\"str\":22.9}",
+  "mod": "ra-vol",
+  "input": "arvc {\"str\":22.9}",
+  "expect": "/arrhythmic/",
+  "prov": "Xu 2026 <23",
+  "actual": "22.9 <23%: arrhythmic risk in ARVC",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "RA-gen-RA area (4ch, max)-{\"area\":30}",
+  "mod": "ra-vol",
+  "input": "gen {\"area\":30}",
+  "expect": "/Not graded/",
+  "prov": "echo-only bands withheld",
+  "actual": "30.0 Not graded",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "ar-calc-Regurgitant fraction-{\"fwd\":100,\"rev\":14.9}",
+  "mod": "ar-calc",
+  "input": "{\"fwd\":100,\"rev\":14.9}",
+  "expect": "/Mild/",
+  "prov": "Steeds & Myerson 2020 AR RF <15",
+  "actual": "14.9 Mild (<15%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "ar-calc-Regurgitant fraction-{\"fwd\":100,\"rev\":15}",
+  "mod": "ar-calc",
+  "input": "{\"fwd\":100,\"rev\":15}",
+  "expect": "/Intermediate/",
+  "prov": "between published limits",
+  "actual": "15.0 Intermediate (15 to <32%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "ar-calc-Regurgitant fraction-{\"fwd\":100,\"rev\":31.9}",
+  "mod": "ar-calc",
+  "input": "{\"fwd\":100,\"rev\":31.9}",
+  "expect": "/Intermediate/",
+  "prov": "",
+  "actual": "31.9 Intermediate (15 to <32%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "ar-calc-Regurgitant fraction-{\"fwd\":100,\"rev\":32}",
+  "mod": "ar-calc",
+  "input": "{\"fwd\":100,\"rev\":32}",
+  "expect": "/Severe/",
+  "prov": "Hashimoto 2022 ≥32",
+  "actual": "32.0 Severe (≥32%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "ar-calc-Regurgitant volume-{\"fwd\":100,\"rev\":40}",
+  "mod": "ar-calc",
+  "input": "{\"fwd\":100,\"rev\":40}",
+  "expect": "/≤40/",
+  "prov": "Polte 2017 direct >40",
+  "actual": "40 ≤40 mL",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "ar-calc-Regurgitant volume-{\"fwd\":100,\"rev\":40.1}",
+  "mod": "ar-calc",
+  "input": "{\"fwd\":100,\"rev\":40.1}",
+  "expect": "/Severe range/",
+  "prov": "Polte 2017 direct >40",
+  "actual": "40 Severe range (>40 mL)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"p\",\"lvsv\":100,\"fwd\":80.1}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"p\",\"lvsv\":100,\"fwd\":80.1}",
+  "expect": "/Mild/",
+  "prov": "Steeds & Myerson <20",
+  "actual": "19.9 Mild (<20%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"p\",\"lvsv\":100,\"fwd\":80}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"p\",\"lvsv\":100,\"fwd\":80}",
+  "expect": "/Intermediate/",
+  "prov": "",
+  "actual": "20.0 Intermediate (20–40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"p\",\"lvsv\":100,\"fwd\":60}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"p\",\"lvsv\":100,\"fwd\":60}",
+  "expect": "/Intermediate/",
+  "prov": "Myerson >40 exclusive",
+  "actual": "40.0 Intermediate (20–40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"p\",\"lvsv\":100,\"fwd\":59.9}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"p\",\"lvsv\":100,\"fwd\":59.9}",
+  "expect": "/Severe/",
+  "prov": "Myerson 2016 >40",
+  "actual": "40.1 Severe (>40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant volume-{\"t\":\"p\",\"lvsv\":155,\"fwd\":100}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"p\",\"lvsv\":155,\"fwd\":100}",
+  "expect": "/≤55/",
+  "prov": "Myerson 2016 >55",
+  "actual": "55 ≤55 mL",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant volume-{\"t\":\"p\",\"lvsv\":155.1,\"fwd\":100}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"p\",\"lvsv\":155.1,\"fwd\":100}",
+  "expect": "/>55/",
+  "prov": "Myerson 2016",
+  "actual": "55 Severe (>55 mL)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant volume-{\"t\":\"p\",\"lvsv\":160,\"fwd\":100}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"p\",\"lvsv\":160,\"fwd\":100}",
+  "expect": "/≥60/",
+  "prov": "Penicka 2018 ≥60",
+  "actual": "60 Severe (≥60 mL: mortality)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"s\",\"lvsv\":100,\"fwd\":80.1}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"s\",\"lvsv\":100,\"fwd\":80.1}",
+  "expect": "/Mild/",
+  "prov": "Wang 2023",
+  "actual": "19.9 Mild (<20%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"s\",\"lvsv\":100,\"fwd\":80}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"s\",\"lvsv\":100,\"fwd\":80}",
+  "expect": "/Moderate \\(20/",
+  "prov": "Wang 2023 ≥20",
+  "actual": "20.0 Moderate (20–34%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"s\",\"lvsv\":100,\"fwd\":65.1}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"s\",\"lvsv\":100,\"fwd\":65.1}",
+  "expect": "/Moderate/",
+  "prov": "",
+  "actual": "34.9 Moderate (20–34%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "mr-calc-Regurgitant fraction-{\"t\":\"s\",\"lvsv\":100,\"fwd\":65}",
+  "mod": "mr-calc",
+  "input": "{\"t\":\"s\",\"lvsv\":100,\"fwd\":65}",
+  "expect": "/Severe \\(≥35/",
+  "prov": "Wang 2023 ≥35",
+  "actual": "35.0 Severe (≥35%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR fraction-{\"rvsv\":100,\"pf\":80.1}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":80.1}",
+  "expect": "/Below the 20%/",
+  "prov": "Margonato 2025",
+  "actual": "19.9 Below the 20% risk threshold",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR fraction-{\"rvsv\":100,\"pf\":80}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":80}",
+  "expect": "/Elevated risk/",
+  "prov": "Margonato ≥20",
+  "actual": "20.0 Elevated risk (20 to <40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR fraction-{\"rvsv\":100,\"pf\":60.1}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":60.1}",
+  "expect": "/Elevated/",
+  "prov": "",
+  "actual": "39.9 Elevated risk (20 to <40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR fraction-{\"rvsv\":100,\"pf\":60}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":60}",
+  "expect": "/High risk \\(≥40/",
+  "prov": "Margonato ≥40",
+  "actual": "40.0 High risk (≥40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR fraction-{\"rvsv\":100,\"pf\":50}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":50}",
+  "expect": "/Highest-risk/",
+  "prov": "Zhan 2020 ≥50",
+  "actual": "50.0 Highest-risk stratum (≥50%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR volume-{\"rvsv\":100,\"pf\":55}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":55}",
+  "expect": "/Highest risk/",
+  "prov": "Zhan ≥45",
+  "actual": "45 Highest risk (≥45 mL)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR volume-{\"rvsv\":100,\"pf\":65.1}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":65.1}",
+  "expect": "/<35|&lt;35/",
+  "prov": "Wang 2021 ≥35",
+  "actual": "35 <35 mL",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-TR volume-{\"rvsv\":100,\"pf\":65}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":65}",
+  "expect": "/Elevated/",
+  "prov": "Wang 2021 ≥35",
+  "actual": "35 Elevated (35–44 mL)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-Effective RVEF (forward flow ÷ RVEDV)-{\"rvsv\":100,\"pf\":25,\"rvedv\":100}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":25,\"rvedv\":100}",
+  "expect": "/≤25%/",
+  "prov": "Zhang 2026 ≤25",
+  "actual": "25 ≤25%: higher mortality",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-Effective RVEF (forward flow ÷ RVEDV)-{\"rvsv\":100,\"pf\":25.1,\"rvedv\":100}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":25.1,\"rvedv\":100}",
+  "expect": "/>25%/",
+  "prov": "Zhang 2026",
+  "actual": "25 >25%",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-Forward SV ÷ RVESV-{\"rvsv\":100,\"pf\":57,\"rvesv\":100}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":57,\"rvesv\":100}",
+  "expect": "/≤0.57/",
+  "prov": "Margonato 2026 ≤0.57",
+  "actual": "0.57 ≤0.57: RV–PA uncoupling",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-Forward SV ÷ RVESV-{\"rvsv\":100,\"pf\":57.1,\"rvesv\":100}",
+  "mod": "tr-calc",
+  "input": "{\"rvsv\":100,\"pf\":57.1,\"rvesv\":100}",
+  "expect": "/>0.57/",
+  "prov": "",
+  "actual": "0.57 >0.57",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-Liver ECV-{\"lecv\":31.9}",
+  "mod": "tr-calc",
+  "input": "{\"lecv\":31.9}",
+  "expect": "/<32%/",
+  "prov": "Margonato 2025 ≥32",
+  "actual": "32 <32%",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-Liver ECV-{\"lecv\":32}",
+  "mod": "tr-calc",
+  "input": "{\"lecv\":32}",
+  "expect": "/≥32%/",
+  "prov": "",
+  "actual": "32 ≥32%: congestion, higher risk",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-RACI (RA end-diastolic vol ÷ RVEDV)-{\"ra\":61.9,\"rvedv\":100}",
+  "mod": "tr-calc",
+  "input": "{\"ra\":61.9,\"rvedv\":100}",
+  "expect": "/<0.62/",
+  "prov": "Zhang 2026",
+  "actual": "0.62 <0.62",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "tr-calc-RACI (RA end-diastolic vol ÷ RVEDV)-{\"ra\":62,\"rvedv\":100}",
+  "mod": "tr-calc",
+  "input": "{\"ra\":62,\"rvedv\":100}",
+  "expect": "/≥0.62/",
+  "prov": "",
+  "actual": "0.62 ≥0.62: higher risk",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "pr-calc-PR fraction-{\"fwd\":100,\"rev\":19.9}",
+  "mod": "pr-calc",
+  "input": "{\"fwd\":100,\"rev\":19.9}",
+  "expect": "/Mild/",
+  "prov": "Frontiers 2022 review <20",
+  "actual": "19.9 Mild (<20%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "pr-calc-PR fraction-{\"fwd\":100,\"rev\":20}",
+  "mod": "pr-calc",
+  "input": "{\"fwd\":100,\"rev\":20}",
+  "expect": "/Moderate/",
+  "prov": "20–40",
+  "actual": "20.0 Moderate (20–40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "pr-calc-PR fraction-{\"fwd\":100,\"rev\":40}",
+  "mod": "pr-calc",
+  "input": "{\"fwd\":100,\"rev\":40}",
+  "expect": "/Moderate/",
+  "prov": "40 inclusive",
+  "actual": "40.0 Moderate (20–40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "pr-calc-PR fraction-{\"fwd\":100,\"rev\":40.1}",
+  "mod": "pr-calc",
+  "input": "{\"fwd\":100,\"rev\":40.1}",
+  "expect": "/Severe/",
+  "prov": ">40",
+  "actual": "40.1 Severe (>40%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "pr-calc-RVEDV/BSA-{\"fwd\":100,\"rev\":30,\"bsa\":1,\"rvedv\":170}",
+  "mod": "pr-calc",
+  "input": "{\"fwd\":100,\"rev\":30,\"bsa\":1,\"rvedv\":170}",
+  "expect": "/Not interpreted/",
+  "prov": "TOF thresholds withheld",
+  "actual": "170.0 Not interpreted: repaired-TOF thresholds awaiting adjudication",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-Planimetric AVA-{\"ava\":1}",
+  "mod": "as-calc",
+  "input": "{\"ava\":1}",
+  "expect": "/Severe \\(≤1.0/",
+  "prov": "SCMR 2025 Table 57 ≤1.0",
+  "actual": "1.00 Severe (≤1.0)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-Planimetric AVA-{\"ava\":1.01}",
+  "mod": "as-calc",
+  "input": "{\"ava\":1.01}",
+  "expect": "/does not exclude/",
+  "prov": "no grey-zone label",
+  "actual": "1.01 >1.0: does not exclude severe",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-AVA/BSA-{\"ava\":0.6,\"bsa\":1}",
+  "mod": "as-calc",
+  "input": "{\"ava\":0.6,\"bsa\":1}",
+  "expect": "/Severe/",
+  "prov": "SCMR Table 57 ≤0.6",
+  "actual": "0.60 Severe (≤0.6)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-AVA/BSA-{\"ava\":0.61,\"bsa\":1}",
+  "mod": "as-calc",
+  "input": "{\"ava\":0.61,\"bsa\":1}",
+  "expect": "/>0.6|&gt;0.6/",
+  "prov": "",
+  "actual": "0.61 >0.6",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-Peak velocity (PC)-{\"vmax\":3.99}",
+  "mod": "as-calc",
+  "input": "{\"vmax\":3.99}",
+  "expect": "/does not exclude/",
+  "prov": "Table 57 ≥4",
+  "actual": "4.0 <4: does not exclude severe",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-Peak velocity (PC)-{\"vmax\":4}",
+  "mod": "as-calc",
+  "input": "{\"vmax\":4}",
+  "expect": "/Severe \\(≥4/",
+  "prov": "Table 57",
+  "actual": "4.0 Severe (≥4)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-Peak velocity (PC)-{\"vmax\":5}",
+  "mod": "as-calc",
+  "input": "{\"vmax\":5}",
+  "expect": "/Very severe/",
+  "prov": "Table 57 ≥5",
+  "actual": "5.0 Very severe (≥5)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-SV/BSA-{\"sv\":34.9,\"bsa\":1}",
+  "mod": "as-calc",
+  "input": "{\"sv\":34.9,\"bsa\":1}",
+  "expect": "/Low flow/",
+  "prov": "echo definition <35 (Thornton 2022)",
+  "actual": "35 Low flow (<35)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-SV/BSA-{\"sv\":44.9,\"bsa\":1}",
+  "mod": "as-calc",
+  "input": "{\"sv\":44.9,\"bsa\":1}",
+  "expect": "/35–44/",
+  "prov": "Thornton <45",
+  "actual": "45 35–44: higher post-AVR mortality",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-SV/BSA-{\"sv\":45,\"bsa\":1}",
+  "mod": "as-calc",
+  "input": "{\"sv\":45,\"bsa\":1}",
+  "expect": "/≥45/",
+  "prov": "",
+  "actual": "45 ≥45",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-ECV-{\"ecv\":27}",
+  "mod": "as-calc",
+  "input": "{\"ecv\":27}",
+  "expect": "/≤27%/",
+  "prov": "Kwak 2021 >27",
+  "actual": "27 ≤27%",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "as-calc-ECV-{\"ecv\":45}",
+  "mod": "as-calc",
+  "input": "{\"ecv\":45}",
+  "expect": "/Higher risk/",
+  "prov": "no amyloid label",
+  "actual": "45 Higher risk (>27%)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "sten-ms-{\"mva\":1.64}",
+  "mod": "sten-calc",
+  "input": "{\"mva\":1.64}",
+  "expect": "/<1.65/",
+  "prov": "Djavidani 2005",
+  "actual": "1.64 <1.65: corresponds to cath MVA ≤1.5",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "sten-ms-{\"mva\":1.65}",
+  "mod": "sten-calc",
+  "input": "{\"mva\":1.65}",
+  "expect": "/≥1.65/",
+  "prov": "",
+  "actual": "1.65 ≥1.65",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "sten-ms-{\"pht\":200}",
+  "mod": "sten-calc",
+  "input": "{\"pht\":200}",
+  "expect": "/Not graded/",
+  "prov": "echo criterion withheld",
+  "actual": "200 Not graded on CMR",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "sten-ps-{\"pv\":4}",
+  "mod": "sten-calc",
+  "input": "{\"pv\":4}",
+  "expect": "/not graded/",
+  "prov": "Table 57 >4 exclusive",
+  "actual": "4.0 ≤4 m/s: not graded; PC may under-read",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "sten-ps-{\"pv\":4.01}",
+  "mod": "sten-calc",
+  "input": "{\"pv\":4.01}",
+  "expect": "/Severe/",
+  "prov": "Table 57 >4",
+  "actual": "4.0 Severe (>4 m/s)",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-1.5-20.1",
+  "mod": "iron",
+  "input": "1.5 T, T2* 20.1",
+  "expect": "/Normal/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 1.5 T T2* 20.1 ms · R2* 50 s⁻¹ 1.16 mg/g Normal (>20 ms) Cardiac iron in mg/g dry weight; liver iron (LIC) in mg Fe",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-1.5-20",
+  "mod": "iron",
+  "input": "1.5 T, T2* 20",
+  "expect": "/Iron overload/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 1.5 T T2* 20 ms · R2* 50 s⁻¹ 1.16 mg/g Iron overload (10–20 ms) Cardiac iron in mg/g dry weight; liver iron (LIC) i",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-1.5-10",
+  "mod": "iron",
+  "input": "1.5 T, T2* 10",
+  "expect": "/Iron overload/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 1.5 T T2* 10 ms · R2* 100 s⁻¹ 2.71 mg/g Iron overload (10–20 ms) Cardiac iron in mg/g dry weight; liver iron (LIC) ",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-1.5-9.9",
+  "mod": "iron",
+  "input": "1.5 T, T2* 9.9",
+  "expect": "/Severe/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 1.5 T T2* 9.9 ms · R2* 101 s⁻¹ 2.74 mg/g Severe iron overload (<10 ms) Cardiac iron in mg/g dry weight; liver iron ",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-3-12.1",
+  "mod": "iron",
+  "input": "3 T, T2* 12.1",
+  "expect": "/Normal/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 3 T T2* 12.1 ms · R2* 83 s⁻¹ — (equation calibrated at 1.5 T) Normal (>12 ms) Cardiac iron in mg/g dry weight; live",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-3-12",
+  "mod": "iron",
+  "input": "3 T, T2* 12",
+  "expect": "/Iron overload/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 3 T T2* 12 ms · R2* 83 s⁻¹ — (equation calibrated at 1.5 T) Iron overload (5.5–12 ms) Cardiac iron in mg/g dry weig",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-3-5.5",
+  "mod": "iron",
+  "input": "3 T, T2* 5.5",
+  "expect": "/Iron overload/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 3 T T2* 5.5 ms · R2* 182 s⁻¹ — (equation calibrated at 1.5 T) Iron overload (5.5–12 ms) Cardiac iron in mg/g dry we",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-3-5.4",
+  "mod": "iron",
+  "input": "3 T, T2* 5.4",
+  "expect": "/Severe/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2*, 3 T T2* 5.4 ms · R2* 185 s⁻¹ — (equation calibrated at 1.5 T) Severe iron overload (<5.5 ms) Cardiac iron in mg/g d",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "FE-none-25",
+  "mod": "iron",
+  "input": "no T, T2* 25",
+  "expect": "/Select the field/",
+  "prov": "SCMR 2025 Table 100",
+  "actual": "RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 25 ms — Select the field strength Cardiac iron in mg/g dry weight; liver iron (LIC) in mg Fe/g dry weight.",
+  "pass": true
+ },
+ {
+  "layer": 2,
+  "id": "ECV-hand",
+  "mod": "ecv",
+  "input": "Hct 42, myo 1000→450, blood 1600→300",
+  "expect": "26.2% and no generic grade",
+  "prov": "(1−Hct)×ΔR1myo/ΔR1blood; generic tiers withheld",
+  "actual": "26.2 Not interpreted: choose a sequence-matched reference set or enter your center range",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "NOSEX",
+  "mod": "lv-vol",
+  "input": "No population chosen",
+  "expect": "values shown, no reference label, context says not selected",
+  "prov": "F03",
+  "actual": "120.0 Select the reference population / Compared with: Sex not selected · Papillary in mass · all ages pooled · SCMR 2025 Table 2",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "PEDS-LV",
+  "mod": "lv-vol",
+  "input": "Under 20 y",
+  "expect": "unavailable state, value kept",
+  "prov": "F07",
+  "actual": "120.0 Reference interpretation unavailable under 20 y",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "PEDS-AO-12",
+  "mod": "ao-calc",
+  "input": "Aorta age 12",
+  "expect": "no z-score, unavailable",
+  "prov": "F07",
+  "actual": "RESULTS Compared with: Adult male · Sinus of Valsalva · age 12 y · LVOT view, diastole · SCMR 2025 Table 67 VALUE AGE GROUP REFERENCE Z STATUS Absolute 30.0 mm — — Reference interpretation unavailable",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "PEDS-AO-19.9",
+  "mod": "ao-calc",
+  "input": "Aorta age 19.9",
+  "expect": "no z-score, unavailable",
+  "prov": "F07",
+  "actual": "RESULTS Compared with: Adult male · Sinus of Valsalva · age 19.9 y · LVOT view, diastole · SCMR 2025 Table 67 VALUE AGE GROUP REFERENCE Z STATUS Absolute 30.0 mm — — Reference interpretation unavailab",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "AO-above-oldest",
+  "mod": "ao-calc",
+  "input": "Sinus, age 85 (oldest group 70–79)",
+  "expect": "unavailable, no substitution",
+  "prov": "explicit unsupported state",
+  "actual": "RESULTS Compared with: Adult male · Sinus of Valsalva · age 85 y · LVOT view, diastole · SCMR 2025 Table 67 VALUE AGE GROUP REFERENCE Z STATUS Absolute 36.0 mm — — Reference interpretation unavailable",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "ESV>EDV",
+  "mod": "lv-vol",
+  "input": "EDV 100, ESV 120",
+  "expect": "explicit message",
+  "prov": "F13",
+  "actual": "RESULTS Compared with: Adult male · Papillary in mass · all ages pooled · SCMR 2025 Table 2 Check inputs: end-systolic volume is not smaller than end-diastolic volume, so stroke volume and EF are not ",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "PR-indirect-neg",
+  "mod": "pr-calc",
+  "input": "RVSV 70 < LVSV 80",
+  "expect": "explicit message",
+  "prov": "F13",
+  "actual": "RESULTS Check inputs: RV stroke volume is not larger than LV stroke volume, so no pulmonary regurgitation is calculated by the indirect method.",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "NEG",
+  "mod": "lv-vol",
+  "input": "EDV −50",
+  "expect": "held with message",
+  "prov": "input validation",
+  "actual": "[true,1]",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "ROUND",
+  "mod": "lv-vol",
+  "input": "EF 52.6 (male LL 53)",
+  "expect": "displayed 52.6 with Below reference",
+  "prov": "F06: unrounded threshold, sufficient precision",
+  "actual": "52.6 Below reference",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "ROUND-2dp",
+  "mod": "lv-vol",
+  "input": "LVEDVi 104.04 (UL 104)",
+  "expect": "Above reference with boundary note",
+  "prov": "F06",
+  "actual": "104.0 Above reference",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "COPY",
+  "mod": "lv-vol",
+  "input": "Female 50–59, copy",
+  "expect": "copy names population, method, age group, table, version, and screen values",
+  "prov": "F04",
+  "actual": "LV volumes, EF and mass [Adult female · Papillary in mass · 50–59 y · SCMR 2025 Table 5]: EDV 150.0 mL (within reference); EDV idx 78.9 (within reference); ESV 60.0 mL (above reference); ESV idx 31.6 (within reference); SV 90.0 mL (within reference); SV idx 47.4 (within reference); EF 60.0% (within ",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "COPY-stale",
+  "mod": "lv-vol",
+  "input": "Switch to male then copy again",
+  "expect": "copy shows male, not female",
+  "prov": "screen/copy agreement",
+  "actual": "LV volumes, EF and mass [Adult male · Papillary in mass · 50–59 y · SCMR 2025 Table 5]: EDV 150.0 mL (within reference);",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "RESET",
+  "mod": "lv-vol",
+  "input": "Clear page, then New patient",
+  "expect": "clear keeps population+BSA (labelled); New patient clears both",
+  "prov": "F10",
+  "actual": "after clear BSA=1.95 female=true; after new patient BSA=\"\" selected=0",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "XFER",
+  "mod": "rv-vol",
+  "input": "Female on LV, open RV",
+  "expect": "population carried over and visible beside results",
+  "prov": "design",
+  "actual": "Compared with: Adult female · Papillary in mass · all ages pooled · SCMR 2025 Table 2",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "PERSIST",
+  "mod": "ecv",
+  "input": "Enter T1 and a center range, reload",
+  "expect": "measurement cleared; center range kept",
+  "prov": "privacy / persistence",
+  "actual": "mpre=\"\" local={\"1.5\":{\"t1lo\":\"950\",\"t1hi\":\"1050\"}}",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "LR-invalid",
+  "mod": "ecv",
+  "input": "Center T1 min 1050 > max 950",
+  "expect": "visible message, range not used",
+  "prov": "F14",
+  "actual": "1.5 T · none entered · not used until min and max are valid (max greater than min): T1",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "LR-copy",
+  "mod": "ecv",
+  "input": "Center range active, copy",
+  "expect": "copy names the center range and label",
+  "prov": "F14",
+  "actual": "ECV calculator [1.5 T · center range (Test MOLLI): T1 950–1050 ms · no sequence-matched SCMR set]: native T1 1100 ms (above your range (>1050 ms))\n— CMR Reference 2026.11-r1 (remediation branch); SCMR 2025 reference values, JCMR 2025;27:101853. Verify against the source before reporting.",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "KEYBOARD",
+  "mod": "lv-vol",
+  "input": "Tab to \"Adult female\", press Enter",
+  "expect": "reachable, selected, aria-pressed=true",
+  "prov": "WCAG 2.1.1 / 4.1.2",
+  "actual": "reached=true aria-pressed=true",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "SCAN-gate",
+  "mod": "scan",
+  "input": "Static check of built page",
+  "expect": "scanFill only on Apply; sex never auto-applied",
+  "prov": "F11",
+  "actual": "gated",
+  "pass": true
+ },
+ {
+  "layer": 1,
+  "id": "MOBILE",
+  "mod": "lv-vol",
+  "input": "360 px viewport",
+  "expect": "no horizontal scroll; population buttons visible",
+  "prov": "layout",
+  "actual": "overflow=false visible=true",
+  "pass": true
+ }
+]

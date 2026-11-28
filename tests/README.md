@@ -1,0 +1,12 @@
+# Tests
+- `suite2.js` + `harness2.js`: revised suite (Layer 1 software, Layer 2 evidence concordance). `node suite2.js chromium` (needs `playwright`; set `CMR_URL` to the built page).
+- `aorta_sweep.js [path/to/src/index.html]`: aortic z-score sweep against SCMR values.
+- `scan_gate.js`: OCR scan end-to-end; serve the built `dist/` on http://localhost:8765 first.
+- `aorta_transcription.py <index.html> <scmr.txt>`: compares the app's aortic table with the SCMR 2025 text (Tables 63, 65, 67).
+- `owner_cases.js`: runs the 23 owner-review cases exactly as written in docs/OWNER_CHECKLIST.md §C and records screen and copied text (`results/owner-cases.json`).
+- `sw_offline.js`: with the repo root served on http://localhost:8765, checks that the service worker caches the app and notices and that both load offline.
+- `dispo.py <original results json>`: prints the 77-test disposition table.
+- `axe.js`: axe-core accessibility scan (paths inside need editing).
+- `suite_original.js` + `harness_original.js`: the original audit suite, kept unchanged for comparison.
+- `results/`: results from the remediation (r1) and release-candidate (rc1) runs.
+- `axe_extra_rc4.js`: axe-core scan of rc4 states (Check-inputs alert, iron with liver LIC, ECV/T1 fallback, AR, AS) in both themes.

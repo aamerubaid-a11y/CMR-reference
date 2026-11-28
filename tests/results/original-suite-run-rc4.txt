@@ -1,0 +1,54 @@
+total 77 fail 52
+FAIL LV-EDVi-100 | Within reference [mL/m² · normal 46–104]
+FAIL LV-EDVi-101 | Within reference [mL/m² · normal 46–104]
+FAIL LV-EDVi-104 | Within reference [mL/m² · normal 46–104]
+FAIL LV-EDVi-105 | Above reference [mL/m² · normal 46–104]
+FAIL LV-EDVi-age | Within reference [mL/m² · normal 48–108]
+FAIL LV-EDVi-F91 | Within reference
+FAIL LV-Kang-149 | Above reference
+FAIL LV-Kang-150 | Above reference
+FAIL LV-Kang-199 | Above reference
+FAIL LV-Kang-200 | Above reference
+FAIL LV-EF-40 | 40.0 Below reference | HFrEF range if clinical HF (LVEF <50%; ESC 2026) [% · normal 53–79]
+FAIL LV-EF-41 | 41.0 Below reference | HFrEF range if clinical HF (LVEF <50%; ESC 2026) [% · normal 53–79]
+FAIL LV-EF-49 | 49.0 Below reference | HFrEF range if clinical HF (LVEF <50%; ESC 2026) [% · normal 53–79]
+FAIL LV-EF-50 | 50.0 Below reference [% · normal 53–79]
+FAIL LV-EF-52 | 52.0 Below reference [% · normal 53–79]
+FAIL LV-EF-53 | 53.0 Within reference [% · normal 53–79]
+FAIL LV-EF-70 | 70.0 Within reference [% · normal 53–79]
+FAIL LV-EF-71 | 71.0 Within reference [% · normal 53–79]
+FAIL LV-EF-79 | 79.0 Within reference [% · normal 53–79]
+FAIL LV-M-147 | Within reference [g · normal 78–169]
+FAIL LV-M-148 | Within reference [g · normal 78–169]
+FAIL LV-M-169 | Within reference [g · normal 78–169]
+FAIL LV-M-171 | Above reference [g · normal 78–169]
+FAIL LV-ESV>EDV | no EF row · warn: none 
+FAIL RESET | BSA after reset "1.95", All ages · Papillary in mass
+FAIL RV-EF-F-47 | Within reference [% · normal 47–75]
+FAIL RV-EF-F-44 | Below reference [% · normal 47–75]
+FAIL LA-56 | Within reference | Khan: mild enlargement (52–62)
+FAIL LA-57 | Above reference | Khan: mild enlargement (52–62)
+FAIL LA-62 | Above reference | Khan: mild enlargement (52–62)
+FAIL LA-63 | Above reference | Khan: moderate enlargement (63–73)
+FAIL LA-73 | Above reference | Khan: moderate enlargement (63–73)
+FAIL LA-74 | Above reference | Khan: severe enlargement (>73)
+FAIL AR-15 | 15.0 Intermediate (15 to <32%)
+FAIL AR-31.9 | 31.9 Intermediate (15 to <32%)
+FAIL AR-32 | 32.0 ≥32%: associated with death or HF events
+FAIL MRp-20.0 | 20.0 Intermediate (20–40%)
+FAIL MRp-40.0 | 40.0 Intermediate (20–40%)
+FAIL TR-19.9 | 19.9 Below the 20% risk threshold
+FAIL TR-20.0 | 20.0 Elevated risk (20 to <40%)
+FAIL TR-39.9 | 39.9 Elevated risk (20 to <40%)
+FAIL TR-40.0 | 40.0 High risk (≥40%)
+FAIL TR-49.9 | 49.9 High risk (≥40%)
+FAIL TR-50.0 | 50.0 Highest-risk stratum (≥50%)
+FAIL PR-indirect-neg | Empty results, no message
+FAIL AS-AVA-1 | Severe (≤1.0)
+FAIL AS-AVA-1.3 | >1.0: does not exclude severe
+FAIL AS-AVA-1.31 | >1.0: does not exclude severe
+FAIL FE-20.1 | RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20.1 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T o
+FAIL FE-20 | RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 20 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T onl
+FAIL FE-10 | RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 10 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T onl
+FAIL FE-9.9 | RESULTS ORGAN INPUT IRON STATUS Cardiac T2* 9.9 ms — Select the field strength Cardiac iron in mg/g dry weight (1.5 T on
+errors []

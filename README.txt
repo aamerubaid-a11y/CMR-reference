@@ -1,9 +1,16 @@
-CMR Reference — installable offline app
+CMR Reference — evaluation release (validation incomplete)
 
-Host these files on any static HTTPS site (GitHub Pages, Netlify, your hospital intranet). Then:
+For professional evaluation and feedback by CMR readers. Not clinically validated, not a medical device,
+not for independent clinical reliance. Verify every result against the cited source. Version: see About.
+
+Use from a website (recommended): host these files on any static HTTPS site (for example GitHub Pages). Then:
 - iPhone/iPad (Safari): open the site, tap Share > Add to Home Screen.
 - Android/Chrome/Edge: open the site, tap Install (or menu > Install app).
-After the first visit everything (data, fonts, calculators) is cached and works with no network.
-Updates: when online, the app fetches the newest version automatically.
+After the first online visit the app works offline. When online it picks up a newer version automatically;
+About shows the version in use.
 
-Offline single file: CMR-Reference-offline.html opens in any browser with no network, but cannot be "installed".
+Use on one computer without hosting: in this folder run  python -m http.server 8080  and open
+http://localhost:8080 in a browser. Opening index.html directly as a file also works, but then the report
+scanner and offline caching are unavailable.
+
+Nothing you enter leaves the device. Do not enter patient identifiers. Third-party licences: THIRD_PARTY_NOTICES.txt.

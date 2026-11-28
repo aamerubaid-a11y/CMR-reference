@@ -1,0 +1,3 @@
+{"k":["cmr-ref-c9f86960bf"],"files":["/","/manifest.webmanifest","/icon-192.png","/icon-512.png","/icon-maskable.png","/apple-touch-icon.png","/THIRD_PARTY_NOTICES.txt","/index.html"]}
+offline page: Home Favorites Report Search Contents LEFT VENTRICLE LV volumes, EF and mass LV 
+offline notices: THIRD-PARTY NOTICES — CMR Reference 2026

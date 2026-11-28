@@ -1,0 +1,1457 @@
+diff --git a/build/build.py b/build/build.py
+index ad076b5..ce2cf2f 100644
+--- a/build/build.py
++++ b/build/build.py
+@@ -1,6 +1,7 @@
+ # Build: expects a working tree <W>/build/build.py with <W>/cmr-ref/index.html (copy of src/index.html),
+ # <W>/fontpkg/node_modules/@fontsource/* and <W>/ocrpkg/node_modules (tesseract.js 5.1.1, tesseract.js-core, eng traineddata).
+ # Output: <W>/build/dist (PWA), CMR-Reference-offline.html, CMR-Reference-PWA.zip.
++# Also needs build/licenses/THIRD_PARTY_NOTICES.txt (copied to dist and listed in the service-worker cache).
+ import base64,re,os,shutil,hashlib,zipfile,json
+ B=os.path.dirname(os.path.abspath(__file__));S=os.path.dirname(B)
+ src=open(os.path.join(S,'cmr-ref/index.html')).read()
+@@ -55,9 +56,11 @@ head=f'''<!doctype html>
+ <body>
+ '''
+ page=head+body+install_js+'\n</body>\n</html>\n'
+-ver=hashlib.sha1(page.encode()).hexdigest()[:10]
++NOTICES=open(os.path.join(B,'licenses','THIRD_PARTY_NOTICES.txt'),encoding='utf-8').read()
++ver=hashlib.sha1((page+NOTICES).encode()).hexdigest()[:10]
+ D=os.path.join(B,'dist');os.makedirs(D,exist_ok=True)
+ open(os.path.join(D,'index.html'),'w').write(page)
++open(os.path.join(D,'THIRD_PARTY_NOTICES.txt'),'w',encoding='utf-8').write(NOTICES)
+ O=os.path.join(D,'ocr');shutil.rmtree(O,ignore_errors=True);os.makedirs(O+'/lang')
+ N=os.path.join(S,'ocrpkg/node_modules')
+ for a,b in [('tesseract.js/dist/tesseract.min.js','tesseract.min.js'),('tesseract.js/dist/worker.min.js','worker.min.js'),('tesseract.js-core/tesseract-core-simd-lstm.wasm.js','tesseract-core-simd-lstm.wasm.js'),('@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz','lang/eng.traineddata.gz')]:
+@@ -66,7 +69,7 @@ json.dump({"name":"CMR Reference","short_name":"CMR Ref","description":"CMR norm
+  "icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},{"src":"icon-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]},open(os.path.join(D,'manifest.webmanifest'),'w'),indent=1)
+ open(os.path.join(D,'sw.js'),'w').write(f"""// CMR Reference service worker: caches the whole app for offline use
+ const CACHE='cmr-ref-{ver}';
+-const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable.png','./apple-touch-icon.png'];
++const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable.png','./apple-touch-icon.png','./THIRD_PARTY_NOTICES.txt'];
+ self.addEventListener('install',e=>{{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))}});
+ self.addEventListener('activate',e=>{{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))}});
+ self.addEventListener('fetch',e=>{{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin!==location.origin)return;
+diff --git a/build/licenses/THIRD_PARTY_NOTICES.txt b/build/licenses/THIRD_PARTY_NOTICES.txt
+new file mode 100644
+index 0000000..4f6adf5
+--- /dev/null
++++ b/build/licenses/THIRD_PARTY_NOTICES.txt
+@@ -0,0 +1,1196 @@
++THIRD-PARTY NOTICES — CMR Reference 2026.11-rc3
++
++This file lists third-party software, data and fonts redistributed with this app, with the licence texts their
++terms require. It does not grant any licence to the app's own code (no licence has been chosen for it) and does
++not resolve questions about reuse of published reference values (see SCMR attribution below and the project's
++docs/LICENSING.md).
++
++COMPONENT SUMMARY
++- tesseract.js 5.1.1 (ocr/tesseract.min.js, ocr/worker.min.js) — Apache-2.0. Bundles: regenerator-runtime 0.13.11 (MIT),
++  is-electron 2.2.2 (MIT), is-url 1.2.4 (MIT), bmp-js 0.1.0 (MIT), idb-keyval 6.3.0 (Apache-2.0),
++  wasm-feature-detect 1.10.1 (Apache-2.0), zlibjs 0.3.1 (MIT), buffer 6.0.3 (MIT), ieee754 1.2.1 (BSD-3-Clause),
++  base64-js 1.5.1 (MIT). Bundled versions of buffer/ieee754/base64-js taken from the tesseract.js v5.1.1 lockfile.
++- tesseract.js-core 5.1.1 (ocr/tesseract-core-simd-lstm.wasm.js) — Apache-2.0. Compiled from, at the commits pinned by
++  tag v5.1.1: Tesseract OCR (Balearica fork e20b1c6, Apache-2.0), Leptonica (4af068b, BSD-2-Clause-style Leptonica licence),
++  libjpeg (IJG, 6c0fcb8), libpng (a37d483, PNG Reference Library License v2), libtiff (b51bb15, libtiff licence),
++  libwebp (20ef03e, BSD-3-Clause), giflib (fa37672, MIT-style), zlib (21767c6, zlib licence),
++  openlibm (ae2d916, MIT/BSD/ISC mix). All are included below because the build script compiles all of them;
++  whether each is linked into this specific .wasm was not verified.
++- English OCR model (ocr/lang/eng.traineddata.gz, from @tesseract.js-data/eng 1.0.0, folder 4.0.0_best_int) —
++  an integerised copy of tesseract-ocr/tessdata_best eng.traineddata made by the tesseract.js project (naptha/tessdata).
++  Upstream terms: tessdata_best README: "All data in the repository are licensed under the Apache-2.0 License";
++  naptha/tessdata LICENSE: Apache-2.0. (The npm wrapper package declares MIT; the upstream data terms are Apache-2.0.)
++- Fonts embedded in index.html: Inter (@fontsource/inter 5.0.18), Barlow Semi Condensed (@fontsource/barlow-semi-condensed
++  5.0.13), IBM Plex Mono (@fontsource/ibm-plex-mono 5.0.13) — SIL Open Font License 1.1.
++- App icons and inline SVG icons: created for this project; not third-party.
++
++ATTRIBUTION FOR PUBLISHED REFERENCE VALUES
++Reference values are adapted from: Kawel-Boehm N, Hetzel SJ, Ambale-Venkatesh B, et al. Society for Cardiovascular
++Magnetic Resonance reference values ("normal values") in cardiovascular magnetic resonance: 2025 update.
++J Cardiovasc Magn Reson 2025;27:101853. https://doi.org/10.1016/j.jocmr.2025.101853. © 2025 The Authors. Published by
++Elsevier Inc. on behalf of SCMR. The article states it is open access under CC BY 4.0
++(https://creativecommons.org/licenses/by/4.0/). Changes made: values were transcribed into calculators, reformatted,
++combined with other sources, and given interpretation labels by this app. The authors and SCMR do not endorse this app.
++
++==============================================================================
++Apache License 2.0 (tesseract.js, tesseract.js-core, Tesseract OCR, idb-keyval, wasm-feature-detect, tessdata)
++==============================================================================
++Apache License
++                           Version 2.0, January 2004
++                        http://www.apache.org/licenses/
++
++   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
++
++   1. Definitions.
++
++      "License" shall mean the terms and conditions for use, reproduction,
++      and distribution as defined by Sections 1 through 9 of this document.
++
++      "Licensor" shall mean the copyright owner or entity authorized by
++      the copyright owner that is granting the License.
++
++      "Legal Entity" shall mean the union of the acting entity and all
++      other entities that control, are controlled by, or are under common
++      control with that entity. For the purposes of this definition,
++      "control" means (i) the power, direct or indirect, to cause the
++      direction or management of such entity, whether by contract or
++      otherwise, or (ii) ownership of fifty percent (50%) or more of the
++      outstanding shares, or (iii) beneficial ownership of such entity.
++
++      "You" (or "Your") shall mean an individual or Legal Entity
++      exercising permissions granted by this License.
++
++      "Source" form shall mean the preferred form for making modifications,
++      including but not limited to software source code, documentation
++      source, and configuration files.
++
++      "Object" form shall mean any form resulting from mechanical
++      transformation or translation of a Source form, including but
++      not limited to compiled object code, generated documentation,
++      and conversions to other media types.
++
++      "Work" shall mean the work of authorship, whether in Source or
++      Object form, made available under the License, as indicated by a
++      copyright notice that is included in or attached to the work
++      (an example is provided in the Appendix below).
++
++      "Derivative Works" shall mean any work, whether in Source or Object
++      form, that is based on (or derived from) the Work and for which the
++      editorial revisions, annotations, elaborations, or other modifications
++      represent, as a whole, an original work of authorship. For the purposes
++      of this License, Derivative Works shall not include works that remain
++      separable from, or merely link (or bind by name) to the interfaces of,
++      the Work and Derivative Works thereof.
++
++      "Contribution" shall mean any work of authorship, including
++      the original version of the Work and any modifications or additions
++      to that Work or Derivative Works thereof, that is intentionally
++      submitted to Licensor for inclusion in the Work by the copyright owner
++      or by an individual or Legal Entity authorized to submit on behalf of
++      the copyright owner. For the purposes of this definition, "submitted"
++      means any form of electronic, verbal, or written communication sent
++      to the Licensor or its representatives, including but not limited to
++      communication on electronic mailing lists, source code control systems,
++      and issue tracking systems that are managed by, or on behalf of, the
++      Licensor for the purpose of discussing and improving the Work, but
++      excluding communication that is conspicuously marked or otherwise
++      designated in writing by the copyright owner as "Not a Contribution."
++
++      "Contributor" shall mean Licensor and any individual or Legal Entity
++      on behalf of whom a Contribution has been received by Licensor and
++      subsequently incorporated within the Work.
++
++   2. Grant of Copyright License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      copyright license to reproduce, prepare Derivative Works of,
++      publicly display, publicly perform, sublicense, and distribute the
++      Work and such Derivative Works in Source or Object form.
++
++   3. Grant of Patent License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      (except as stated in this section) patent license to make, have made,
++      use, offer to sell, sell, import, and otherwise transfer the Work,
++      where such license applies only to those patent claims licensable
++      by such Contributor that are necessarily infringed by their
++      Contribution(s) alone or by combination of their Contribution(s)
++      with the Work to which such Contribution(s) was submitted. If You
++      institute patent litigation against any entity (including a
++      cross-claim or counterclaim in a lawsuit) alleging that the Work
++      or a Contribution incorporated within the Work constitutes direct
++      or contributory patent infringement, then any patent licenses
++      granted to You under this License for that Work shall terminate
++      as of the date such litigation is filed.
++
++   4. Redistribution. You may reproduce and distribute copies of the
++      Work or Derivative Works thereof in any medium, with or without
++      modifications, and in Source or Object form, provided that You
++      meet the following conditions:
++
++      (a) You must give any other recipients of the Work or
++          Derivative Works a copy of this License; and
++
++      (b) You must cause any modified files to carry prominent notices
++          stating that You changed the files; and
++
++      (c) You must retain, in the Source form of any Derivative Works
++          that You distribute, all copyright, patent, trademark, and
++          attribution notices from the Source form of the Work,
++          excluding those notices that do not pertain to any part of
++          the Derivative Works; and
++
++      (d) If the Work includes a "NOTICE" text file as part of its
++          distribution, then any Derivative Works that You distribute must
++          include a readable copy of the attribution notices contained
++          within such NOTICE file, excluding those notices that do not
++          pertain to any part of the Derivative Works, in at least one
++          of the following places: within a NOTICE text file distributed
++          as part of the Derivative Works; within the Source form or
++          documentation, if provided along with the Derivative Works; or,
++          within a display generated by the Derivative Works, if and
++          wherever such third-party notices normally appear. The contents
++          of the NOTICE file are for informational purposes only and
++          do not modify the License. You may add Your own attribution
++          notices within Derivative Works that You distribute, alongside
++          or as an addendum to the NOTICE text from the Work, provided
++          that such additional attribution notices cannot be construed
++          as modifying the License.
++
++      You may add Your own copyright statement to Your modifications and
++      may provide additional or different license terms and conditions
++      for use, reproduction, or distribution of Your modifications, or
++      for any such Derivative Works as a whole, provided Your use,
++      reproduction, and distribution of the Work otherwise complies with
++      the conditions stated in this License.
++
++   5. Submission of Contributions. Unless You explicitly state otherwise,
++      any Contribution intentionally submitted for inclusion in the Work
++      by You to the Licensor shall be under the terms and conditions of
++      this License, without any additional terms or conditions.
++      Notwithstanding the above, nothing herein shall supersede or modify
++      the terms of any separate license agreement you may have executed
++      with Licensor regarding such Contributions.
++
++   6. Trademarks. This License does not grant permission to use the trade
++      names, trademarks, service marks, or product names of the Licensor,
++      except as required for reasonable and customary use in describing the
++      origin of the Work and reproducing the content of the NOTICE file.
++
++   7. Disclaimer of Warranty. Unless required by applicable law or
++      agreed to in writing, Licensor provides the Work (and each
++      Contributor provides its Contributions) on an "AS IS" BASIS,
++      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
++      implied, including, without limitation, any warranties or conditions
++      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
++      PARTICULAR PURPOSE. You are solely responsible for determining the
++      appropriateness of using or redistributing the Work and assume any
++      risks associated with Your exercise of permissions under this License.
++
++   8. Limitation of Liability. In no event and under no legal theory,
++      whether in tort (including negligence), contract, or otherwise,
++      unless required by applicable law (such as deliberate and grossly
++      negligent acts) or agreed to in writing, shall any Contributor be
++      liable to You for damages, including any direct, indirect, special,
++      incidental, or consequential damages of any character arising as a
++      result of this License or out of the use or inability to use the
++      Work (including but not limited to damages for loss of goodwill,
++      work stoppage, computer failure or malfunction, or any and all
++      other commercial damages or losses), even if such Contributor
++      has been advised of the possibility of such damages.
++
++   9. Accepting Warranty or Additional Liability. While redistributing
++      the Work or Derivative Works thereof, You may choose to offer,
++      and charge a fee for, acceptance of support, warranty, indemnity,
++      or other liability obligations and/or rights consistent with this
++      License. However, in accepting such obligations, You may act only
++      on Your own behalf and on Your sole responsibility, not on behalf
++      of any other Contributor, and only if You agree to indemnify,
++      defend, and hold each Contributor harmless for any liability
++      incurred by, or claims asserted against, such Contributor by reason
++      of your accepting any such warranty or additional liability.
++
++   END OF TERMS AND CONDITIONS
++
++   APPENDIX: How to apply the Apache License to your work.
++
++      To apply the Apache License to your work, attach the following
++      boilerplate notice, with the fields enclosed by brackets "{}"
++      replaced with your own identifying information. (Don't include
++      the brackets!)  The text should be enclosed in the appropriate
++      comment syntax for the file format. We also recommend that a
++      file or class name and description of purpose be included on the
++      same "printed page" as the copyright notice for easier
++      identification within third-party archives.
++
++   Copyright {yyyy} {name of copyright owner}
++
++   Licensed under the Apache License, Version 2.0 (the "License");
++   you may not use this file except in compliance with the License.
++   You may obtain a copy of the License at
++
++       http://www.apache.org/licenses/LICENSE-2.0
++
++   Unless required by applicable law or agreed to in writing, software
++   distributed under the License is distributed on an "AS IS" BASIS,
++   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++   See the License for the specific language governing permissions and
++   limitations under the License.
++
++==============================================================================
++idb-keyval 6.3.0 — copyright notice
++==============================================================================
++Copyright 2016, Jake Archibald
++
++==============================================================================
++regenerator-runtime (MIT)
++==============================================================================
++MIT License
++
++Copyright (c) 2014-present, Facebook, Inc.
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
++==============================================================================
++is-electron (MIT)
++==============================================================================
++The MIT License (MIT)
++
++Copyright (c) 2016-2018 Cheton Wu
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
++==============================================================================
++is-url (MIT)
++==============================================================================
++MIT LICENSE
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++THE SOFTWARE.
++
++==============================================================================
++bmp-js (MIT)
++==============================================================================
++The MIT License (MIT)
++
++Copyright (c) 2014 @丝刀口
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
++==============================================================================
++zlibjs (MIT)
++==============================================================================
++/**
++ * @license
++ * zlib.js
++ * JavaScript Zlib Library
++ * https://github.com/imaya/zlib.js
++ *
++ * The MIT License
++ *
++ * Copyright (c) 2012 imaya
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++==============================================================================
++buffer-6.0.3
++==============================================================================
++The MIT License (MIT)
++
++Copyright (c) Feross Aboukhadijeh, and other contributors.
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++THE SOFTWARE.
++
++==============================================================================
++base64-js-1.5.1
++==============================================================================
++The MIT License (MIT)
++
++Copyright (c) 2014 Jameson Little
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++THE SOFTWARE.
++
++==============================================================================
++ieee754-1.2.1
++==============================================================================
++Copyright 2008 Fair Oaks Labs, Inc.
++
++Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++
++1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++
++2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
++
++3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
++
++THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++==============================================================================
++Leptonica
++==============================================================================
++/*====================================================================*
++ -  Copyright (C) 2001-2020 Leptonica.  All rights reserved.
++ -
++ -  Redistribution and use in source and binary forms, with or without
++ -  modification, are permitted provided that the following conditions
++ -  are met:
++ -  1. Redistributions of source code must retain the above copyright
++ -     notice, this list of conditions and the following disclaimer.
++ -  2. Redistributions in binary form must reproduce the above
++ -     copyright notice, this list of conditions and the following
++ -     disclaimer in the documentation and/or other materials
++ -     provided with the distribution.
++ -
++ -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ -  ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ -  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL ANY
++ -  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ -  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ -  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ -  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
++ -  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ -  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++ -  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ *====================================================================*/
++
++==============================================================================
++libjpeg (Independent JPEG Group) — LEGAL ISSUES section of README. This software is based in part on the work of the Independent JPEG Group.
++==============================================================================
++LEGAL ISSUES
++============
++
++In plain English:
++
++1. We don't promise that this software works.  (But if you find any bugs,
++   please let us know!)
++2. You can use this software for whatever you want.  You don't have to pay us.
++3. You may not pretend that you wrote this software.  If you use it in a
++   program, you must acknowledge somewhere in your documentation that
++   you've used the IJG code.
++
++In legalese:
++
++The authors make NO WARRANTY or representation, either express or implied,
++with respect to this software, its quality, accuracy, merchantability, or
++fitness for a particular purpose.  This software is provided "AS IS", and you,
++its user, assume the entire risk as to its quality and accuracy.
++
++This software is copyright (C) 1991-2014, Thomas G. Lane, Guido Vollbeding.
++All Rights Reserved except as specified below.
++
++Permission is hereby granted to use, copy, modify, and distribute this
++software (or portions thereof) for any purpose, without fee, subject to these
++conditions:
++(1) If any part of the source code for this software is distributed, then this
++README file must be included, with this copyright and no-warranty notice
++unaltered; and any additions, deletions, or changes to the original files
++must be clearly indicated in accompanying documentation.
++(2) If only executable code is distributed, then the accompanying
++documentation must state that "this software is based in part on the work of
++the Independent JPEG Group".
++(3) Permission for use of this software is granted only if the user accepts
++full responsibility for any undesirable consequences; the authors accept
++NO LIABILITY for damages of any kind.
++
++These conditions apply to any software derived from or based on the IJG code,
++not just to the unmodified library.  If you use our work, you ought to
++acknowledge us.
++
++Permission is NOT granted for the use of any IJG author's name or company name
++in advertising or publicity relating to this software or products derived from
++it.  This software may be referred to only as "the Independent JPEG Group's
++software".
++
++We specifically permit and encourage the use of this software as the basis of
++commercial products, provided that all warranty or liability claims are
++assumed by the product vendor.
++
++
++The Unix configuration script "configure" was produced with GNU Autoconf.
++It is copyright by the Free Software Foundation but is freely distributable.
++The same holds for its supporting scripts (config.guess, config.sub,
++ltmain.sh).  Another support script, install-sh, is copyright by X Consortium
++but is also freely distributable.
++
++The IJG distribution formerly included code to read and write GIF files.
++To avoid entanglement with the Unisys LZW patent (now expired), GIF reading
++support has been removed altogether, and the GIF writer has been simplified
++to produce "uncompressed GIFs".  This technique does not use the LZW
++algorithm; the resulting GIF files are larger than usual, but are readable
++by all standard GIF decoders.
++
++We are required to state that
++    "The Graphics Interchange Format(c) is the Copyright property of
++    CompuServe Incorporated.  GIF(sm) is a Service Mark property of
++    CompuServe Incorporated."
++
++==============================================================================
++libpng
++==============================================================================
++COPYRIGHT NOTICE, DISCLAIMER, and LICENSE
++=========================================
++
++PNG Reference Library License version 2
++---------------------------------------
++
++ * Copyright (c) 1995-2020 The PNG Reference Library Authors.
++ * Copyright (c) 2018-2020 Cosmin Truta.
++ * Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson.
++ * Copyright (c) 1996-1997 Andreas Dilger.
++ * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
++
++The software is supplied "as is", without warranty of any kind,
++express or implied, including, without limitation, the warranties
++of merchantability, fitness for a particular purpose, title, and
++non-infringement.  In no event shall the Copyright owners, or
++anyone distributing the software, be liable for any damages or
++other liability, whether in contract, tort or otherwise, arising
++from, out of, or in connection with the software, or the use or
++other dealings in the software, even if advised of the possibility
++of such damage.
++
++Permission is hereby granted to use, copy, modify, and distribute
++this software, or portions hereof, for any purpose, without fee,
++subject to the following restrictions:
++
++ 1. The origin of this software must not be misrepresented; you
++    must not claim that you wrote the original software.  If you
++    use this software in a product, an acknowledgment in the product
++    documentation would be appreciated, but is not required.
++
++ 2. Altered source versions must be plainly marked as such, and must
++    not be misrepresented as being the original software.
++
++ 3. This Copyright notice may not be removed or altered from any
++    source or altered source distribution.
++
++
++PNG Reference Library License version 1 (for libpng 0.5 through 1.6.35)
++-----------------------------------------------------------------------
++
++libpng versions 1.0.7, July 1, 2000, through 1.6.35, July 15, 2018 are
++Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson, are
++derived from libpng-1.0.6, and are distributed according to the same
++disclaimer and license as libpng-1.0.6 with the following individuals
++added to the list of Contributing Authors:
++
++    Simon-Pierre Cadieux
++    Eric S. Raymond
++    Mans Rullgard
++    Cosmin Truta
++    Gilles Vollant
++    James Yu
++    Mandar Sahastrabuddhe
++    Google Inc.
++    Vadim Barkov
++
++and with the following additions to the disclaimer:
++
++    There is no warranty against interference with your enjoyment of
++    the library or against infringement.  There is no warranty that our
++    efforts or the library will fulfill any of your particular purposes
++    or needs.  This library is provided with all faults, and the entire
++    risk of satisfactory quality, performance, accuracy, and effort is
++    with the user.
++
++Some files in the "contrib" directory and some configure-generated
++files that are distributed with libpng have other copyright owners, and
++are released under other open source licenses.
++
++libpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are
++Copyright (c) 1998-2000 Glenn Randers-Pehrson, are derived from
++libpng-0.96, and are distributed according to the same disclaimer and
++license as libpng-0.96, with the following individuals added to the
++list of Contributing Authors:
++
++    Tom Lane
++    Glenn Randers-Pehrson
++    Willem van Schaik
++
++libpng versions 0.89, June 1996, through 0.96, May 1997, are
++Copyright (c) 1996-1997 Andreas Dilger, are derived from libpng-0.88,
++and are distributed according to the same disclaimer and license as
++libpng-0.88, with the following individuals added to the list of
++Contributing Authors:
++
++    John Bowler
++    Kevin Bracey
++    Sam Bushell
++    Magnus Holmgren
++    Greg Roelofs
++    Tom Tanner
++
++Some files in the "scripts" directory have other copyright owners,
++but are released under this license.
++
++libpng versions 0.5, May 1995, through 0.88, January 1996, are
++Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
++
++For the purposes of this copyright and license, "Contributing Authors"
++is defined as the following set of individuals:
++
++    Andreas Dilger
++    Dave Martindale
++    Guy Eric Schalnat
++    Paul Schmidt
++    Tim Wegner
++
++The PNG Reference Library is supplied "AS IS".  The Contributing
++Authors and Group 42, Inc. disclaim all warranties, expressed or
++implied, including, without limitation, the warranties of
++merchantability and of fitness for any purpose.  The Contributing
++Authors and Group 42, Inc. assume no liability for direct, indirect,
++incidental, special, exemplary, or consequential damages, which may
++result from the use of the PNG Reference Library, even if advised of
++the possibility of such damage.
++
++Permission is hereby granted to use, copy, modify, and distribute this
++source code, or portions hereof, for any purpose, without fee, subject
++to the following restrictions:
++
++ 1. The origin of this source code must not be misrepresented.
++
++ 2. Altered versions must be plainly marked as such and must not
++    be misrepresented as being the original source.
++
++ 3. This Copyright notice may not be removed or altered from any
++    source or altered source distribution.
++
++The Contributing Authors and Group 42, Inc. specifically permit,
++without fee, and encourage the use of this source code as a component
++to supporting the PNG file format in commercial products.  If you use
++this source code in a product, acknowledgment is not required but would
++be appreciated.
++
++==============================================================================
++libtiff
++==============================================================================
++Copyright (c) 1988-1997 Sam Leffler
++Copyright (c) 1991-1997 Silicon Graphics, Inc.
++
++Permission to use, copy, modify, distribute, and sell this software and 
++its documentation for any purpose is hereby granted without fee, provided
++that (i) the above copyright notices and this permission notice appear in
++all copies of the software and related documentation, and (ii) the names of
++Sam Leffler and Silicon Graphics may not be used in any advertising or
++publicity relating to the software without the specific, prior written
++permission of Sam Leffler and Silicon Graphics.
++
++THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
++EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
++WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
++
++IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
++ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
++OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
++WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
++LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
++OF THIS SOFTWARE.
++
++==============================================================================
++libwebp
++==============================================================================
++Copyright (c) 2010, Google Inc. All rights reserved.
++
++Redistribution and use in source and binary forms, with or without
++modification, are permitted provided that the following conditions are
++met:
++
++  * Redistributions of source code must retain the above copyright
++    notice, this list of conditions and the following disclaimer.
++
++  * Redistributions in binary form must reproduce the above copyright
++    notice, this list of conditions and the following disclaimer in
++    the documentation and/or other materials provided with the
++    distribution.
++
++  * Neither the name of Google nor the names of its contributors may
++    be used to endorse or promote products derived from this software
++    without specific prior written permission.
++
++THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++==============================================================================
++giflib
++==============================================================================
++The GIFLIB distribution is Copyright (c) 1997  Eric S. Raymond
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++THE SOFTWARE.
++
++==============================================================================
++zlib
++==============================================================================
++Copyright notice:
++
++ (C) 1995-2022 Jean-loup Gailly and Mark Adler
++
++  This software is provided 'as-is', without any express or implied
++  warranty.  In no event will the authors be held liable for any damages
++  arising from the use of this software.
++
++  Permission is granted to anyone to use this software for any purpose,
++  including commercial applications, and to alter it and redistribute it
++  freely, subject to the following restrictions:
++
++  1. The origin of this software must not be misrepresented; you must not
++     claim that you wrote the original software. If you use this software
++     in a product, an acknowledgment in the product documentation would be
++     appreciated but is not required.
++  2. Altered source versions must be plainly marked as such, and must not be
++     misrepresented as being the original software.
++  3. This notice may not be removed or altered from any source distribution.
++
++  Jean-loup Gailly        Mark Adler
++  jloup@gzip.org          madler@alumni.caltech.edu
++
++If you use the zlib library in a product, we would appreciate *not* receiving
++lengthy legal docum
++
++==============================================================================
++openlibm
++==============================================================================
++## OpenLibm
++
++OpenLibm contains code that is covered by various licenses.
++
++The OpenLibm code derives from the FreeBSD msun and OpenBSD libm
++implementations, which in turn derives from FDLIBM 5.3. As a result, it
++has a number of fixes and updates that have accumulated over the years
++in msun, and also optimized assembly versions of many functions. These
++improvements are provided under the BSD and ISC licenses. The msun
++library also includes work placed under the public domain, which is
++noted in the individual files. Further work on making a standalone
++OpenLibm library from msun, as part of the Julia project is covered
++under the MIT license. The test files, test-double.c and test-float.c
++are under the LGPL.
++
++## Parts copyrighted by the Julia project (MIT License)
++
++>       Copyright (c) 2011-14 The Julia Project.
++>       https://github.com/JuliaMath/openlibm/graphs/contributors
++>
++>       Permission is hereby granted, free of charge, to any person obtaining
++>       a copy of this software and associated documentation files (the
++>       "Software"), to deal in the Software without restriction, including
++>       without limitation the rights to use, copy, modify, merge, publish,
++>       distribute, sublicense, and/or sell copies of the Software, and to
++>       permit persons to whom the Software is furnished to do so, subject to
++>       the following conditions:
++>
++>       The above copyright notice and this permission notice shall be
++>       included in all copies or substantial portions of the Software.
++>
++>       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++>       EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++>       MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++>       NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
++>       LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
++>       OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
++>       WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++
++## Parts copyrighted by Stephen L. Moshier (ISC License)
++
++> Copyright (c) 2008 Stephen L. Moshier <steve@moshier.net>
++>
++> Permission to use, copy, modify, and distribute this software for any
++> purpose with or without fee is hereby granted, provided that the above
++> copyright notice and this permission notice appear in all copies.
++>
++> THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++> WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++> MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++> ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++> WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++> ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++> OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++
++## FREEBSD MSUN (FreeBSD/2-clause BSD/Simplified BSD License)
++
++>       Copyright 1992-2011 The FreeBSD Project. All rights reserved.
++>
++>       Redistribution and use in source and binary forms, with or without
++>       modification, are permitted provided that the following conditions are
++>       met:
++>
++>       1. Redistributions of source code must retain the above copyright
++>       notice, this list of conditions and the following disclaimer.
++>
++>       2. Redistributions in binary form must reproduce the above copyright
++>       notice, this list of conditions and the following disclaimer in the
++>       documentation and/or other materials provided with the distribution.
++>       THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY
++>       EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++>       IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++>       PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE FREEBSD PROJECT OR
++>       CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++>       EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++>       PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++>       PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++>       LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++>       NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++>       SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++>
++>       The views and conclusions contained in the software and documentation
++>       are those of the authors and should not be interpreted as representing
++>       official policies, either expressed or implied, of the FreeBSD
++>       Project.
++
++## FDLIBM
++
++>      Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
++>
++>      Developed at SunPro, a Sun Microsystems, Inc. business.
++>      Permission to use, copy, modify, and distribute this
++>      software is freely granted, provided that this notice
++>      is preserved.
++
++## Tests
++
++>   Copyright (C) 1997, 1999 Free Software Foundation, Inc.
++>   This file is part of the GNU C Library.
++>   Contributed by Andreas Jaeger <aj@suse.de>, 1997.
++>
++>   The GNU C Library is free software; you can redistribute it and/or
++>   modify it under the terms of the GNU Lesser General Public
++>   License as published by the Free Software Foundation; either
++>   version 2.1 of the License, or (at your option) any later version.
++>
++>   The GNU C Library is distributed in the hope that it will be useful,
++>   but WITHOUT ANY WARRANTY; without even the implied warranty of
++>   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++>   Lesser General Public License for more details.
++>
++>   You should have received a copy of the GNU Lesser General Public
++>   License along with the GNU C Library; if not, write to the Free
++>   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
++>   02111-1307 USA.
++
++==============================================================================
++Inter font (SIL Open Font License 1.1)
++==============================================================================
++Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
++
++This Font Software is licensed under the SIL Open Font License, Version 1.1.
++This license is copied below, and is also available with a FAQ at:
++http://scripts.sil.org/OFL
++
++
++-----------------------------------------------------------
++SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
++-----------------------------------------------------------
++
++PREAMBLE
++The goals of the Open Font License (OFL) are to stimulate worldwide
++development of collaborative font projects, to support the font creation
++efforts of academic and linguistic communities, and to provide a free and
++open framework in which fonts may be shared and improved in partnership
++with others.
++
++The OFL allows the licensed fonts to be used, studied, modified and
++redistributed freely as long as they are not sold by themselves. The
++fonts, including any derivative works, can be bundled, embedded,
++redistributed and/or sold with any software provided that any reserved
++names are not used by derivative works. The fonts and derivatives,
++however, cannot be released under any other type of license. The
++requirement for fonts to remain under this license does not apply
++to any document created using the fonts or their derivatives.
++
++DEFINITIONS
++"Font Software" refers to the set of files released by the Copyright
++Holder(s) under this license and clearly marked as such. This may
++include source files, build scripts and documentation.
++
++"Reserved Font Name" refers to any names specified as such after the
++copyright statement(s).
++
++"Original Version" refers to the collection of Font Software components as
++distributed by the Copyright Holder(s).
++
++"Modified Version" refers to any derivative made by adding to, deleting,
++or substituting -- in part or in whole -- any of the components of the
++Original Version, by changing formats or by porting the Font Software to a
++new environment.
++
++"Author" refers to any designer, engineer, programmer, technical
++writer or other person who contributed to the Font Software.
++
++PERMISSION & CONDITIONS
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of the Font Software, to use, study, copy, merge, embed, modify,
++redistribute, and sell modified and unmodified copies of the Font
++Software, subject to the following conditions:
++
++1) Neither the Font Software nor any of its individual components,
++in Original or Modified Versions, may be sold by itself.
++
++2) Original or Modified Versions of the Font Software may be bundled,
++redistributed and/or sold with any software, provided that each copy
++contains the above copyright notice and this license. These can be
++included either as stand-alone text files, human-readable headers or
++in the appropriate machine-readable metadata fields within text or
++binary files as long as those fields can be easily viewed by the user.
++
++3) No Modified Version of the Font Software may use the Reserved Font
++Name(s) unless explicit written permission is granted by the corresponding
++Copyright Holder. This restriction only applies to the primary font name as
++presented to the users.
++
++4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
++Software shall not be used to promote, endorse or advertise any
++Modified Version, except to acknowledge the contribution(s) of the
++Copyright Holder(s) and the Author(s) or with their explicit written
++permission.
++
++5) The Font Software, modified or unmodified, in part or in whole,
++must be distributed entirely under this license, and must not be
++distributed under any other license. The requirement for fonts to
++remain under this license does not apply to any document created
++using the Font Software.
++
++TERMINATION
++This license becomes null and void if any of the above conditions are
++not met.
++
++DISCLAIMER
++THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
++COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
++DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
++OTHER DEALINGS IN THE FONT SOFTWARE.
++
++==============================================================================
++Barlow Semi Condensed font (SIL Open Font License 1.1)
++==============================================================================
++Copyright 2017 The Barlow Project Authors (https://github.com/jpt/barlow)
++
++This Font Software is licensed under the SIL Open Font License, Version 1.1.
++This license is copied below, and is also available with a FAQ at:
++http://scripts.sil.org/OFL
++
++
++-----------------------------------------------------------
++SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
++-----------------------------------------------------------
++
++PREAMBLE
++The goals of the Open Font License (OFL) are to stimulate worldwide
++development of collaborative font projects, to support the font creation
++efforts of academic and linguistic communities, and to provide a free and
++open framework in which fonts may be shared and improved in partnership
++with others.
++
++The OFL allows the licensed fonts to be used, studied, modified and
++redistributed freely as long as they are not sold by themselves. The
++fonts, including any derivative works, can be bundled, embedded,
++redistributed and/or sold with any software provided that any reserved
++names are not used by derivative works. The fonts and derivatives,
++however, cannot be released under any other type of license. The
++requirement for fonts to remain under this license does not apply
++to any document created using the fonts or their derivatives.
++
++DEFINITIONS
++"Font Software" refers to the set of files released by the Copyright
++Holder(s) under this license and clearly marked as such. This may
++include source files, build scripts and documentation.
++
++"Reserved Font Name" refers to any names specified as such after the
++copyright statement(s).
++
++"Original Version" refers to the collection of Font Software components as
++distributed by the Copyright Holder(s).
++
++"Modified Version" refers to any derivative made by adding to, deleting,
++or substituting -- in part or in whole -- any of the components of the
++Original Version, by changing formats or by porting the Font Software to a
++new environment.
++
++"Author" refers to any designer, engineer, programmer, technical
++writer or other person who contributed to the Font Software.
++
++PERMISSION & CONDITIONS
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of the Font Software, to use, study, copy, merge, embed, modify,
++redistribute, and sell modified and unmodified copies of the Font
++Software, subject to the following conditions:
++
++1) Neither the Font Software nor any of its individual components,
++in Original or Modified Versions, may be sold by itself.
++
++2) Original or Modified Versions of the Font Software may be bundled,
++redistributed and/or sold with any software, provided that each copy
++contains the above copyright notice and this license. These can be
++included either as stand-alone text files, human-readable headers or
++in the appropriate machine-readable metadata fields within text or
++binary files as long as those fields can be easily viewed by the user.
++
++3) No Modified Version of the Font Software may use the Reserved Font
++Name(s) unless explicit written permission is granted by the corresponding
++Copyright Holder. This restriction only applies to the primary font name as
++presented to the users.
++
++4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
++Software shall not be used to promote, endorse or advertise any
++Modified Version, except to acknowledge the contribution(s) of the
++Copyright Holder(s) and the Author(s) or with their explicit written
++permission.
++
++5) The Font Software, modified or unmodified, in part or in whole,
++must be distributed entirely under this license, and must not be
++distributed under any other license. The requirement for fonts to
++remain under this license does not apply to any document created
++using the Font Software.
++
++TERMINATION
++This license becomes null and void if any of the above conditions are
++not met.
++
++DISCLAIMER
++THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
++COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
++DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
++OTHER DEALINGS IN THE FONT SOFTWARE.
++
++==============================================================================
++IBM Plex Mono font (SIL Open Font License 1.1)
++==============================================================================
++Copyright 2017 IBM Corp. All rights reserved.
++
++This Font Software is licensed under the SIL Open Font License, Version 1.1.
++This license is copied below, and is also available with a FAQ at:
++http://scripts.sil.org/OFL
++
++
++-----------------------------------------------------------
++SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
++-----------------------------------------------------------
++
++PREAMBLE
++The goals of the Open Font License (OFL) are to stimulate worldwide
++development of collaborative font projects, to support the font creation
++efforts of academic and linguistic communities, and to provide a free and
++open framework in which fonts may be shared and improved in partnership
++with others.
++
++The OFL allows the licensed fonts to be used, studied, modified and
++redistributed freely as long as they are not sold by themselves. The
++fonts, including any derivative works, can be bundled, embedded,
++redistributed and/or sold with any software provided that any reserved
++names are not used by derivative works. The fonts and derivatives,
++however, cannot be released under any other type of license. The
++requirement for fonts to remain under this license does not apply
++to any document created using the fonts or their derivatives.
++
++DEFINITIONS
++"Font Software" refers to the set of files released by the Copyright
++Holder(s) under this license and clearly marked as such. This may
++include source files, build scripts and documentation.
++
++"Reserved Font Name" refers to any names specified as such after the
++copyright statement(s).
++
++"Original Version" refers to the collection of Font Software components as
++distributed by the Copyright Holder(s).
++
++"Modified Version" refers to any derivative made by adding to, deleting,
++or substituting -- in part or in whole -- any of the components of the
++Original Version, by changing formats or by porting the Font Software to a
++new environment.
++
++"Author" refers to any designer, engineer, programmer, technical
++writer or other person who contributed to the Font Software.
++
++PERMISSION & CONDITIONS
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of the Font Software, to use, study, copy, merge, embed, modify,
++redistribute, and sell modified and unmodified copies of the Font
++Software, subject to the following conditions:
++
++1) Neither the Font Software nor any of its individual components,
++in Original or Modified Versions, may be sold by itself.
++
++2) Original or Modified Versions of the Font Software may be bundled,
++redistributed and/or sold with any software, provided that each copy
++contains the above copyright notice and this license. These can be
++included either as stand-alone text files, human-readable headers or
++in the appropriate machine-readable metadata fields within text or
++binary files as long as those fields can be easily viewed by the user.
++
++3) No Modified Version of the Font Software may use the Reserved Font
++Name(s) unless explicit written permission is granted by the corresponding
++Copyright Holder. This restriction only applies to the primary font name as
++presented to the users.
++
++4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
++Software shall not be used to promote, endorse or advertise any
++Modified Version, except to acknowledge the contribution(s) of the
++Copyright Holder(s) and the Author(s) or with their explicit written
++permission.
++
++5) The Font Software, modified or unmodified, in part or in whole,
++must be distributed entirely under this license, and must not be
++distributed under any other license. The requirement for fonts to
++remain under this license does not apply to any document created
++using the Font Software.
++
++TERMINATION
++This license becomes null and void if any of the above conditions are
++not met.
++
++DISCLAIMER
++THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
++COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
++DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
++OTHER DEALINGS IN THE FONT SOFTWARE.
+diff --git a/src/index.html b/src/index.html
+index bcd7184..52a8cc7 100644
+--- a/src/index.html
++++ b/src/index.html
+@@ -267,7 +267,7 @@ input.bad{border-color:var(--warn-solid)!important;box-shadow:0 0 0 3px var(--wa
+ 
+ <script>
+ (function(){
+-const APP_VERSION='2026.11-rc2 (release candidate, not deployed)';
++const APP_VERSION='2026.11-rc3 (release candidate: evaluation use; validation incomplete)';
+ const DATA_VERSION='SCMR 2025 reference values, JCMR 2025;27:101853';
+ const REF = 'Kawel-Boehm N, Hetzel SJ, Ambale-Venkatesh B, et al. Society for Cardiovascular Magnetic Resonance reference values ("normal values") in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27:101853.';
+ const P=(m,f)=>({m,f});
+@@ -350,7 +350,7 @@ const ITEMS=[
+   head:['Level','Men','Women'],rows:[['All ages, cross-sectional bSSFP (Table 64)',null,null],['Ascending aorta (mm)','26.7 ± 3.9 (19–35)','25.5 ± 3.7 (18–33)'],['Proximal descending (mm)','20.6 ± 2.8 (15–26)','18.9 ± 2.0 (15–23)'],['Distal descending (mm)','17.6 ± 2.6 (12–23)','16.4 ± 2.0 (12–20)'],['Young adults 25–35, black-blood 3D (Table 66)',null,null],['Descending, luminal diameter (mm)','19 (17–21)','17 (16–19)'],['Descending, total diameter (mm)','22 (20–24)','20 (19–22)'],['Descending, luminal area (cm²)','2.9 (2.2–3.5)','2.3 (2.0–2.8)'],['Descending, wall thickness (mm)','1.5 (1.4–1.8)','1.5 (1.4–1.9)']],
+   table:'Tables 64 and 66',howto:['Table 64 values are mean ± SD (lower–upper limit), from cross-sectional bSSFP at diastole in 447 adults aged 19–70.','Table 66 values are median (10th–90th percentile) in 124 young adults aged 25–35.','Measure on double-oblique reformats perpendicular to the centerline, with ECG gating. Use outer diameter for aneurysms and inner diameter for narrowing.'],keys:'thoracic aorta descending ascending wall thickness'},
+  {id:'valves',sec:'valves',kind:'table',title:'Valve disease grading',sub:'Table 57 · AR, MR, TR from CMR outcome studies',
+-  head:['Parameter','Mild / moderate','Severe'],rows:[['Aortic stenosis',null,null],['Peak velocity, PC (m/s)','Mild >1.65 (CMR, Kany 2025)','≥4 echo; PC under-reads, <4 does not exclude'],['Mean gradient, PC (mmHg)','Mild >4.9 (CMR, Kany 2025)','≥40 echo; PC reads 6–12 lower'],['Planimetric AVA (cm²)','>1.0 does not exclude severe (CMR planimetry reads about 15% larger than TEE)','≤1.0 (SCMR Table 57, adapted from echo)'],['AVA/BSA (cm²/m²)','—','≤0.6 (echo)'],['Aortic regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <15 · intermediate 15 to <32','≥32'],['Regurgitant volume (mL/beat)','≤40 (direct flow)','>40 direct · >62 indirect (Polte 2017)'],['LVESV/BSA (mL/m²)','<45','≥45'],['LVEDV (mL)','≤246','>246'],['Primary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · intermediate 20–40','>40'],['Regurgitant volume (mL)','≤55','>55 (≥60 mortality)'],['Secondary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–34','≥35'],['Regurgitant volume (mL)','Not graded','Not graded'],['Tricuspid regurgitation (CMR outcome studies)',null,null],['TR fraction (%), risk strata','Below 20 · elevated risk 20 to <40','High risk ≥40 (highest ≥50)'],['TR volume (mL)','<35 · elevated 35–44','≥45 highest risk'],['Pulmonic regurgitation (consensus)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–40','>40'],['Other',null,null],['Mitral stenosis, CMR planimetric area (cm²)','≥1.65','<1.65 ≈ cath ≤1.5 (Djavidani 2005); very severe ≤1.0 echo only'],['Mitral stenosis, pressure half-time (ms)','Not graded on CMR','Not graded on CMR'],['Pulmonic stenosis, peak velocity (m/s)','≤4: not graded','>4 (SCMR Table 57); 2D PC under-reads'],['RVOT conduit minimal diameter (mm)','≥18','<18 obstruction likely (Martinez 1992)'],['Tricuspid stenosis, area (cm²)','—','≤1.0, mean gradient ≥5 (echo; no CMR data)'],['RV mass/volume, repaired TOF (g/mL)','<0.45','≥0.45 death/VT risk (INDICATOR)']],
++  head:['Parameter','Mild / moderate','Severe'],rows:[['Aortic stenosis',null,null],['Peak velocity, PC (m/s)','Mild >1.65 (CMR, Kany 2025)','≥4 echo; PC under-reads, <4 does not exclude'],['Mean gradient, PC (mmHg)','Mild >4.9 (CMR, Kany 2025)','≥40 (Doppler, ACC/AHA 2020); PC may read lower'],['Planimetric AVA (cm²)','>1.0 does not exclude severe (CMR planimetry reads about 15% larger than TEE)','≤1.0 (SCMR Table 57, adapted from echo)'],['AVA/BSA (cm²/m²)','—','≤0.6 (echo)'],['Aortic regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <15 · intermediate 15 to <32','≥32 high risk (outcome threshold; not a defined severity grade)'],['Regurgitant volume (mL/beat)','≤40 (direct flow)','>40 direct · >62 indirect (Polte 2017)'],['LVESV/BSA (mL/m²)','<45','≥45 high risk (no or minimal symptoms)'],['LVEDV (mL)','≤246','>246 progression to surgery'],['Primary mitral regurgitation (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · intermediate 20–40','>40'],['Regurgitant volume (mL)','≤55','>55 (≥60 mortality)'],['Secondary mitral regurgitation, LVEF <50% (CMR outcome studies)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–34','≥35'],['Regurgitant volume (mL)','Not graded','Not graded'],['Tricuspid regurgitation (CMR outcome studies)',null,null],['TR fraction (%), risk strata','Below 20 · elevated risk 20 to <40','High risk ≥40 (highest ≥50)'],['TR volume (mL)','<35 · elevated 35–44','≥45 highest risk'],['Pulmonic regurgitation (consensus)',null,null],['Regurgitant fraction (%)','Mild <20 · Mod 20–40','>40'],['Other',null,null],['Mitral stenosis, CMR planimetric area (cm²)','≥1.65','<1.65 ≈ cath ≤1.5 (Djavidani 2005); very severe ≤1.0 echo only'],['Mitral stenosis, pressure half-time (ms)','Not graded on CMR','Not graded on CMR'],['Pulmonic stenosis, peak velocity (m/s)','≤4: not graded','>4 (SCMR Table 57); 2D PC under-reads'],['RVOT conduit minimal diameter (mm)','≥18','<18 obstruction likely (Martinez 1992)'],['Tricuspid stenosis, area (cm²)','—','≤1.0, mean gradient ≥5 (echo; no CMR data)'],['RV mass/volume, repaired TOF (g/mL)','<0.45','≥0.45 death/VT risk (INDICATOR)']],
+   table:'Table 57',howto:['Aortic regurgitation uses CMR outcome studies: regurgitant fraction ≥32% (Hashimoto 2022; Myerson 2012 >33%), LVESVi ≥45 mL/m² (Hashimoto), LVEDV >246 mL (Myerson) and regurgitant volume >40 mL by direct flow (Polte 2017; the Myerson volume cutoff is not in its abstract and is reported inconsistently, so it is not used). Mild <15% is from Steeds & Myerson 2020; the moderate band is not outcome-derived. The SCMR Table 57 echo values (RF ≥50%, RVol ≥60 mL, EROA ≥0.30 cm²) are replaced. See the aortic regurgitation calculator.','Mitral regurgitation uses CMR outcome studies (LV stroke volume − aortic forward flow): primary severe RF >40% / RVol >55 mL (Myerson 2016), RVol ≥60 mL for mortality (Penicka 2018), mild <20% from Steeds & Myerson 2020 (moderate is the gap, not outcome-derived); secondary RF ≥20% moderate and ≥35% severe (Wang 2023). EROA is an echo measure and is not used. See the mitral regurgitation calculator.','Tricuspid regurgitation uses CMR outcome studies (indirect method): TRF 20% and 40% from Margonato 2025, ≥50% / ≥45 mL highest risk from Zhan 2020. Pulmonic regurgitation uses the ASE 2017 CMR consensus (not outcome-derived); in repaired tetralogy see the RV page. See the tricuspid regurgitation calculator.','Stenosis: no CMR cutoff for any valve is outcome-validated. CMR-specific numbers shown are agreement-based (MS <1.65 cm²; conduit <18 mm) or from UK Biobank mild AS (Kany 2025). Phase contrast under-reads velocity and gradient, so a low value never excludes severe stenosis. See the stenosis calculators.','All other grades are borrowed from echocardiography (2014/2017 AHA/ACC valve guidelines), not derived from CMR outcome data.','CMR-specific regurgitation thresholds are a priority for the outcomes layer of this app.'],keys:'valve regurgitation stenosis mitral aortic tricuspid grading severity'},
+  {id:'t1',sec:'tissue',kind:'table',title:'Native T1 and ECV',sub:'Mid-ventricular septum · Tables 89, 90',
+   head:['Field · vendor · sequence','Native T1 LL–UL (ms)','ECV LL–UL (%)'],rows:[['1.5T',null,null],['GE · MOLLI 3(3)3(3)5b','956–1098','—'],['Philips · MOLLI 3b(2s)5b','884–1064','—'],['Philips · MOLLI 3(3)3(3)5b','911–1023','15.9–39.5'],['Siemens · MOLLI 5b(4b)2b','933–1059','—'],['Siemens · MOLLI 5s(3s)3s','946–1102','21.9–32.7'],['Siemens · MOLLI 3(3)3(3)5b','883–1020','19.0–31.0'],['Siemens · ShMOLLI','874–1034','22.4–34.4'],['Siemens · SASHA','1054–1234','18.3–29.9'],['3T',null,null],['Philips · MOLLI 3(3)3(3)5b','1011–1103','—'],['Siemens · MOLLI 5s(3s)3s','1138–1289','22.5–32.1'],['Siemens · MOLLI 5b(3s)3b','1126–1234','—'],['Siemens · ShMOLLI','1035–1215','19.6–29.6'],['Siemens · SASHA','1408–1580','16.2–23.4']],
+@@ -444,7 +444,92 @@ function home(){
+  h+=`<div class="eyebrow">Browse by structure</div>`;
+  for(const [k,name] of SECTIONS){const its=ITEMS.filter(i=>i.sec===k&&!i.hide);const op=openSecs.includes(k);const nc=its.filter(i=>i.kind!=='table'&&i.kind!=='evidence').length;
+   h+=`<div class="group ${op?'open':''}"><button data-sec="${k}" aria-expanded="${op}"><span class="sicon">${SICON[k]}</span><span class="gt"><b>${name}</b><small>${nc} calculator${nc===1?'':'s'} ${its.length-nc?` · ${its.length-nc} reference page${its.length-nc===1?'':'s'}`:''}</small></span>${CHEV}</button><div class="items">${its.map(itemRow).join('')}</div></div>`}
+- h+=`<details class="notes" style="margin:14px 0"><summary>About and disclaimer</summary><div class="ref" style="padding:0 12px 12px;font-size:12.5px;line-height:1.5"><p><b>Version:</b> ${APP_VERSION} · reference data: ${DATA_VERSION}.</p><p><b>For education and reference only.</b> Not medical advice, not a substitute for clinical judgment or a formal report, and not an FDA-cleared device. Verify results against the cited source before using them in a report or a treatment decision.</p><p><b>Independent project.</b> Normal values come from the SCMR 2025 reference-values paper, but this app is not an official SCMR product. It is <b>not endorsed by The Ohio State University (OSU) or SCMR</b>, or by ASE or any other society, and it does not represent the views of any institution. The author’s affiliation is listed for identification only.</p><p><b>Some grades are provisional.</b> Each cutoff is labeled by its basis (outcome study, consensus, echo-borrowed, SD-derived or draft). Labeled drafts are not validated guideline thresholds, so check the cited paper.</p><p><b>Inputs matter.</b> Calculator outputs depend on measurement quality, and the app does not check inputs for plausibility.</p><p><b>Accuracy.</b> Numbers were checked against the sources in November 2026. Errors are still possible. Please report them.</p><p><b>Privacy.</b> Everything runs on your device and nothing is sent anywhere. Do not enter patient identifiers.</p></div></details>`;
++ h+=`<details class="notes" style="margin:14px 0"><summary>About and disclaimer</summary><div class="ref" style="padding:0 12px 12px;font-size:12.5px;line-height:1.5"><p><b>Version:</b> ${APP_VERSION} · reference data: ${DATA_VERSION}.</p><p><b>For education and reference only.</b> Not medical advice, not a substitute for clinical judgment or a formal report, and not an FDA-cleared device. Verify results against the cited source before using them in a report or a treatment decision.</p><p><b>Independent project.</b> Normal values come from the SCMR 2025 reference-values paper, but this app is not an official SCMR product. It is <b>not endorsed by The Ohio State University (OSU) or SCMR</b>, or by ASE or any other society, and it does not represent the views of any institution. The author’s affiliation is listed for identification only.</p><p><b>Some grades are provisional.</b> Each cutoff is labeled by its basis (outcome study, consensus, echo-borrowed, SD-derived or draft). Labeled drafts are not validated guideline thresholds, so check the cited paper.</p><p><b>Inputs matter.</b> Calculator outputs depend on measurement quality. The app flags some implausible entries but cannot detect measurement errors.</p><p><b>Accuracy.</b> Numbers were checked against the sources in November 2026. Errors are still possible. Please report them.</p><p><b>Privacy.</b> Everything runs on your device and nothing is sent anywhere. Do not enter patient identifiers.</p><p><b>Reference-value attribution.</b> Values adapted from Kawel-Boehm N, et al. SCMR reference values (“normal values”) in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27:101853 (© 2025 The Authors; open access under CC BY 4.0, creativecommons.org/licenses/by/4.0). Changes: values transcribed into calculators, reformatted, combined with other sources and given interpretation labels by this app; not endorsed by the authors or SCMR.</p><p><b>Third-party software and fonts.</b> Report scanning uses tesseract.js 5.1.1 and tesseract.js-core 5.1.1 (Apache-2.0; includes Tesseract OCR, Leptonica, libjpeg — this software is based in part on the work of the Independent JPEG Group — libpng, libtiff, libwebp, giflib, zlib, openlibm) and the Tesseract English model (Apache-2.0). Full licence texts are in THIRD_PARTY_NOTICES.txt, shipped with the installable app. Fonts: Inter (Copyright 2020 The Inter Project Authors), Barlow Semi Condensed (Copyright 2017 The Barlow Project Authors), IBM Plex Mono (Copyright 2017 IBM Corp.), licensed under the SIL Open Font License 1.1:</p><details><summary>SIL Open Font License 1.1 (full text)</summary><pre style="white-space:pre-wrap;font-size:11px">-----------------------------------------------------------
++SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
++-----------------------------------------------------------
++
++PREAMBLE
++The goals of the Open Font License (OFL) are to stimulate worldwide
++development of collaborative font projects, to support the font creation
++efforts of academic and linguistic communities, and to provide a free and
++open framework in which fonts may be shared and improved in partnership
++with others.
++
++The OFL allows the licensed fonts to be used, studied, modified and
++redistributed freely as long as they are not sold by themselves. The
++fonts, including any derivative works, can be bundled, embedded,
++redistributed and/or sold with any software provided that any reserved
++names are not used by derivative works. The fonts and derivatives,
++however, cannot be released under any other type of license. The
++requirement for fonts to remain under this license does not apply
++to any document created using the fonts or their derivatives.
++
++DEFINITIONS
++&quot;Font Software&quot; refers to the set of files released by the Copyright
++Holder(s) under this license and clearly marked as such. This may
++include source files, build scripts and documentation.
++
++&quot;Reserved Font Name&quot; refers to any names specified as such after the
++copyright statement(s).
++
++&quot;Original Version&quot; refers to the collection of Font Software components as
++distributed by the Copyright Holder(s).
++
++&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
++or substituting -- in part or in whole -- any of the components of the
++Original Version, by changing formats or by porting the Font Software to a
++new environment.
++
++&quot;Author&quot; refers to any designer, engineer, programmer, technical
++writer or other person who contributed to the Font Software.
++
++PERMISSION &amp; CONDITIONS
++Permission is hereby granted, free of charge, to any person obtaining
++a copy of the Font Software, to use, study, copy, merge, embed, modify,
++redistribute, and sell modified and unmodified copies of the Font
++Software, subject to the following conditions:
++
++1) Neither the Font Software nor any of its individual components,
++in Original or Modified Versions, may be sold by itself.
++
++2) Original or Modified Versions of the Font Software may be bundled,
++redistributed and/or sold with any software, provided that each copy
++contains the above copyright notice and this license. These can be
++included either as stand-alone text files, human-readable headers or
++in the appropriate machine-readable metadata fields within text or
++binary files as long as those fields can be easily viewed by the user.
++
++3) No Modified Version of the Font Software may use the Reserved Font
++Name(s) unless explicit written permission is granted by the corresponding
++Copyright Holder. This restriction only applies to the primary font name as
++presented to the users.
++
++4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
++Software shall not be used to promote, endorse or advertise any
++Modified Version, except to acknowledge the contribution(s) of the
++Copyright Holder(s) and the Author(s) or with their explicit written
++permission.
++
++5) The Font Software, modified or unmodified, in part or in whole,
++must be distributed entirely under this license, and must not be
++distributed under any other license. The requirement for fonts to
++remain under this license does not apply to any document created
++using the Font Software.
++
++TERMINATION
++This license becomes null and void if any of the above conditions are
++not met.
++
++DISCLAIMER
++THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
++OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
++COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
++DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
++OTHER DEALINGS IN THE FONT SOFTWARE.</pre></details></div></details>`;
+  h+=`<div class="note">Normal ranges: SCMR 2025 reference values (adults, bSSFP). Severity grades are drafts built from CMR outcome studies, and every cutoff shows what it is based on. A decision aid for trained readers, not a substitute for clinical judgment.</div>
+  <p class="foot">Numbers re-checked against the SCMR 2025 paper and PubMed records, November 2026.</p>
+  <p class="foot"><b>Created by Aamer Ubaid, MD</b><br>Advanced Cardiovascular Imaging Fellow<br>The Ohio State University</p>
+@@ -716,10 +801,10 @@ const KHAN=[52,62,73]; // Khan 2019 JCMR 21:4 Table 2: normal <52, mild 52–62,
+ function refFlag(x,ll,ul){if(x>ul)return ['hi','Above reference'];if(x<ll)return ['lo','Below reference'];return ['ok','Within reference']}
+ function markers(it,k,x,s,r){const ctx=s.ctx||'gen',sex=s.sex,out=[],CUT={lv:{ef:[40,50],edvi:sex&&KANG[sex]?KANG[sex]:[],esvi:[45],edv:[246]},rv:{ratio:[1.27,2.30],ef:[37,50,54,60],edvi:[100,150]},la:{maxi:KHAN,laci:[25]},ra:{maxi:[74],raci:[0.62],str:[6.6,16.1,18.6,23,36.8]}}[it.id.slice(0,2)]||{},M=(c,l,src)=>out.push({c,l,src,cuts:CUT[k]||[]});
+  if(it.id==='lv-vol'){
+-  if(k==='ef'&&x<50)M(x<=40?'hi':'lo',x<=40?'HF category: reduced EF (≤40%)':'HF category: mildly reduced EF (41–49%)','Universal Definition of HF 2021 (Bozkurt). Categories apply to patients with HF; modality-agnostic, not CMR-derived');
++  if(k==='ef'&&x<50)M(x<=40?'hi':'lo',x<=40?'HFrEF range if clinical HF (≤40%)':'HFmrEF range if clinical HF (41–49%)','Universal Definition of HF 2021 (Bozkurt). Categories apply to patients with HF; modality-agnostic, not CMR-derived');
+   if(ctx==='cm'&&k==='edvi'&&(sex==='m'||sex==='f')){const [n,mo,se]=KANG[sex];
+    if(x>n)M(x>=se?'hi':x>=mo?'hi':'lo',x>=se?`Kang: severe dilation (≥${se})`:x>=mo?`Kang: moderate dilation (${mo}–${se-1})`:`Kang: mild dilation (${n}–${mo-1})`,`Kang 2026 (DCM/ICM; papillary muscles in blood pool${s.method==='mass'?', unlike your contouring setting':''}). Severe outcome-derived; moderate set halfway by the authors`)}
+-  if(ctx==='ar'&&k==='esvi'&&x>=45)M('hi','≥45 mL/m²: higher risk in AR','Hashimoto 2022 (asymptomatic moderate–severe AR; death or HF)');
++  if(ctx==='ar'&&k==='esvi'&&x>=45)M('hi','≥45 mL/m²: higher risk in chronic ≥moderate AR with no or minimal symptoms','Hashimoto 2022 JAMA Cardiol (n=178; death, HF hospitalisation or NYHA progression on medical therapy)');
+   if(ctx==='ar'&&k==='edv'&&x>246)M('hi','>246 mL: progression to surgery in AR','Myerson 2012 (AR; unindexed)')}
+  if(it.id==='rv-vol'){
+   if(k==='ratio'){M(x>=1.27?'lo':'ok',x>=1.27?'Above published normal limit (≥1.27)':'Below 1.27','Normal limit 1.27 from 152 controls (Han et al., as reported by Altmayer 2018). Not an SCMR value. Not valid with biventricular dilation');
+@@ -737,7 +822,7 @@ function markers(it,k,x,s,r){const ctx=s.ctx||'gen',sex=s.sex,out=[],CUT={lv:{ef
+   if(k==='area')M('na','Not graded','Only echocardiographic RA-area bands exist');
+   if(k==='raci'){if(ctx==='tr')M(x>=0.62?'hi':'ok',x>=0.62?'≥0.62: higher mortality in functional TR':'<0.62','Zhang 2026 Circ CV Imaging (n=633; single centre; Youden cut-off, not externally validated)');else M('na','Graded in functional TR only','Zhang 2026')}
+   if(k==='str'){if(ctx==='pah')M(x<16.1?'hi':x<=36.8?'lo':'ok',x<16.1?'High risk in PAH (<16.1%)':x<=36.8?'Intermediate risk in PAH (16.1–36.8%)':'Low risk in PAH (>36.8%)','Guo 2026 JCMR (n=348 PAH)');
+-   else if(ctx==='arvc')M(x<18.6?'hi':x<23?'hi':'ok',x<18.6?'<18.6%: end-stage HF risk in ARVC':x<23?'<23%: arrhythmic risk in ARVC':'≥23%','Xu 2026 JAHA (ARVC)');
++   else if(ctx==='arvc'){if(x<18.6)M('hi','<18.6%: higher end-stage HF risk in ARVC','Xu 2026 JAHA (n=316 ARVC)');if(x<23)M('hi','<23%: higher malignant ventricular arrhythmia risk in ARVC without LV involvement (not significant with LV involvement)','Xu 2026 JAHA');if(x>=23)M('ok','≥23%','Xu 2026 JAHA')}
+    else if(ctx==='tr')M(x<6.6?'hi':'ok',x<6.6?'<6.6% longitudinal strain: RA pressure likely >10 mmHg':'≥6.6%','Kim 2026 JCMR (n=47 severe TR; exploratory; longitudinal, not reservoir, strain)');
+    else M('na','Not graded','Strain cut-offs are software- and disease-specific')}}
+  return out}
+@@ -972,11 +1057,11 @@ function avResults(id){const st=avState[id];const n=k=>parseFloat(st[k]);const b
+  const add=(l,u,v,pill,b)=>rows.push(`<div class="rrow"><div class="rl"><b>${l}</b><small>${u}</small></div><div class="rv${/^[\d.\-−]+$/.test(String(v))?'':' txt'}">${v}</div><div class="rs">${pill}<span class="ref">${b}</span></div></div>`);
+  if(id==='sten-calc'){
+   if(st.v==='ms'){const a=n('mva');if(a>0)add('Planimetric MVA (cine)','cm²',D(a,2,VCUT['Planimetric MVA (cine)']),a<1.65?AVP('hi','&lt;1.65: corresponds to cath MVA ≤1.5'):AVP('ok','≥1.65'),'Djavidani 2005 JACC (n=22; sens 89%, spec 75%). CMR reads about 5% larger than cath');
+-   const ph=n('pht');if(ph>0){const x=220/ph;add('Pressure half-time (PC)','ms',D(ph,0,VCUT['Pressure half-time (PC)']),AVP('na','Not graded on CMR'),`Area by 220/PHT = ${x.toFixed(2)} cm². CMR PHT feasible (Lin 2004, n=17) but not validated against cath`)}
++   const ph=n('pht');if(ph>0){const x=220/ph;add('Pressure half-time (PC)','ms',D(ph,0,VCUT['Pressure half-time (PC)']),AVP('na','Not graded on CMR'),`Area by 220/PHT = ${x.toFixed(2)} cm² (echo formula). CMR pressure half-time is not validated against cath`)}
+    const g=n('mg');if(g>0)add('Mean gradient (PC)','mmHg',D(g,0,VCUT['Mean gradient (PC)']),AVP('na','Not graded on CMR'),'PC-MRI underestimates mitral gradients vs Doppler; heart-rate dependent')}
+   else if(st.v==='ps'){const v=n('pv');if(v>0)add('Peak velocity (PC)','m/s',D(v,1,VCUT['Peak velocity (PC)']),v>4?AVP('hi','Severe (&gt;4 m/s)'):AVP('na','≤4 m/s: not graded; PC may under-read'),'SCMR 2025 Table 57 (adapted from echo). 2D PC reads below Doppler');
+-   const c=n('cd');if(c>0)add('Conduit minimal diameter','mm',D(c,0,VCUT['Conduit minimal diameter']),c<18?AVP('hi','&lt;18 mm: obstruction likely'):AVP('ok','≥18 mm'),'Martinez/Mohiaddin 1992 (n=52; anatomic, not outcome-based)');
+-   const m=n('rvm'),e=n('rvedv');if(m>0&&e>0){const x=m/e;add('RV mass/volume ratio','g/mL',D(x,2,VCUT['RV mass/volume ratio']),x>=0.45?AVP('hi','≥0.45: higher death/VT risk'):AVP('ok','&lt;0.45'),'INDICATOR (Geva 2018, repaired TOF, n=452, HR 4.08); mixed pressure and volume load')}}
++   const c=n('cd');if(c>0)add('Conduit minimal diameter','mm',D(c,0,VCUT['Conduit minimal diameter']),c<18?AVP('hi','&lt;18 mm: obstruction likely'):AVP('ok','≥18 mm'),'Martinez/Mohiaddin 1992 (n=52; spin-echo; anatomic, not outcome-based; calcified obstruction can be missed)');
++   const m=n('rvm'),e=n('rvedv');if(m>0&&e>0){const x=m/e;add('RV mass/volume ratio','g/mL',D(x,2,VCUT['RV mass/volume ratio']),x>=0.45?AVP('hi','≥0.45: higher death/VT risk after PVR in repaired TOF'):AVP('ok','&lt;0.45'),'INDICATOR (Geva 2018, repaired TOF, n=452, HR 4.08); mixed pressure and volume load')}}
+   else rows.push('<div class="rnote"><span class="ref"><b>Tricuspid stenosis:</b> no CMR validation exists (case reports only). Use echo: mean gradient ≥5 mmHg, area ≤1.0 cm², pressure half-time ≥190 ms. CMR can show leaflet morphology, RA size and carcinoid or rheumatic involvement.</span></div>');
+ }else if(id==='pr-calc'){const dir=st.m==='direct';let rv=null,rf=null;
+   if(dir){const f=n('fwd'),r=n('rev');if(f>0&&r>=0&&!isNaN(r)){rv=r;rf=r/f*100}}
+@@ -997,19 +1082,19 @@ function avResults(id){const st=avState[id];const n=k=>parseFloat(st[k]);const b
+    else{const g=rf>=50?AVP('hi','Highest-risk stratum (≥50%)'):rf>=40?AVP('hi','High risk (≥40%)'):rf>=20?AVP('lo','Elevated risk (20 to &lt;40%)'):AVP('ok','Below the 20% risk threshold');
+     add('TR fraction','%',D(rf,1,VCUT['TR fraction']),g,rf>=50?'Zhan 2020 JACC (functional TR; highest-risk stratum)':rf>=20?'Margonato 2025 Circulation (hazard ratio &gt;1 from 20%, &gt;2 from 40%)':'Margonato 2025')}}
+   if(rv!=null&&ind)add('TR volume','mL',D(rv,0,VCUT['TR volume']),rv>=45?AVP('hi','Highest risk (≥45 mL)'):rv>=35?AVP('lo','Elevated (35–44 mL)'):AVP('ok','&lt;35 mL'),'Zhan 2020 ≥45; Wang 2021 ≥35. TRF governs when they disagree');
+-  if(pf>0&&rvedv>0){const x=pf/rvedv*100;add('Effective RVEF (forward flow ÷ RVEDV)','%',D(x,0,VCUT['Effective RVEF (forward flow ÷ RVEDV)']),x<=25?AVP('hi','≤25%: higher mortality'):AVP('ok','&gt;25%'),'Zhang 2026, externally validated (Houston, Duke)')}
+-  if(pf>0&&rvesv>0){const x=pf/rvesv;add('Forward SV ÷ RVESV','',D(x,2,VCUT['Forward SV ÷ RVESV']),x<=0.57?AVP('hi','≤0.57: RV–PA uncoupling'):AVP('ok','&gt;0.57'),'Margonato 2026 (n=631, aHR 2.36)')}
+-  const bsa=n('bsa');if(bsa>0&&rvedv>0){const x=rvedv/bsa;add('RVEDV/BSA','mL/m²',D(x,0,VCUT['RVEDV/BSA']),x>150?AVP('hi','High risk (&gt;150)'):x>=100?AVP('lo','Intermediate (100–150)'):AVP('ok','&lt;100'),'Hinojar 2025 (severe TR, n=314)')}
+-  if(rvedv>0&&rvesv>0&&rvedv>rvesv){const x=(rvedv-rvesv)/rvedv*100;add('RVEF (total)','%',D(x,0,VCUT['RVEF (total)']),st.teer==='post'?AVP('na','Interpret with caution after T-TEER'):x<50?AVP('hi','High risk (&lt;50%)'):x<=60?AVP('lo','Intermediate (50–60%)'):AVP('ok','&gt;60%'),st.teer==='post'?'A rise in RVEF after T-TEER can mean residual/worse TR (Bombace 2025)':st.teer==='pre'&&x<=45?'Hinojar 2025. Before T-TEER, ≤45% high risk (Kresoja 2021, HR 6.6)':'Hinojar 2025. Volume loading inflates RVEF')}
++  if(pf>0&&rvedv>0){const x=pf/rvedv*100;add('Effective RVEF (forward flow ÷ RVEDV)','%',D(x,0,VCUT['Effective RVEF (forward flow ÷ RVEDV)']),x<=25?AVP('hi','≤25%: higher mortality in ≥moderate functional TR'):AVP('ok','&gt;25%'),'Zhang 2026 JACC CVI (derivation n=453; external validation in 2 cohorts)')}
++  if(pf>0&&rvesv>0){const x=pf/rvesv;add('Forward SV ÷ RVESV','',D(x,2,VCUT['Forward SV ÷ RVESV']),x<=0.57?AVP('hi','≤0.57: higher risk of death or HF hospitalisation in TR'):AVP('ok','&gt;0.57'),'Margonato 2026 Circ CV Imaging (n=631; CMR surrogate of RV–PA coupling; aHR 2.36)')}
++  const bsa=n('bsa');if(bsa>0&&rvedv>0){const x=rvedv/bsa;add('RVEDV/BSA','mL/m²',D(x,0,VCUT['RVEDV/BSA']),x>150?AVP('hi','High risk in severe TR (&gt;150)'):x>=100?AVP('lo','Intermediate risk in severe TR (100–150)'):AVP('ok','&lt;100'),'Hinojar 2025 (≥severe TR by echo, n=314; death or HF hospitalisation)')}
++  if(rvedv>0&&rvesv>0&&rvedv>rvesv){const x=(rvedv-rvesv)/rvedv*100;add('RVEF (total)','%',D(x,0,VCUT['RVEF (total)']),st.teer==='post'?AVP('na','Interpret with caution after T-TEER'):x<50?AVP('hi','High risk in severe TR (&lt;50%)'):x<=60?AVP('lo','Intermediate risk in severe TR (50–60%)'):AVP('ok','&gt;60%'),st.teer==='post'?'A rise in RVEF after T-TEER can mean residual/worse TR (Bombace 2025)':'Hinojar 2025. Volume loading inflates RVEF')}
+   const lv=n('lvedv');if(rvedv>0&&lv>0){const x=rvedv/lv;add('RV/LV EDV ratio','',D(x,2,VCUT['RV/LV EDV ratio']),x>=1.27?AVP('lo','≥1.27 (weak, HR 1.47)'):AVP('ok','&lt;1.27'),'Zhang 2025, JACC Adv (n=949)')}
+-  const ra=n('ra');if(ra>0&&rvedv>0){const x=ra/rvedv;add('RACI (RA end-diastolic vol ÷ RVEDV)','',D(x,2,VCUT['RACI (RA end-diastolic vol ÷ RVEDV)']),x>=0.62?AVP('hi','≥0.62: higher risk'):AVP('ok','&lt;0.62'),'Zhang 2026, Circ CV Imaging (HR 2.06)')}
++  const ra=n('ra');if(ra>0&&rvedv>0){const x=ra/rvedv;add('RACI (RA end-diastolic vol ÷ RVEDV)','',D(x,2,VCUT['RACI (RA end-diastolic vol ÷ RVEDV)']),x>=0.62?AVP('hi','≥0.62: higher mortality in functional TR'):AVP('ok','&lt;0.62'),'Zhang 2026, Circ CV Imaging (n=633; Youden cut-off; HR 2.06)')}
+   const le=n('lecv');if(le>0)add('Liver ECV','%',D(le,0,VCUT['Liver ECV']),le>=32?AVP('hi','≥32%: associated with right-sided HF and adverse outcomes in TR (source method: 1.5 T MOLLI)'):AVP('ok','&lt;32% (source method: 1.5 T MOLLI)'),'Margonato 2025 Circulation (n=371 with liver mapping; 1.5 T Siemens MOLLI inline ECV, same-day hematocrit; spline-derived, not externally validated). Applies only to a comparable liver ECV method');
+   if(st.lge)add('Septal non-ischemic LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Associated with higher risk'):AVP('ok','None'),'Functional TR cohort, n=663 (single centre; presence only)');
+  }else if(id==='mr-calc'){const fwd=n('fwd');const src=st.m==='std'?n('lvsv'):n('mi');let rv=null,rf=null;
+   if(src>0&&fwd>0&&src>fwd){rv=src-fwd;rf=rv/src*100}
+   const prim=st.t==='p',inflow=st.m==='inflow';
+   if(rf!=null){let g,b;
+-   if(!prim){g=rf>=35?AVP('hi','Severe (≥35%)'):rf>=20?AVP('lo','Moderate (20–34%)'):AVP('ok','Mild (&lt;20%)');b='Wang 2023 (1,414 ICM/NICM; death, transplant, LVAD). Houston: ≥30% (Tayal 2021). Read with scar'}
++   if(!prim){g=rf>=35?AVP('hi','Severe (≥35%; functional MR with LVEF &lt;50%)'):rf>=20?AVP('lo','Moderate (20–34%; functional MR with LVEF &lt;50%)'):AVP('ok','Mild (&lt;20%)');b='Wang 2023 Circ CV Imaging (1,414 ICM/NICM with LVEF &lt;50%; death, transplant, LVAD). Read with scar'}
+    else if(inflow){g=rf>30?AVP('hi','Severe (&gt;30%, inflow method)'):AVP('ok','Not severe (≤30%)');b='Polte 2017: method-specific threshold for mitral inflow − aortic flow'}
+    else{g=rf>40?AVP('hi','Severe (&gt;40%)'):rf>=20?AVP('lo','Intermediate (20–40%)'):AVP('ok','Mild (&lt;20%)');
+     b=rf>40?'Myerson 2016 (&gt;40%; progression to symptoms or surgery)':rf>=20?'Between the published CMR mild limit (Steeds & Myerson 2020) and severe limit (Myerson 2016); not a separately derived grade':'Steeds & Myerson 2020, Heart (CMR row of Table 3: MR RF &lt;20%)'}
+@@ -1019,17 +1104,17 @@ function avResults(id){const st=avState[id];const n=k=>parseFloat(st[k]);const b
+    else add('Regurgitant volume','mL',D(rv,0,VCUT['Regurgitant volume']),rv>=60?AVP('hi','Severe (≥60 mL: mortality)'):rv>55?AVP('hi','Severe (&gt;55 mL)'):AVP('ok','≤55 mL'),rv>=60?'Penicka 2018 (all-cause death, AUC 0.72; cutoff pre-set)':'Myerson 2016 (&gt;55 mL; circular endpoint)')}
+   const bsa2=n('bsa'),edv=n('edv');if(prim&&bsa2>0&&edv>0){const x=edv/bsa2;add('LVEDV/BSA','mL/m²',D(x,0,VCUT['LVEDV/BSA']),x>=100?AVP('hi','≥100'):AVP('ok','&lt;100'),'Myerson 2016 (primary MR). Kang tiers not used in MR')}
+   const la=n('laef');if(la>0)add('LA emptying fraction','%',D(la,0,VCUT['LA emptying fraction']),la<30?AVP('hi','&lt;30%: higher risk after repair'):AVP('ok','≥30%'),'Altes 2025 (n=284, aHR 3.78)');
+-  if(st.lge&&!prim)add('Ventricular scar (LGE)','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','RF is prognostic with scar'):AVP('lo','RF prognostic weight lower without scar (ICM)'),'Cavalcante 2019; Wang 2023; Tayal 2021');
+-  if(st.mvp)add('LGE papillary muscle / inferolateral wall','',st.mvp==='y'?'Present':'Absent',st.mvp==='y'?AVP('hi','Arrhythmic risk marker'):AVP('ok','Absent'),'Constant Dit Beaufils 2021 (HR 2.6); Figliozzi 2022 (HR 4.2); EHRA 2022');
+-  if(st.mad)add('Mitral annular disjunction','',st.mad==='y'?'Present':'Absent',AVP('na','Descriptive only'),'Not prognostic in Figliozzi 2022; seen in 76% of UK Biobank');
++  if(st.lge&&!prim)add('Ventricular scar (LGE)','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','RF is prognostic with scar'):AVP('lo','RF prognostic weight lower without scar (ICM)'),'Wang 2023 (RF × LGE interaction in ICM, not NICM)');
++  if(st.mvp)add('LGE papillary muscle / inferolateral wall','',st.mvp==='y'?'Present':'Absent',st.mvp==='y'?AVP('hi','Arrhythmic risk marker'):AVP('ok','Absent'),'Figliozzi 2023 Radiology (any LGE; VT, SCD or unexplained syncope; HR 4.2); Constant Dit Beaufils 2021 (any LGE; CV events; HR 2.6)');
++  if(st.mad)add('Mitral annular disjunction','',st.mad==='y'?'Present':'Absent',AVP('na','Descriptive only'),'Not associated with outcome in Figliozzi 2023');
+  }else if(id==='ar-calc'){let rv=null,rf=null;
+   if(st.m==='direct'){const f=n('fwd'),r=n('rev');if(f>0&&r>=0&&!isNaN(r)){rv=r;rf=r/f*100}}
+   else{const l=n('lvsv'),r=n('rvsv');if(l>0&&r>0&&l>r){rv=l-r;rf=(l-r)/l*100}}
+-  if(rf!=null){const g=rf>=32?AVP('hi','Severe (≥32%)'):rf>=15?AVP('lo','Intermediate (15 to &lt;32%)'):AVP('ok','Mild (&lt;15%)');
+-   add('Regurgitant fraction','%',D(rf,1,VCUT['Regurgitant fraction']),g,rf>=32?'Hashimoto 2022 (≥32%, death or HF); Myerson 2012 &gt;33% (surgery)':rf>=15?'Between the published CMR mild limit (Steeds & Myerson 2020) and severe limit (Hashimoto 2022); not a separately derived grade':'Steeds & Myerson 2020, Heart (CMR row of Table 3: AR RF &lt;15%)')}
++  if(rf!=null){const g=rf>=32?AVP('hi','High risk (≥32%: death or HF events)'):rf>=15?AVP('lo','Intermediate (15 to &lt;32%)'):AVP('ok','Mild (&lt;15%)');
++   add('Regurgitant fraction','%',D(rf,1,VCUT['Regurgitant fraction']),g,rf>=32?'Hashimoto 2022 (≥32%, chronic ≥moderate AR with no or minimal symptoms; death, HF hospitalisation or NYHA progression). Myerson 2012: &gt;33% progression to surgery. Neither defines a severity grade':rf>=15?'Between the published CMR mild limit (Steeds & Myerson 2020) and severe limit (Hashimoto 2022); not a separately derived grade':'Steeds & Myerson 2020, Heart (CMR row of Table 3: AR RF &lt;15%)')}
+   if(rv!=null){const lim=st.m==='direct'?40:62;add('Regurgitant volume','mL',D(rv,0,VCUT['Regurgitant volume']),rv>lim?AVP('hi',`Severe range (&gt;${lim} mL)`):AVP('ok',`≤${lim} mL`),`Polte 2017 (${st.m==='direct'?'direct':'indirect'} method; surgical cohort, n=38). Supports RF only`)}
+   if(bsa>0){const e=n('edv'),es=n('esv');
+-   if(es>0){const x=es/bsa;add('LVESV/BSA','mL/m²',D(x,0,VCUT['LVESV/BSA']),x>=45?AVP('hi','At/above 45'):AVP('ok','Below 45'),'Hashimoto 2022 ≥45 (censored at surgery); matches ESC 2025 &gt;45')}}
++   if(es>0){const x=es/bsa;add('LVESV/BSA','mL/m²',D(x,0,VCUT['LVESV/BSA']),x>=45?AVP('hi','≥45: higher risk in chronic ≥moderate AR, no or minimal symptoms'):AVP('ok','Below 45'),'Hashimoto 2022 ≥45 (death, HF hospitalisation or NYHA progression; censored at surgery)')}}
+   {const e=n('edv');if(e>0)add('LVEDV','mL',D(e,0,VCUT['LVEDV']),e>246?AVP('hi','Above 246 mL'):AVP('ok','≤246 mL'),'Myerson 2012 (unindexed, AUC 0.88). Kang tiers not used in AR')}
+   const ef=n('ef');if(ef>0)add('LVEF','%',D(ef,0,VCUT['LVEF']),ef<=55?AVP('hi','≤55%: meets the stage C2 LVEF criterion if AR is chronic and severe'):AVP('ok','&gt;55%'),'ACC/AHA 2020 valve guideline, Table 15 (stage C2: LVEF ≤55%). Echo-based; applies only to chronic severe AR. Not a recommendation');
+   if(st.hdr)add('Descending aorta holodiastolic reversal','',st.hdr==='y'?'Present':'Absent',st.hdr==='y'?AVP('hi','Supports significant AR'):AVP('na','Absence does not exclude'),'Kammerlander 2019 (significant AR defined by holodiastolic reversal; HR 2.77)');
+@@ -1037,12 +1122,12 @@ function avResults(id){const st=avState[id];const n=k=>parseFloat(st[k]);const b
+  }else{
+   const ava=n('ava');if(ava>0){add('Planimetric AVA','cm²',D(ava,2,VCUT['Planimetric AVA']),ava<=1?AVP('hi','Severe (≤1.0)'):AVP('na','&gt;1.0: does not exclude severe'),'SCMR 2025 Table 57 (≤1.0, adapted from echo). CMR planimetry overestimates TEE by about 15% (Debl 2005), so a value just above 1.0 can still be severe');
+    if(bsa>0){const x=ava/bsa;add('AVA/BSA','cm²/m²',D(x,2,VCUT['AVA/BSA']),x<=0.6?AVP('hi','Severe (≤0.6)'):AVP('ok','&gt;0.6'),'Echo-adopted')}}
+-  const v=n('vmax');if(v>0)add('Peak velocity (PC)','m/s',D(v,1,VCUT['Peak velocity (PC)']),v>=5?AVP('hi','Very severe (≥5)'):v>=4?AVP('hi','Severe (≥4)'):v>1.65?AVP('lo','&lt;4: does not exclude severe'):AVP('ok','≤1.65: no AS'),v>1.65&&v<4?'Above Kany 2025 CMR mild-AS limit (&gt;1.65 m/s). Severe ≥4 echo-adopted; PC-MRI under-reads':'Severe ≥4 echo-adopted. Mild-AS limit 1.65 m/s from Kany 2025 (UK Biobank)');
+-  const mg=n('mg');if(mg>0)add('Mean gradient (PC)','mmHg',D(mg,0,VCUT['Mean gradient (PC)']),mg>=40?AVP('hi','Severe (≥40)'):mg>4.9?AVP('lo','&lt;40: does not exclude severe'):AVP('ok','≤4.9: no AS'),'Severe ≥40: ACC/AHA 2020 Table 13 (Doppler). PC-MRI reads lower than Doppler, so a CMR value below 40 does not exclude severe AS. Mild-AS limit 4.9 from Kany 2025');
+-  const sv=n('sv');let svi=null;if(sv>0&&bsa>0){svi=sv/bsa;add('SV/BSA','mL/m²',D(svi,0,VCUT['SV/BSA']),svi<35?AVP('hi','Low flow (&lt;35)'):svi<45?AVP('lo','35–44: higher post-AVR mortality'):AVP('ok','≥45'),'&lt;35 echo-adopted; &lt;45 Thornton 2022 (risk, not diagnostic). CMR SV runs higher than echo')}
++  const v=n('vmax');if(v>0)add('Peak velocity (PC)','m/s',D(v,1,VCUT['Peak velocity (PC)']),v>=5?AVP('hi','Very severe (≥5)'):v>=4?AVP('hi','Severe (≥4)'):v>1.65?AVP('lo','&lt;4: does not exclude severe'):AVP('ok','≤1.65: below the mild-AS limit'),v>1.65&&v<4?'Above Kany 2025 CMR mild-AS limit (&gt;1.65 m/s). Severe ≥4 echo-adopted; PC-MRI under-reads':'Severe ≥4 echo-adopted. Mild-AS limit 1.65 m/s from Kany 2025 (UK Biobank)');
++  const mg=n('mg');if(mg>0)add('Mean gradient (PC)','mmHg',D(mg,0,VCUT['Mean gradient (PC)']),mg>=40?AVP('hi','Severe (≥40)'):mg>4.9?AVP('lo','&lt;40: does not exclude severe'):AVP('ok','≤4.9: below the mild-AS limit'),'Severe ≥40: ACC/AHA 2020 Table 13 (Doppler). PC-MRI reads lower than Doppler, so a CMR value below 40 does not exclude severe AS. Mild-AS limit 4.9 from Kany 2025');
++  const sv=n('sv');let svi=null;if(sv>0&&bsa>0){svi=sv/bsa;add('SV/BSA','mL/m²',D(svi,0,VCUT['SV/BSA']),svi<35?AVP('hi','&lt;35: below the echo low-flow definition'):svi<45?AVP('lo','35–44: CV mortality after AVR rose more steeply below 45 (severe AS)'):AVP('ok','≥45'),'&lt;35 is the echo low-flow definition (CMR SV runs higher than echo); &lt;45 from Thornton 2022 JAMA Cardiol (n=674 severe AS undergoing AVR; risk, not diagnostic)')}
+   if(ava>0&&ava<=1.3&&(mg>0&&mg<40)){rows.push(`<div class="rnote"><span class="ref"><b>Discordant grading:</b> small valve area with low gradient${svi!=null&&svi<35?' and low flow':''}. Consider CT calcium score (ESC 2025 tiebreaker).</span></div>`)}
+-  if(st.lge)add('LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Higher mortality'):AVP('ok','None'),'Musa 2018 (aHR 2.39). Not an AVR trigger: EVOLVED neutral');
+-  const ecv=n('ecv');if(ecv>0){const post=st.post==='y';add('ECV','%',D(ecv,0,VCUT['ECV']),post?AVP('na','Not graded after AVR'):ecv>27?AVP('hi','Higher risk (&gt;27%)'):AVP('ok','≤27%'),post?'ECV can rise after AVR':'Kwak 2021 JACC (AS; mortality rose above 27%). Method- and sequence-dependent')}
++  if(st.lge)add('LGE','',st.lge==='y'?'Present':'Absent',st.lge==='y'?AVP('hi','Higher mortality'):AVP('ok','None'),'Musa 2018 (severe AS listed for AVR; aHR 2.39). EVOLVED (JAMA 2025): early AVR for fibrosis did not reduce death or AS hospitalisation');
++  const ecv=n('ecv');if(ecv>0){const post=st.post==='y';add('ECV','%',D(ecv,0,VCUT['ECV']),post?AVP('na','Not graded after AVR'):ecv>27?AVP('hi','Higher post-AVR mortality in severe AS (&gt;27%)'):AVP('ok','≤27%'),post?'ECV can rise after AVR':'Kwak 2021 JACC (AS; mortality rose above 27%). Method- and sequence-dependent')}
+  }
+  let h='<h3>Results</h3>';if(!rows.length)return h+'<p class="empty">Enter any of the values above.</p>';
+  return h+`<div class="rlist">${rows.join('')}</div>`}
