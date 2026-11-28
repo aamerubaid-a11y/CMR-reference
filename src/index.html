@@ -269,7 +269,7 @@ input.bad{border-color:var(--warn-solid)!important;box-shadow:0 0 0 3px var(--wa
 
 <script>
 (function(){
-const APP_VERSION='2026.11-rc4 (release candidate: evaluation use; validation incomplete)';
+const APP_VERSION='2026.11-eval1 (evaluation release; validation incomplete)';
 const DATA_VERSION='SCMR 2025 reference values, JCMR 2025;27:101853';
 const REF = 'Kawel-Boehm N, Hetzel SJ, Ambale-Venkatesh B, et al. Society for Cardiovascular Magnetic Resonance reference values ("normal values") in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27:101853.';
 const P=(m,f)=>({m,f});
@@ -680,7 +680,7 @@ function cardCat(t,f){const [a,b]=f==='3'?[12,5.5]:[20,10];return t>a?['ok',`Nor
 // Severity bands as displayed on the Columbia T2* calculator (columbia.edu/~sj2532/t2_star.html); graded on whole µmol/g.
 // Normal <37 µmol/g (<2.0 mg/g) · mild 37–150 (2.1–8.4) · moderate 151–300 (8.4–16.8) · severe >300 (>16.8)
 const FE_MW=55.845;const umolOf=mg=>mg/FE_MW*1000;
-function livCat(mg){const u=Q(umolOf(mg),0);return u>300?['hi','Severe (&gt;300 µmol/g)']:u>150?['hi','Moderate (151–300 µmol/g)']:u>=37?['lo','Mild (37–150 µmol/g)']:['ok','Normal (&lt;37 µmol/g)']}
+function livCat(mg){return ['na','Severity not graded: band source not verified']}
 function ironResults(){const st=ironState,rows=[];
  const c=parseFloat(st.c);if(c>0){if(!st.cf)rows.push(['Cardiac T2*',`${c} ms`,'—','<span class="pill na">Select the field strength</span>']);else{const [k,l]=cardCat(c,st.cf);rows.push([`Cardiac T2*, ${st.cf} T`,`T2* ${c} ms · R2* ${(1000/c).toFixed(0)} s⁻¹`,st.cf==='1.5'?cardFe(c).toFixed(2)+' mg/g':'— (equation calibrated at 1.5 T)',`<span class="pill ${k}">${l}</span>`])}}
  // Liver iron concentration: Wood 2005 at 1.5 T (LIC mg/g dry weight = 0.0254 × R2* + 0.202). 3 T values are first converted
@@ -694,7 +694,7 @@ function ironResults(){const st=ironState,rows=[];
  if(!rows.length)return h+'<p class="empty">Enter any of the values above.</p>';
  h+='<div class="scroll" tabindex="0" role="region" aria-label="Iron results table"><table class="res"><thead><tr><th>Organ</th><th>Input</th><th>Iron</th><th>Status</th></tr></thead><tbody>';
  for(const r of rows)h+=`<tr><td>${r[0]}</td><td class="num" style="font-size:12.5px">${r[1]}</td><td class="num v">${r[2]}</td><td>${r[3]}</td></tr>`;
- return h+'</tbody></table></div><span class="ref">Cardiac iron in mg/g dry weight (1.5 T only). Liver iron concentration in mg/g dry weight and µmol/g (Wood 2005; 3 T via Storey 2007). Severity bands as shown on the Columbia T2* calculator.</span>'}
+ return h+'</tbody></table></div><span class="ref">Cardiac iron in mg/g dry weight (1.5 T only). Liver iron concentration in mg/g dry weight and µmol/g (Wood 2005; 3 T via Storey 2007). Liver severity bands are not applied in this release.</span>'}
 function ironView(it){
  const f=(k,l,u,ph)=>`<div class="row"><label for="ir-${k}">${l}</label><input id="ir-${k}" type="number" inputmode="decimal" step="0.1" data-iron="${k}" value="${esc(ironState[k])}" placeholder="${ph}"><span class="u">${u}</span></div>`;
  let h=`<div class="dhead"><button class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><h2>${esc(it.title)}</h2><button class="fav ${isFav(it.id)?'on':''}" data-fav="${it.id}" aria-label="Favorite">${isFav(it.id)?HEART_ON:HEART}</button></div><div class="wrap">`;
@@ -708,11 +708,11 @@ function ironView(it){
   <li><b>3 T liver</b>: R2*<sub>1.5T</sub> = (R2*<sub>3T</sub> + 11) / 2, from R2*<sub>3T</sub> = 2.00 × R2*<sub>1.5T</sub> − 11 s⁻¹ (Storey 2007; 20 controls and 14 patients, described by the authors as preliminary). The 1.5 T-equivalent R2* then goes into the Wood equation.</li></ul></div>`;
  h+=`<div class="card"><h3>Interpretation</h3><ul class="howto">
   <li>Cardiac T2* at 1.5T: normal &gt;20 ms, iron overload 10–20 ms, severe &lt;10 ms (SCMR 2025, Table 100). At 3T the paper uses &gt;12, 5.5–12 and &lt;5.5 ms; the cardiac iron equation itself was calibrated at 1.5T.</li>
-  <li>Liver iron, as shown on the Columbia T2* calculator: normal &lt;37 µmol/g (&lt;2.0 mg/g), mild 37–150 (2.1–8.4 mg/g), moderate 151–300 (8.4–16.8 mg/g), severe &gt;300 µmol/g (&gt;16.8 mg/g). Graded on the whole-number µmol/g value.</li>
+  <li>Liver iron concentration is shown as a number only. Severity bands are not applied in this release because their primary source could not be identified.</li>
   <li>Measure cardiac T2* in the mid-ventricular septum. Measure liver T2* in a large ROI away from vessels.</li>
   <li>Based on the Columbia T2* calculator's cited equations. Check results against your local software before clinical use.</li></ul></div>`;
  h+=`<div class="card"><h3>Sources</h3><ul class="howto">${IRON_REFS.map(([t,d])=>`<li class="ref">${esc(t)} <a href="https://doi.org/${d}" target="_blank" rel="noopener" style="color:var(--accent)">doi:${d}</a></li>`).join('')}
-  <li class="ref">Calculator layout and liver severity bands after <a href="https://www.columbia.edu/~sj2532/t2_star.html" target="_blank" rel="noopener" style="color:var(--accent)">columbia.edu/~sj2532/t2_star.html</a></li></ul></div>`;
+  <li class="ref">Calculator layout after <a href="https://www.columbia.edu/~sj2532/t2_star.html" target="_blank" rel="noopener" style="color:var(--accent)">columbia.edu/~sj2532/t2_star.html</a></li></ul></div>`;
  return h+'</div>'}
 
 // ---------- aorta calculator ----------
@@ -765,10 +765,10 @@ function aoResults(){const st=aoState,L=AO[st.lvl],d=parseFloat(st.d),bsa=parseF
  const one=(kind,val,unit)=>{const arr=L[kind][st.sex];const [i,note,na]=groupIdx(L,age,arr.length);if(note)notes.push((kind==='idx'?'Indexed: ':'')+note);
   const g=L.groups[i];
   if(na){rows.push([kind==='idx'?'Indexed':'Absolute',`${fmtA(val)} ${unit}`,'—','—','<span class="pill na">Reference interpretation unavailable</span>']);return}
-  val=Number(fmtA(val));
-  if(L.pct){const [med,p5,p95]=arr[i];const pos=val<p5?'<span class="pill lo">Below 5th</span>':val>p95?'<span class="pill hi">Above 95th</span>':'<span class="pill ok">5th–95th</span>';
+  const raw=val;val=Number(fmtA(val));const AT='<span class="pill na">Not graded: at the limit after rounding</span>';
+  if(L.pct){const [med,p5,p95]=arr[i];const side=x=>x<p5?-1:x>p95?1:0;const pos=side(raw)!==side(val)?AT:val<p5?'<span class="pill lo">Below 5th</span>':val>p95?'<span class="pill hi">Above 95th</span>':'<span class="pill ok">5th–95th</span>';
    rows.push([kind==='idx'?'Indexed':'Absolute',`${fmtA(val)} ${unit}`,`${g} · median ${med} (${p5}–${p95})`,'—',pos])}
-  else{const [mn,sd]=arr[i];const z=Q((val-mn)/sd,1);rows.push([kind==='idx'?'Indexed':'Absolute',`${fmtA(val)} ${unit}`,`${g} · ${mn.toFixed(1)} ± ${sd.toFixed(1)}`,(z>=0?'+':'')+D(z,1),zPill(z)])}};
+  else{const [mn,sd]=arr[i];const z=Q((val-mn)/sd,1),zr=(raw-mn)/sd,zs=x=>x>2+1e-9?1:x<-2-1e-9?-1:0;rows.push([kind==='idx'?'Indexed':'Absolute',`${fmtA(val)} ${unit}`,`${g} · ${mn.toFixed(1)} ± ${sd.toFixed(1)}`,(z>=0?'+':'')+D(z,1),zs(z)!==zs(zr)?AT:zPill(z)])}};
  one('abs',d,'mm');
  if(bsa>0&&L.idx)one('idx',d/bsa,'mm/m²');
  h+='<div class="scroll"><table class="res"><thead><tr><th></th><th>Value</th><th>Age group reference</th><th>z</th><th>Status</th></tr></thead><tbody>';
@@ -811,7 +811,7 @@ const KHAN=[52,62,73]; // Khan 2019 JCMR 21:4 Table 2: normal <52, mild 52–62,
 function refFlag(x,ll,ul){if(x>ul)return ['hi','Above reference'];if(x<ll)return ['lo','Below reference'];return ['ok','Within reference']}
 function markers(it,k,x,s,r){const ctx=s.ctx||'gen',sex=s.sex,out=[],CUT={lv:{ef:[40,50],edvi:sex&&KANG[sex]?KANG[sex]:[],esvi:[45],edv:[246]},rv:{ratio:[1.27,2.30],ef:[37,50,54,60],edvi:[100,150]},la:{maxi:KHAN,laci:[25]},ra:{maxi:[74],raci:[0.62],str:[6.6,16.1,18.6,23,36.8]}}[it.id.slice(0,2)]||{},M=(c,l,src)=>out.push({c,l,src,cuts:CUT[k]||[]});
  if(it.id==='lv-vol'){
-  if(k==='ef'&&x<50)M('hi','HFrEF range if clinical HF (LVEF <50%; ESC 2026)','ESC 2026 heart failure guideline (Eur Heart J). Applies to patients with clinical HF; modality-agnostic, not CMR-derived');
+  // HF category withheld in 2026.11-eval1: the ESC 2026 wording was verified from a press release only.
   if(ctx==='cm'&&k==='edvi'&&(sex==='m'||sex==='f')){const [n,mo,se]=KANG[sex];
    if(x>n)M(x>=se?'hi':x>=mo?'hi':'lo',x>=se?`Kang: severe dilation (≥${se})`:x>=mo?`Kang: moderate dilation (${mo}–${se-1})`:`Kang: mild dilation (${n}–${mo-1})`,`Kang 2026 (DCM/ICM; papillary muscles in blood pool${s.method==='mass'?', unlike your contouring setting':''}). Severe outcome-derived; moderate set halfway by the authors`)}
   if(ctx==='ar'&&k==='esvi'&&x>=45)M('hi','≥45 mL/m²: higher risk in chronic ≥moderate AR with no or minimal symptoms','Hashimoto 2022 JAMA Cardiol (n=178; death, HF hospitalisation or NYHA progression on medical therapy)');
@@ -844,7 +844,7 @@ function gradeTable(it,s){
  const ctx=s.ctx||'gen';const row=(l,a,b)=>`<tr><th>${l}</th><td>${a}</td><td><span class="ref">${b}</span></td></tr>`;
  let h=`<div class="card"><h3>Interpretations used on this page</h3><div class="scroll"><table class="tbl"><thead><tr><th>Parameter</th><th>Rule</th><th>Source and population</th></tr></thead><tbody>`;
  h+=row('All parameters','Within / above / below the SCMR 2025 lower and upper limits','Reference interval (mean ± 2 SD of healthy adults). Statistical, not a severity grade');
- h+=row('LVEF','&lt;50%: HFrEF range if clinical HF','ESC 2026 heart failure guideline. Shown as an HF category; not CMR-derived');
+ h+=row('LVEF','HF category not shown','Withheld in this release: the guideline wording could not be checked in full text');
  if(ctx==='cm'&&(s.sex==='m'||s.sex==='f')){const [n,mo,se]=KANG[s.sex];h+=row('LVEDV/BSA (mL/m²)',`Mild &gt;${n} · moderate ${mo}–${se-1} · severe ≥${se}`,'Kang 2026 JACC: 676 DCM derivation, 955 DCM/ICM validation, papillary muscles in blood pool. Severe outcome-derived; moderate halfway (authors)')}
  if(ctx==='ar'){h+=row('LVESV/BSA','≥45 mL/m²','Hashimoto 2022 JAMA Cardiol (asymptomatic AR)');h+=row('LVEDV','&gt;246 mL','Myerson 2012 Circulation (AR)')}
  h+=`</tbody></table></div>
@@ -981,11 +981,7 @@ const ECV_REF={'1.5':[['Philips · MOLLI 3b(3s)3b(3s)5b',27.7,5.9,15.9,39.5],['S
 const T1_REF={'1.5':[['GE · MOLLI 3b(3s)3b(3s)5b',1027,36,956,1098],['Philips · MOLLI 3b(2s)5b',974,45,884,1064],['Philips · MOLLI 3b(3s)3b(3s)5b',967,28,911,1023],['Siemens · MOLLI 5b(4b)2b',996,32,933,1059],['Siemens · MOLLI 5s(3s)3s',1024,39,946,1102],['Siemens · MOLLI 5b(3b)5b(3b)5b(3b)',928,25,879,977],['Siemens · MOLLI 3b(3s)3b(3s)5b',952,35,883,1020],['Siemens · ShMOLLI',954,41,874,1034],['Siemens · SASHA',1144,45,1054,1234]],
  '3':[['Philips · MOLLI 3b(3s)3b(3s)5b',1057,23,1011,1103],['Siemens · MOLLI 5s(3s)3s',1214,39,1138,1289],['Siemens · MOLLI 5b(3s)3b',1180,27,1126,1234],['Siemens · ShMOLLI',1125,45,1035,1215],['Siemens · SASHA',1494,43,1408,1580]]};
 // No center range and no sequence chosen (owner decision P23): compare with every SCMR 2025 set at this field strength.
-function scmrAll(v,sets,u,tab,fs){const n=sets.length;let w=0,a=0,b=0;for(const r of sets){if(v>r[4])a++;else if(v<r[3])b++;else w++}
- const c=w===n?'ok':a===n?'hi':b===n?'lo':'lo';
- const l=w===n?`Within all ${n} SCMR 2025 ranges at ${fs} T`:a===n?`Above all ${n} SCMR 2025 ranges at ${fs} T`:b===n?`Below all ${n} SCMR 2025 ranges at ${fs} T`:`Within ${w} of ${n} SCMR 2025 ranges at ${fs} T`+(a?` (above ${a})`:'')+(b?` (below ${b})`:'');
- const lo=Math.min(...sets.map(r=>r[3])),hi=Math.max(...sets.map(r=>r[4]));
- return {pill:AVP(c,l),basis:`Not sequence-matched: SCMR 2025 ${tab}, all ${n} listed ${fs} T sequences (limits span ${lo}–${hi}${u}). Choose your sequence above, or enter your center range (preferred: SCMR recommends site-specific ranges)`}}
+function scmrAll(v,sets,u,tab,fs){return {pill:AVP('na','Not interpreted: choose a sequence-matched SCMR 2025 set or enter your center range'),basis:`SCMR 2025 ${tab} gives ranges per vendor and sequence only`}}
 function scmrOne(v,R,u,tab){const [lab,m0,sd,ll,ul]=R;const c=v>ul?'hi':v<ll?'lo':'ok';
  return {c,pill:AVP(c,c==='hi'?`Above reference (&gt;${ul}${u})`:c==='lo'?`Below reference (&lt;${ll}${u})`:'Within reference range'),basis:`SCMR 2025 ${tab} · ${lab}: ${m0} ± ${sd}${u} (${ll}–${ul}${u})`,bar:rangeBar(v,[m0,sd,ll,ul],c)}}
 const T1_055=[['Mayr 2026','678.6 ± 13.5','n=10','10.1097/RLI.0000000000001225'],['Liu 2026','671 ± 31','MOLLI, n=18','10.1002/jmri.70239'],['Pedraza 2025','672 ± 40','MOLLI, n=15','10.1002/nbm.70143'],['De la Sotta 2025','681 ± 26','2D MOLLI, n=10','10.1002/mrm.70038'],['Si 2024','630 ± 25','MOLLI, n=10','10.1002/mrm.30139']];
