@@ -351,7 +351,7 @@ input::placeholder{color:var(--muted);opacity:.7}
 
 <script>
 (function(){
-const APP_VERSION='2026.11-eval3 (evaluation release; validation incomplete)';
+const APP_VERSION='2026.11-eval4 (evaluation release; validation incomplete)';
 const DATA_VERSION='SCMR 2025 reference values, JCMR 2025;27:101853';
 const REF = 'Kawel-Boehm N, Hetzel SJ, Ambale-Venkatesh B, et al. Society for Cardiovascular Magnetic Resonance reference values ("normal values") in cardiovascular magnetic resonance: 2025 update. J Cardiovasc Magn Reson 2025;27:101853.';
 const P=(m,f)=>({m,f});
@@ -691,7 +691,7 @@ function atrCalcHTML(it,s){const nm=it.id==='la-vol'?'LA':'RA';
  <b>${nm} minimum (end-diastole)</b>${row('v_a4n','4ch area','cm²')}${row('v_a2n','2ch area','cm²')}${row('v_l4n','4ch length','cm')}${row('v_l2n','2ch length','cm')}
  <p class="ref" style="margin:6px 0 0">Biplane area-length: 0.85 × A(4ch) × A(2ch) ÷ L, with L the shorter of the two long-axis lengths. With one view only, single-plane 8A² ÷ 3πL is used. Length is measured from the mid mitral${nm==='RA'?' (tricuspid)':''} annulus plane to the atrial roof; trace excluding appendage and veins. Results fill Max vol and Min vol above.${nm==='RA'?' Biplane RA area-length is less validated than for the LA.':''}</p><p class="ref num" id="atrout" style="margin:4px 0 0">${atrOut(s)}</p></div>`;return h}
 function popRow(s){const b=(v,l)=>`<button data-sex="${v}" class="${s.sex===v?'on':''}" aria-pressed="${s.sex===v}">${l}</button>`;
- return `<div class="field popf${s.sex?'':' need'}"><span class="lbl">Reference population <b class="req">required</b></span><div class="seg" role="group" aria-label="Reference population">${b('m','Adult male')}${b('f','Adult female')}${b('p','Under 18 y')}</div>${s.sex?'':'<span class="ref">Choose before any comparison with normal values is shown. Volumes, EF and indexed values are calculated either way.</span>'}${s.sex==='p'?'<span class="ref">SCMR 2025 adult values come from studies of people 18 and older. Pediatric references are not included in this app, so no reference interpretation is shown.</span>':''}</div>`}
+ return `<div class="field popf${s.sex?'':' need'}"><span class="lbl">Reference population <b class="req">required</b></span><div class="seg" role="group" aria-label="Reference population">${b('m','Adult male')}${b('f','Adult female')}</div><span class="ref">Adults only (18 y and older, the SCMR 2025 adult study range). Pediatric references are not included.</span>${s.sex?'':'<span class="ref">Choose before any comparison with normal values is shown. Volumes, EF and indexed values are calculated either way.</span>'}${s.sex==='p'?'<span class="ref">SCMR 2025 adult values come from studies of people 18 and older. Pediatric references are not included in this app, so no reference interpretation is shown.</span>':''}</div>`}
 function sexLabel(x){return x==='m'?'Adult male':x==='f'?'Adult female':x==='p'?'Under 18 y (no adult reference)':'Sex not selected'}
 function ctxName(it,s){return CTX[it.id]?((CTX[it.id].find(([k])=>k===(s.ctx||'gen'))||[0,'General'])[1]):''}
 // Context string used beside results AND in every copy/export, so the two always agree.
@@ -1639,7 +1639,7 @@ function reportBody(){const secs=buildReport();
 function reportView(){
  let h=header()+'<div class="wrap">';
  h+=scanHTML();
- h+=`<div class="card" style="padding:10px 12px"><div class="rcase"><div class="seg" role="group" aria-label="Reference population"><button data-csex="m" class="${CASE.sex==='m'?'on':''}">Adult male</button><button data-csex="f" class="${CASE.sex==='f'?'on':''}">Adult female</button><button data-csex="p" class="${CASE.sex==='p'?'on':''}">Under 18 y</button></div><label for="cbsa">BSA</label><input id="cbsa" type="number" inputmode="decimal" step="any" data-cbsa value="${esc(CASE.bsa)}" placeholder="e.g. 1.90" aria-label="BSA in square metres"><span class="u">m²</span><button class="rclr" data-rclear>New patient</button></div></div>`;
+ h+=`<div class="card" style="padding:10px 12px"><div class="rcase"><div class="seg" role="group" aria-label="Reference population"><button data-csex="m" class="${CASE.sex==='m'?'on':''}">Adult male</button><button data-csex="f" class="${CASE.sex==='f'?'on':''}">Adult female</button></div><label for="cbsa">BSA</label><input id="cbsa" type="number" inputmode="decimal" step="any" data-cbsa value="${esc(CASE.bsa)}" placeholder="e.g. 1.90" aria-label="BSA in square metres"><span class="u">m²</span><button class="rclr" data-rclear>New patient</button></div></div>`;
  h+=`<div id="rbody">${reportBody()}</div>`;
  h+=`<span class="ref">Findings only, no impression. Verify before use. Nothing is saved or sent; no patient identifiers.</span>`;
  return h+'</div>'}

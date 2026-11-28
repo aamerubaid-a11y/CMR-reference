@@ -14,7 +14,7 @@ await cham('lv-vol','m',{},{a:100,b:47.04});await rec('P2','LVEF');
 await cham('lv-vol','m',{},{a:100,b:60});await rec('P3','LVEF');
 await cham('lv-vol','m',{ctx:'cm',method:'vol'},{bsa:1,a:150});await rec('P4','LVEDV/BSA');
 await cham('lv-vol',null,{},{bsa:1,a:120});await rec('P5','LVEDV/BSA');
-await cham('lv-vol','p',{},{bsa:1,a:120});await rec('P6','LVEDV/BSA');
+await cham('lv-vol','',{},{bsa:1,a:120});await rec('P6','LVEDV/BSA'); // eval4: no under-18 option; P6 now records the no-population state
 await cham('lv-vol','m',{},{a:100,b:120});await rec('P7');
 await cham('la-vol','m',{},{bsa:1,a:56.1});await rec('P8','Max LA volume/BSA');
 await cham('la-vol','m',{},{bsa:1,a:62.1});await rec('P9','Max LA volume/BSA');

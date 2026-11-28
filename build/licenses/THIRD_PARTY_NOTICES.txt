@@ -1,4 +1,4 @@
-THIRD-PARTY NOTICES — CMR Reference 2026.11-eval3 (content unchanged since 2026.11-rc3)
+THIRD-PARTY NOTICES — CMR Reference 2026.11-eval4 (content unchanged since 2026.11-rc3)
 
 This file lists third-party software, data and fonts redistributed with this app, with the licence texts their
 terms require. It does not grant any licence to the app's own code (no licence has been chosen for it) and does

@@ -1,16 +1,16 @@
-# CMR Reference 2026.11-eval3: release notes
+# CMR Reference 2026.11-eval4: release notes
 
 **Status:** evaluation release for professional evaluation and feedback by CMR readers. Validation is incomplete.
 It is not clinically validated, certified or approved for independent clinical reliance, and it is not a medical
 device. Every result names its source; check it before using it in a report.
 
-**Identifiers:** branch `release/2026.11-eval3`, application commit `ce1bdf9`, service-worker cache
-`cmr-ref-bc8b4440f1`, version shown in About and copied text `2026.11-eval3 (evaluation release; validation incomplete)`.
-Production (`main`, 0af7de5, cache `cmr-ref-ab54ebbf36`, live on GitHub Pages) is unchanged.
+**Identifiers:** branch `release/2026.11-eval4`, application commit `8372877`, service-worker cache
+`cmr-ref-e89599153d`, version shown in About and copied text `2026.11-eval4 (evaluation release; validation incomplete)`.
+Live on GitHub Pages now: 2026.11-eval3 (`main` at bd8ae97, cache `cmr-ref-bc8b4440f1`, deployed 28 Nov 2026 03:33 UTC). eval4 is not deployed.
 
 ## What it does
 - Chamber calculators (LV, RV, LA, RA): volumes, EF, mass and indexed values against SCMR 2025 reference ranges by
-  sex, age group and contouring method; a reference population must be chosen; no adult reference under 18 y.
+  sex, age group and contouring method; a reference population (adult male or adult female) must be chosen; adults only, no pediatric references.
 - Valve calculators (aortic, mitral, tricuspid, pulmonic regurgitation; aortic stenosis; mitral, pulmonic and
   tricuspid stenosis), each label naming its source study and population.
 - Tissue: native T1, T2 and ECV (with SCMR sequence-matched sets or your center's ranges); cardiac and liver iron from T2*.
@@ -37,4 +37,4 @@ No formula, threshold, reference value or clinical wording changed in eval2 or e
 - Center ranges, favorites and display preferences are stored only in the browser on that device.
 
 ## Package
-`CMR-Reference-2026.11-eval3.zip` (app, source, docs, tests). SHA-256 `fc3e9003e6f6f00badfaf277e993d2be37c99547118259cf338a3017795db035`. The application files inside are byte-identical to commit `ce1bdf9` (checked with `cmp`). The copy of these notes inside the ZIP predates this checksum line.
+`CMR-Reference-2026.11-eval4.zip` SHA-256 `421ec75aa0814720bce09d3c4cdc4f48b4ca0a76d87e93b536ff7741353b9850`; application files byte-identical to commit `8372877`. The copy of these notes inside the ZIP predates this line.
