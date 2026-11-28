@@ -1,5 +1,8 @@
 # Owner checklist: CMR Reference 2026.11-rc4 (remaining actions only)
 
+> **Closed 27 Nov 2026.** The owner ended the review process and finalized 2026.11-eval1 (FINAL_RELEASE.md).
+> Remaining items below were not done and will not be pursued in this release. Section D remains blank.
+
 **Candidate:** branch `remediation/audit-2026-11`. App code is commit **66b1c15**, build cache
 `cmr-ref-df1f2551d3`, version `2026.11-rc4 (release candidate: evaluation use; validation incomplete)`.
 rc4 implements the owner's P1–P23 decisions (section C2). rc3 (442a377) device results are in OWNER_TEST_LOG.md. Later

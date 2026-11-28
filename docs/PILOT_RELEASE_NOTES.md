@@ -1,6 +1,8 @@
-# CMR Reference 2026.11-rc4: draft pilot release notes
+# CMR Reference 2026.11-eval1: release notes (evaluation release; validation incomplete)
 
-**Status: draft.** This is for a limited pilot with named CMR readers who are told that the app is not
+Final evaluation release; see FINAL_RELEASE.md for what is withheld and the testing status (not tested after rc4, at the owner's election).
+
+**Status:** evaluation release. This is for a limited pilot with named CMR readers who are told that the app is not
 validated. It is not for public release. The app is an educational and reference aid. It has not been
 clinically validated and is not a medical device. Always check against the primary sources.
 
@@ -10,12 +12,12 @@ clinically validated and is not a medical device. Always check against the prima
 - SCMR reference comparisons ("Within / Above / Below reference") are shown separately from sourced clinical markers. Each marker names its source population.
 - Several unsourced or other-modality grades were removed or withheld: supranormal EF, borderline LV mass, echo RVEF tiers, the AS grey zone, generic ECV tiers, echo MS/PS bands, and repaired-TOF timing labels.
 - Corrections: the RACI definition (RA minimum volume), the AS AVA operator (≤1.0), the RA strain operator, the AR LGE citation, and the Khan LA bands.
-- Iron: you must choose 1.5 T or 3 T for cardiac T2*. Liver iron concentration is calculated (Wood 2005 at 1.5 T; 3 T converted with Storey 2007, marked preliminary) in mg/g and µmol/g, with severity bands as shown on the Columbia T2* calculator.
+- Iron: you must choose 1.5 T or 3 T for cardiac T2*. Liver iron concentration is calculated (Wood 2005 at 1.5 T; 3 T converted with Storey 2007, marked preliminary) in mg/g and µmol/g. Severity bands are not applied (source not verified).
 - Liver ECV label names its source population and method; hematocrit must be a percentage; copied text keeps measured inputs and acronyms.
 - Values are rounded once (one decimal; two for ratios and valve areas) and graded on the displayed value, on screen and in copied text. Khan LA grades and liver iron bands use whole numbers.
-- LVEF <50% shows "HFrEF range if clinical HF (ESC 2026)".
 - "Check inputs" appears as an alert at the top of the results, and the fields involved are outlined.
-- Without a center range, ECV and native T1 are compared with the SCMR 2025 sets for the field strength (not sequence-matched; a center range is preferred).
+- ECV and native T1 are interpreted only against a sequence-matched SCMR 2025 set or your center range; otherwise "Not interpreted".
+- Aortic status is withheld where rounding moves the value across ±2 SD or the 5th/95th percentile.
 - Copied text includes population, method, age group, table, center ranges, and the app and data versions.
 - Two reset buttons: "Clear this page" (keeps population and BSA) and "New patient" (clears everything).
 - Scan fills fields only after you press Apply, and never sets sex.

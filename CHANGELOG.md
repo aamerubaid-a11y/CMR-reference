@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.11-eval1 (final evaluation release; branch remediation/audit-2026-11; code commit 466ac23; build cmr-ref-f576bb84fe)
+- Functionality frozen at the owner's request; iterative audit ended. Not tested: the owner elected no further testing.
+- Withheld (numbers kept): HF category label; liver iron severity bands; ECV/T1 summary across unmatched SCMR sets; aortic status where rounding crosses the limit. See docs/FINAL_RELEASE.md.
+- Version: "2026.11-eval1 (evaluation release; validation incomplete)".
+
 ## 2026.11-rc4 (branch remediation/audit-2026-11; code commit 66b1c15; build cmr-ref-df1f2551d3)
 Owner case-review decisions (OWNER_CHECKLIST §C2):
 - P2 precision: one decimal (two for ratios and valve areas), rounded once; the displayed value is what is copied and graded, everywhere (chambers, valve calculators, aortic diameter and z, ECV/T1/T2). Adaptive extra decimals removed. Example: 52.96 → 53.0 · Within reference. Side effect: aortic case P19 (36.22 mm, z 2.04) now shows +2.0 · Within ±2 SD.

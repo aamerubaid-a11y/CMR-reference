@@ -1,5 +1,9 @@
 # Validation report: 2026.11-rc4 (branch remediation/audit-2026-11)
 
+> **Final release note (2026.11-eval1, commit 466ac23):** the results below apply to rc4 commit 66b1c15 only.
+> The final release changed application files (withheld interpretations, version string) and was **not tested**:
+> the owner elected not to undertake additional testing. See FINAL_RELEASE.md.
+
 ## Tested artifact
 
 - **App code commit:** `66b1c15`. All application and build files were tested exactly as committed there: `index.html` (sha256 `3e775a48369ca28b…`), `sw.js` (`655922be4bedf52f…`, `CACHE='cmr-ref-df1f2551d3'`), `THIRD_PARTY_NOTICES.txt` (`4c2fbecc376fe89d…`, unchanged from rc3, so its first line still reads "CMR Reference 2026.11-rc3"; the notices content is the same for rc4), `src/index.html` (`7680872746d36e13…`).
